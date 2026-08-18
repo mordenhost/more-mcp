@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!--
+    More MCP icon, Mordenhost brand.
+
+    Palette and construction are taken from mordenhost.com's own CSS tokens, so the
+    plugin reads as a Mordenhost product rather than a generic WordPress add-on:
+
+      ink        #111111   ground
+      yellow     #ffd21e   the mark
+      on-yellow  #4a3d00   shadow tone inside yellow areas
+
+    The house style is neo-brutalist: 2px ink outlines, hard offset shadows
+    (6px 6px 0), pill and 18px radii, no soft gradients anywhere. That style is the
+    reason this icon has no gradient; the earlier blue ramp is exactly what the
+    brand does not do.
+
+    Note for editors: this renderer rejects a double hyphen inside an SVG comment,
+    which is why CSS custom properties are named without their leading dashes above.
+  -->
+  <defs>
+    <clipPath id="tile">
+      <rect width="256" height="256" rx="56"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#tile)">
+    <rect width="256" height="256" fill="#111111"/>
+
+    <!-- Shield in brand yellow. Security-first is the plugin's real
+         differentiator, so the container carries that meaning.
+
+         Kept wide and blunt on purpose: a narrow heraldic shield loses its
+         silhouette below ~32px, which is the size that actually matters in the
+         dashboard updates list. -->
+    <path d="M128 30 L212 57 L212 126 C212 173 176 203 128 222 C80 203 44 173 44 126 L44 57 Z"
+          fill="#ffd21e"/>
+
+    <!-- Hub and three satellites: many AI clients converging on one site.
+         Drawn in ink ON the yellow, not cut out of it — a cutout wide enough to
+         stay open at 24px also severs the shield into disconnected wedges, so the
+         container stops reading as a shield at exactly the wrong size.
+
+         Three, not four: an even count reads as a plus sign or an X.
+
+         Stroke weights are heavier than looks correct at 256px. Hairlines are the
+         first thing to disappear on downscale, so the geometry is deliberately
+         over-weighted. -->
+    <g stroke="#111111" stroke-width="14" stroke-linecap="round" fill="#111111">
+      <line x1="128" y1="118" x2="128" y2="166"/>
+      <line x1="128" y1="118" x2="88" y2="94"/>
+      <line x1="128" y1="118" x2="168" y2="94"/>
+      <circle cx="128" cy="166" r="12"/>
+      <circle cx="88" cy="94" r="12"/>
+      <circle cx="168" cy="94" r="12"/>
+    </g>
+    <!-- The hub is a ring so it reads as a distinct object rather than a fourth,
+         larger satellite. Fill is the shield colour, since it sits inside it. -->
+    <circle cx="128" cy="118" r="23" fill="#ffd21e" stroke="#111111" stroke-width="14"/>
+  </g>
+
+  <!-- 2px ink keyline, inset so it is not clipped. The house style outlines
+       everything; without this the tile edge looks unfinished next to the site. -->
+  <rect x="1" y="1" width="254" height="254" rx="55" fill="none"
+        stroke="#111111" stroke-width="2"/>
+</svg>
