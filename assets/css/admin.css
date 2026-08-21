@@ -1,0 +1,3430 @@
+/* More MCP Admin Styles */
+
+/* ==========================================
+   Design tokens — from docs/DESIGN.md
+
+   One source of truth for the settings screen's palette, radii, spacing, and
+   elevation. Scoped to .more-mcp-settings so nothing leaks into the rest of
+   wp-admin. Light-mode only on purpose: WordPress core has no official admin
+   dark mode, and a partial prefers-color-scheme treatment reads as a bug.
+
+   This adopts the DESIGN.md "high-end SaaS" language — a #2563EB primary, tonal
+   blue-tinted surfaces, soft ambient shadows, and larger radii — over the older
+   wp-native blues. Per the approved decision we keep the system font stack
+   rather than bundling Inter/JetBrains Mono, so type inherits WP admin while
+   colour, shape, and depth follow DESIGN.md. Semantic good/warn/bad stay
+   separate from the interaction accent, per the dataviz convention.
+   ========================================== */
+
+.more-mcp-settings {
+    /* Surfaces (tonal, faint blue bias) */
+    --mmcp-surface: #ffffff;          /* cards / panels */
+    --mmcp-page: #f7f8fc;             /* page + inset grounds */
+    --mmcp-tile: #f0f3ff;             /* stat tiles, muted rows */
+    --mmcp-container: #e7eeff;        /* code chips, filled accents */
+    --mmcp-hover: #f0f3ff;
+
+    /* Lines */
+    --mmcp-border: #e2e5f0;
+    --mmcp-border-strong: #c3c6d7;
+
+    /* Ink */
+    --mmcp-ink: #111c2d;
+    --mmcp-ink-soft: #434655;
+    --mmcp-ink-muted: #737686;
+
+    /* Interaction accent */
+    --mmcp-accent: #2563eb;
+    --mmcp-accent-strong: #004ac6;
+    --mmcp-accent-hover: #1d4ed8;
+    --mmcp-accent-container: #eff6ff;
+    --mmcp-on-accent: #ffffff;
+
+    /* Semantic status (separate from the accent) */
+    --mmcp-good: #007a34;
+    --mmcp-good-bg: #edfaef;
+    --mmcp-good-border: #b6e3c0;
+    --mmcp-warn: #8a6d00;
+    --mmcp-warn-bg: #fcf5e6;
+    --mmcp-warn-border: #f0dca4;
+    --mmcp-bad: #b91c1c;
+    --mmcp-bad-bg: #fee2e2;
+    --mmcp-bad-border: #f5c2c2;
+
+    /* Shape */
+    --mmcp-radius-sm: 4px;
+    --mmcp-radius: 8px;
+    --mmcp-radius-md: 12px;
+    --mmcp-radius-lg: 16px;
+
+    /* Elevation — soft ambient, per DESIGN.md */
+    --mmcp-shadow-1: 0 1px 3px rgba(0,0,0,.05), 0 10px 15px -5px rgba(0,0,0,.03);
+    --mmcp-shadow-pop: 0 4px 6px -1px rgba(0,0,0,.07), 0 12px 20px -6px rgba(0,0,0,.06);
+
+    /* Monospace role — system mono, since fonts are not bundled */
+    --mmcp-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ==========================================
+   Settings layout — sidebar + single panel
+
+   Replaces the previous one-long-scroll settings page. The sidebar is a real
+   list of links (panel state lives in the `panel` query arg), so this needs
+   no JavaScript and the back button works. Below 783px the sidebar becomes a
+   horizontal scroller above the panel, matching where WordPress itself
+   collapses admin layouts.
+   ========================================== */
+
+.more-mcp-settings .mmcp-layout {
+    display: grid;
+    grid-template-columns: 264px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+    margin-top: 20px;
+}
+
+/* --- Sidebar --- */
+
+.more-mcp-settings .mmcp-sidebar {
+    position: sticky;
+    top: 46px; /* clears the WP admin bar */
+    background: var(--mmcp-surface);
+    border: 1px solid var(--mmcp-border);
+    border-radius: var(--mmcp-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--mmcp-shadow-1);
+}
+
+/* --- Brand header, pinned above the nav ---
+
+   Per the approved DESIGN.md sample: the mark sits on the panel's own white
+   ground rather than a dark block, so the sidebar reads as one calm surface.
+   The shield SVG keeps its own colour; the wordmark uses ink tokens. */
+
+.more-mcp-settings .mmcp-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--mmcp-border);
+}
+
+.more-mcp-settings .mmcp-brand-mark {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    display: block;
+}
+
+.more-mcp-settings .mmcp-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.more-mcp-settings .mmcp-brand-name {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--mmcp-ink);
+    letter-spacing: -0.01em;
+}
+
+.more-mcp-settings .mmcp-brand-tag {
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--mmcp-ink-muted);
+}
+
+.more-mcp-settings .mmcp-sidebar ul {
+    margin: 0;
+    padding: 8px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.more-mcp-settings .mmcp-sidebar li {
+    margin: 0;
+}
+
+.more-mcp-settings .mmcp-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 12px;
+    border-radius: var(--mmcp-radius);
+    text-decoration: none;
+    color: var(--mmcp-ink-soft);
+    font-weight: 500;
+    transition: background-color .12s ease, color .12s ease, box-shadow .12s ease;
+}
+
+.more-mcp-settings .mmcp-nav-item:hover,
+.more-mcp-settings .mmcp-nav-item:focus {
+    background: var(--mmcp-tile);
+    color: var(--mmcp-accent-strong);
+}
+
+.more-mcp-settings .mmcp-nav-item:focus-visible {
+    outline: 2px solid var(--mmcp-accent);
+    outline-offset: -2px;
+}
+
+.more-mcp-settings .mmcp-nav-item.is-active {
+    background: var(--mmcp-accent);
+    color: var(--mmcp-on-accent);
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(37, 99, 235, .35);
+}
+
+.more-mcp-settings .mmcp-nav-item .dashicons {
+    flex-shrink: 0;
+    color: var(--mmcp-ink-muted);
+}
+
+.more-mcp-settings .mmcp-nav-item:hover .dashicons {
+    color: var(--mmcp-accent);
+}
+
+.more-mcp-settings .mmcp-nav-item.is-active .dashicons {
+    color: var(--mmcp-on-accent);
+}
+
+.more-mcp-settings .mmcp-nav-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.more-mcp-settings .mmcp-nav-label {
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.more-mcp-settings .mmcp-nav-summary {
+    font-size: 12px;
+    color: var(--mmcp-ink-muted);
+    line-height: 1.4;
+    /* Hidden everywhere: the same one-liner already shows in the panel header
+       the moment a section opens, so repeating it in the nav made the sidebar
+       read as a wall of text. Kept in the markup for screen readers. */
+    display: none;
+}
+
+/* --- Server on/off indicator, pinned under the nav --- */
+
+.more-mcp-settings .mmcp-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    border-top: 1px solid var(--mmcp-border);
+    font-size: 12px;
+    color: var(--mmcp-ink-soft);
+}
+
+.more-mcp-settings .mmcp-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--mmcp-bad);
+}
+
+.more-mcp-settings .mmcp-status.is-on .mmcp-status-dot {
+    background: var(--mmcp-good);
+}
+
+.more-mcp-settings .mmcp-status-text {
+    flex: 1;
+    min-width: 0;
+}
+
+/* --- Panel --- */
+
+.more-mcp-settings .mmcp-panel {
+    background: var(--mmcp-surface);
+    border: 1px solid var(--mmcp-border);
+    border-radius: var(--mmcp-radius-lg);
+    box-shadow: var(--mmcp-shadow-1);
+    min-width: 0; /* lets long <pre> children scroll instead of stretching the grid */
+}
+
+.more-mcp-settings .mmcp-panel-header {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--mmcp-border);
+    border-radius: var(--mmcp-radius-lg) var(--mmcp-radius-lg) 0 0;
+}
+
+.more-mcp-settings .mmcp-panel-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-panel-header h2 .dashicons {
+    color: var(--mmcp-accent);
+}
+
+.more-mcp-settings .mmcp-panel-header .description {
+    margin: 5px 0 0;
+    font-size: 13px;
+}
+
+.more-mcp-settings .mmcp-panel-body {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* The panel already supplies horizontal padding, so the WP form-table's own
+   left padding would double it. */
+.more-mcp-settings .mmcp-panel-body > .form-table th {
+    padding-left: 0;
+}
+
+.more-mcp-settings .mmcp-panel form .submit {
+    margin: 0;
+    padding: 20px 28px;
+    border-top: 1px solid var(--mmcp-border);
+    background: var(--mmcp-tile);
+    border-radius: 0 0 var(--mmcp-radius-lg) var(--mmcp-radius-lg);
+}
+
+/* Wide reference content (endpoint lists, config snippets) must scroll inside
+   the panel rather than widening the whole grid. */
+.more-mcp-settings .mmcp-panel-body pre {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 960px) {
+    .more-mcp-settings .mmcp-layout {
+        grid-template-columns: 220px minmax(0, 1fr);
+    }
+    .more-mcp-settings .mmcp-nav-summary {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .more-mcp-settings .mmcp-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .more-mcp-settings .mmcp-sidebar {
+        position: static;
+    }
+    .more-mcp-settings .mmcp-sidebar ul {
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .more-mcp-settings .mmcp-sidebar li {
+        border-bottom: 0;
+        border-right: 1px solid var(--mmcp-hover);
+        flex: 0 0 auto;
+    }
+    .more-mcp-settings .mmcp-nav-item {
+        /* Active marker moves to the bottom edge in the horizontal layout. */
+        box-shadow: inset 0 -3px 0 transparent;
+        white-space: nowrap;
+    }
+    .more-mcp-settings .mmcp-nav-item.is-active,
+    .more-mcp-settings .mmcp-nav-item:focus-visible {
+        box-shadow: inset 0 -3px 0 var(--mmcp-accent);
+    }
+}
+
+/* ==========================================
+   1.4.25 — Universal Button + Icon Polish
+   (Foundation: every More MCP button is a flex
+   container so dashicons center visually instead
+   of sitting on the text baseline. color: inherit
+   on dashicons fixes the blue-on-blue invisible
+   icon on .button-primary.)
+   ========================================== */
+
+.more-mcp-settings .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    vertical-align: middle;
+    padding: 8px 16px;
+    min-height: 36px;
+    line-height: 1.4;
+    border-radius: var(--mmcp-radius);
+    font-weight: 500;
+}
+
+/* Primary button — DESIGN.md accent */
+.more-mcp-settings .button.button-primary {
+    background: var(--mmcp-accent);
+    border-color: var(--mmcp-accent);
+    color: var(--mmcp-on-accent);
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.more-mcp-settings .button.button-primary:hover,
+.more-mcp-settings .button.button-primary:focus {
+    background: var(--mmcp-accent-hover);
+    border-color: var(--mmcp-accent-hover);
+    color: var(--mmcp-on-accent);
+}
+
+/* Secondary / default button — ghost with a soft border */
+.more-mcp-settings .button.button-secondary,
+.more-mcp-settings .button:not(.button-primary):not(.button-link) {
+    background: var(--mmcp-surface);
+    border-color: var(--mmcp-border-strong);
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .button:not(.button-primary):not(.button-link):hover,
+.more-mcp-settings .button:not(.button-primary):not(.button-link):focus {
+    background: var(--mmcp-tile);
+    border-color: var(--mmcp-accent);
+    color: var(--mmcp-accent-strong);
+}
+
+.more-mcp-settings .button .dashicons {
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    margin: 0;
+}
+
+/* Icon-only buttons (no text label) collapse to clean squares */
+.more-mcp-settings .platform-actions .button,
+.more-mcp-settings .platform-fields .toggle-password,
+.more-mcp-settings .advanced-content .button.copy-btn,
+.more-mcp-settings .advanced-content .toggle-password,
+.more-mcp-settings .mmcp-key-row .toggle-password {
+    padding: 6px 8px;
+    min-width: 36px;
+    min-height: 34px;
+    gap: 0;
+}
+
+/* Table row actions sit inside a 12px-padded cell, so they need to be smaller
+   than a standalone button or the rows grow taller than their content. */
+.more-mcp-settings .mmcp-table .button.button-small {
+    padding: 3px 10px;
+    min-height: 26px;
+    font-size: 12px;
+}
+
+/* Platform card footer buttons (Get API Key, Documentation, Test Connection)
+   need a touch more breathing room — they sit at the visual base of each card. */
+.more-mcp-settings .platform-links .button,
+.more-mcp-settings .platform-test .button {
+    padding: 7px 16px;
+    min-height: 36px;
+    gap: 8px;
+}
+
+/* Add Provider button — primary CTA, slightly weightier */
+.more-mcp-settings #add-platform-btn {
+    padding: 8px 18px;
+    min-height: 36px;
+}
+
+/* Visible focus ring for keyboard navigation */
+.more-mcp-settings .button:focus-visible {
+    box-shadow: 0 0 0 2px var(--mmcp-surface), 0 0 0 4px var(--mmcp-accent);
+    outline: 0;
+}
+
+/* Description text contrast: bump from var(--mmcp-ink-muted) to var(--mmcp-ink-soft) and drop italic
+   (italic at 13px on f9f9f9 grey backgrounds was hard to scan). */
+.more-mcp-settings .description,
+.more-mcp-settings p.description {
+    color: var(--mmcp-ink-soft);
+    font-style: normal;
+    line-height: 1.5;
+}
+
+.more-mcp-settings .postbox {
+    margin-bottom: 20px;
+}
+
+.more-mcp-settings .postbox-header h2 {
+    margin: 0;
+    padding: 12px;
+}
+
+.more-mcp-settings .inside {
+    padding: 12px;
+}
+
+/* Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch.small {
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--mmcp-border-strong);
+    transition: .2s ease;
+    border-radius: 999px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--mmcp-surface);
+    transition: .2s ease;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,.16);
+}
+
+.switch.small .slider:before {
+    height: 14px;
+    width: 14px;
+}
+
+input:checked + .slider {
+    background-color: var(--mmcp-accent);
+}
+
+input:focus-visible + .slider {
+    box-shadow: 0 0 0 3px var(--mmcp-accent-container), 0 0 0 1px var(--mmcp-accent);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.switch.small input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* ==========================================
+   Platform Items
+   ========================================== */
+
+#platforms-list {
+    margin: 20px 0;
+}
+
+.platform-item {
+    background: #fff;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease;
+}
+
+.platform-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.platform-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: var(--mmcp-tile);
+    border-bottom: 1px solid var(--mmcp-border);
+}
+
+.platform-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.platform-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.platform-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.platform-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.platform-description {
+    font-size: 13px;
+    color: var(--mmcp-ink-muted);
+}
+
+.platform-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.platform-actions .button {
+    padding: 4px 8px;
+    min-height: 30px;
+}
+
+.platform-actions .button .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 1;
+}
+
+.platform-toggle .dashicons {
+    transition: transform 0.2s ease;
+}
+
+.remove-platform:hover {
+    color: var(--mmcp-bad);
+    border-color: var(--mmcp-bad);
+}
+
+.platform-config {
+    padding: 20px;
+    background: #fff;
+}
+
+.platform-fields {
+    margin: 0 0 20px 0;
+}
+
+.platform-fields th {
+    width: 180px;
+    padding: 12px 10px 12px 0;
+    vertical-align: top;
+}
+
+.platform-fields td {
+    padding: 12px 10px 12px 0;
+}
+
+.platform-fields .required {
+    color: var(--mmcp-bad);
+    margin-left: 2px;
+}
+
+.platform-fields input[type="text"],
+.platform-fields input[type="password"],
+.platform-fields input[type="url"],
+.platform-fields select {
+    width: 100%;
+    max-width: 400px;
+}
+
+.platform-fields .toggle-password {
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.platform-fields .toggle-password .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.platform-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid var(--mmcp-border);
+    margin-top: 10px;
+}
+
+.platform-links {
+    display: flex;
+    gap: 10px;
+}
+
+.platform-links .button-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    color: var(--mmcp-accent);
+}
+
+.platform-links .button-link:hover {
+    color: var(--mmcp-accent-strong);
+}
+
+.platform-links .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.platform-test {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.test-connection {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.test-connection .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.test-connection .dashicons.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.connection-status {
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.connection-status.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.connection-status.error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Empty State */
+.platform-empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--mmcp-tile);
+    border: 2px dashed var(--mmcp-border);
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.platform-empty-state .empty-icon {
+    margin-bottom: 15px;
+}
+
+.platform-empty-state .empty-icon .dashicons {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: var(--mmcp-border-strong);
+}
+
+.platform-empty-state h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: var(--mmcp-ink);
+}
+
+.platform-empty-state p {
+    margin: 0;
+    color: var(--mmcp-ink-muted);
+}
+
+/* Add Platform Section */
+.add-platform-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--mmcp-border);
+}
+
+.add-platform-dropdown {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#add-platform-select {
+    min-width: 280px;
+    padding: 8px 12px;
+}
+
+#add-platform-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#add-platform-btn .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* ==========================================
+   Legacy MCP Servers (Backward Compatibility)
+   ========================================== */
+
+#mcp-servers-list {
+    margin: 20px 0;
+}
+
+.mcp-server-item {
+    background: var(--mmcp-tile);
+    border: 1px solid var(--mmcp-border);
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.mcp-server-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--mmcp-border);
+}
+
+.mcp-server-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.mcp-server-item .form-table {
+    margin: 0;
+}
+
+.mcp-server-item .form-table th {
+    width: 200px;
+    padding: 10px 10px 10px 0;
+}
+
+.mcp-server-item .form-table td {
+    padding: 10px 10px 10px 0;
+}
+
+#add-server {
+    margin-top: 10px;
+}
+
+/* The former `.api-endpoints-reference` block lived here. Removed in the settings
+   redesign: the API reference is now Documentation → REST API reference, whose
+   markup is `.mmcp-rest-reference` / `.mmcp-endpoint-card` further down this file.
+   Its responsive overrides went with it. */
+
+/* ==========================================
+   Logs Page
+   ========================================== */
+
+.more-mcp-logs .column-timestamp {
+    width: 180px;
+}
+
+.more-mcp-logs .column-server {
+    width: 150px;
+}
+
+.more-mcp-logs .column-action {
+    width: 250px;
+}
+
+.more-mcp-logs .column-status {
+    width: 100px;
+}
+
+.more-mcp-logs .column-details {
+    width: 120px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-badge.status-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-badge.status-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Log Details Modal */
+.log-modal {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.log-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.log-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.log-modal-close:hover,
+.log-modal-close:focus {
+    color: #000;
+}
+
+.log-details-container h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.log-details-container pre {
+    background: var(--mmcp-tile);
+    border: 1px solid var(--mmcp-border);
+    border-radius: 3px;
+    padding: 15px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ==========================================
+   Responsive Styles
+   ========================================== */
+
+@media screen and (max-width: 782px) {
+    .platform-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .platform-info {
+        width: 100%;
+    }
+
+    .platform-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .platform-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .platform-links {
+        flex-wrap: wrap;
+    }
+
+    .platform-fields th {
+        width: 100%;
+        display: block;
+        padding-bottom: 5px;
+    }
+
+    .platform-fields td {
+        display: block;
+        padding-top: 0;
+    }
+
+    .add-platform-dropdown {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #add-platform-select {
+        min-width: 100%;
+    }
+
+    .mcp-server-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mcp-server-header .button {
+        margin-top: 10px;
+    }
+
+    .log-modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+}
+
+/* ==========================================
+   Utility Classes
+   ========================================== */
+
+.code {
+    font-family: Consolas, Monaco, monospace;
+}
+
+.regular-text {
+    width: 25em;
+}
+
+.description {
+    font-style: italic;
+    color: var(--mmcp-ink-muted);
+}
+
+.required {
+    color: var(--mmcp-bad);
+}
+
+/* ==========================================
+   Claude Connector Settings
+   ========================================== */
+
+.connector-settings-box {
+    border-left: 4px solid #6B4C9A;
+}
+
+.connector-settings-box .postbox-header h2 {
+    display: flex;
+    align-items: center;
+}
+
+.connector-settings-box .beta-badge {
+    background: #6B4C9A;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 10px;
+    text-transform: uppercase;
+}
+
+.connector-intro {
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-style: normal !important;
+}
+
+.connector-fields {
+    background: var(--mmcp-tile);
+    border: 1px solid var(--mmcp-border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.connector-field {
+    margin-bottom: 20px;
+}
+
+.connector-field:last-child {
+    margin-bottom: 0;
+}
+
+.connector-field > label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--mmcp-ink);
+}
+
+.connector-field .optional {
+    font-weight: 400;
+    color: var(--mmcp-ink-muted);
+}
+
+.connector-input-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.connector-input-group input {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.connector-input-group .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.connector-input-group .button .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.connector-advanced {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--mmcp-border);
+}
+
+.toggle-advanced {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--mmcp-accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.toggle-advanced:hover {
+    color: var(--mmcp-accent-strong);
+}
+
+.toggle-advanced .dashicons {
+    transition: transform 0.2s ease;
+}
+
+.toggle-advanced.open .dashicons {
+    transform: rotate(180deg);
+}
+
+.advanced-fields {
+    margin-top: 15px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 6px;
+}
+
+.connector-help {
+    background: #fff;
+    border: 1px solid var(--mmcp-border-strong);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.connector-help h4 {
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    color: var(--mmcp-ink);
+}
+
+.connector-help ol {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.connector-help li {
+    margin-bottom: 8px;
+    color: var(--mmcp-ink-soft);
+}
+
+.connector-help li:last-child {
+    margin-bottom: 0;
+}
+
+.connector-help a {
+    color: var(--mmcp-accent);
+}
+
+.copy-btn.copied {
+    background: var(--mmcp-good);
+    border-color: var(--mmcp-good);
+    color: #fff;
+}
+
+.copy-btn.copied .dashicons {
+    color: #fff;
+}
+
+/* ==========================================
+   Documentation Banner
+   ========================================== */
+
+.more-mcp-docs-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #e7f3ff;
+    border: 1px solid #c8e1ff;
+    color: var(--mmcp-ink);
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 15px 0 20px 0;
+}
+
+.more-mcp-docs-banner .dashicons {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: var(--mmcp-accent);
+}
+
+.more-mcp-docs-banner span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.more-mcp-docs-banner .button {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.more-mcp-docs-banner .button .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+
+
+/* ==========================================
+   1.4.25 — New layout elements
+   (MCP URL block, Cloudflare warning, Advanced toggle,
+    Setup Guides accordion, Outbound banner)
+   ========================================== */
+
+/* --- Connect a client: URL + API key as ONE field group ---
+   Replaces the former `.mcp-url-block` accent-railed card plus the separate
+   `.mmcp-section` that held the API key. The border between them made two halves
+   of one task read as unrelated settings, so the group is now flat: one heading,
+   two labelled fields, shared caveats. No card, no accent rail — the panel body
+   already provides the boundary, and a border inside a border is what made the
+   original look detached. */
+.mmcp-connect-block {
+    margin: 0;
+}
+
+.mmcp-connect-title {
+    margin: 0 0 14px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.mmcp-connect-field {
+    margin: 0 0 14px;
+}
+
+.mmcp-connect-field > label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--mmcp-ink);
+    margin: 0 0 6px;
+}
+
+.mmcp-connect-block .mcp-url-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.mmcp-connect-block .mcp-url-input-group input {
+    flex: 1;
+    min-width: 280px;
+    background: var(--mmcp-surface);
+    font-family: var(--mmcp-mono);
+    font-size: 13px;
+    padding: 10px 12px;
+    border: 1px solid var(--mmcp-border-strong);
+    border-radius: var(--mmcp-radius);
+    color: var(--mmcp-ink);
+}
+
+.mmcp-connect-block .mcp-url-input-group input:focus {
+    outline: 0;
+    border-color: var(--mmcp-accent);
+    box-shadow: 0 0 0 3px var(--mmcp-accent-container);
+}
+
+.mmcp-connect-block .mcp-url-hint {
+    margin: 0 0 12px;
+    color: var(--mmcp-ink-soft);
+    font-size: 13px;
+    line-height: 1.55;
+    font-style: normal;
+}
+
+/* --- Cloudflare / localhost warning callouts --- */
+.cloudflare-warning {
+    background: var(--mmcp-accent-container);
+    border: 1px solid #bcd3fb;
+    border-left: 4px solid var(--mmcp-accent);
+    border-radius: var(--mmcp-radius);
+    padding: 12px 14px;
+    margin-top: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.cloudflare-warning.warning-error {
+    background: var(--mmcp-bad-bg);
+    border-color: var(--mmcp-bad-border);
+    border-left-color: var(--mmcp-bad);
+}
+
+.cloudflare-warning .dashicons {
+    color: var(--mmcp-accent);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.cloudflare-warning.warning-error .dashicons {
+    color: var(--mmcp-bad);
+}
+
+.cloudflare-warning p {
+    margin: 0;
+    color: var(--mmcp-ink-soft);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.cloudflare-warning strong {
+    color: var(--mmcp-ink);
+}
+
+/* --- Advanced (REST + OAuth) collapsible --- */
+.advanced-toggle {
+    background: none;
+    border: 0;
+    color: var(--mmcp-accent);
+    cursor: pointer;
+    padding: 10px 0 6px;
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.advanced-toggle:hover,
+.advanced-toggle:focus {
+    color: var(--mmcp-accent-strong);
+    outline: none;
+}
+
+.advanced-toggle:focus-visible {
+    box-shadow: 0 0 0 2px var(--mmcp-surface), 0 0 0 4px var(--mmcp-accent);
+    border-radius: var(--mmcp-radius-sm);
+}
+
+.advanced-toggle .dashicons {
+    transition: transform 0.2s ease;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.advanced-toggle.open .dashicons {
+    transform: rotate(180deg);
+}
+
+/* The inline "How this key works" toggle reuses .advanced-toggle for its link
+   styling, but its icon is an info glyph, not a chevron. A 180° flip would turn
+   it upside down, so it opts out of the rotate the chevron toggles rely on. */
+.mmcp-inline-help-toggle.open .dashicons {
+    transform: none;
+}
+
+.advanced-content {
+    margin-top: 12px;
+    padding: 16px;
+    background: var(--mmcp-tile);
+    border: 1px solid var(--mmcp-border);
+    border-radius: var(--mmcp-radius);
+}
+
+.advanced-content .form-table {
+    margin: 0;
+}
+
+.advanced-content .optional {
+    font-weight: 400;
+    color: var(--mmcp-ink-muted);
+    font-size: 12px;
+}
+
+/* --- MCP Client Setup Guides ---
+   `.setup-guides-intro` was removed with the Documentation merge; the intro copy
+   is now `.mmcp-doc-lead`, shared by every docs sub-tab. */
+.setup-guides-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setup-guide-item {
+    background: #fff;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.setup-guide-item:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    border-color: #c3d4e8;
+}
+
+.setup-guide-item.open {
+    border-color: var(--mmcp-accent);
+}
+
+.setup-guide-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    background: var(--mmcp-tile);
+    border: 0;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--mmcp-ink);
+    transition: background 0.15s ease;
+}
+
+.setup-guide-header:hover {
+    background: var(--mmcp-tile);
+}
+
+.setup-guide-header:focus-visible {
+    outline: 0;
+    background: #f0f6ff;
+}
+
+.setup-guide-item.open .setup-guide-header {
+    background: #fff;
+    border-bottom: 1px solid var(--mmcp-border);
+}
+
+.setup-guide-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+    letter-spacing: 0;
+}
+
+.setup-guide-icon.icon-claude         { background: #6B4C9A; }
+.setup-guide-icon.icon-chatgpt        { background: #10a37f; }
+.setup-guide-icon.icon-claude-desktop { background: #4a2d6b; }
+.setup-guide-icon.icon-cursor         { background: #1f1f1f; }
+.setup-guide-icon.icon-claude-code    { background: #d97757; }
+.setup-guide-icon.icon-antigravity    { background: #1a73e8; }
+
+.setup-guide-name {
+    flex: 1;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.setup-guide-name small {
+    display: block;
+    font-weight: 400;
+    color: var(--mmcp-ink-muted);
+    font-size: 12.5px;
+    margin-top: 2px;
+}
+
+.setup-guide-chevron {
+    transition: transform 0.2s ease;
+    color: var(--mmcp-ink-muted);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.setup-guide-item.open .setup-guide-chevron {
+    transform: rotate(180deg);
+    color: var(--mmcp-accent);
+}
+
+.setup-guide-body {
+    display: none;
+    padding: 16px 18px 18px 66px;
+    color: var(--mmcp-ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.setup-guide-item.open .setup-guide-body {
+    display: block;
+}
+
+.setup-guide-body p {
+    margin: 0 0 12px;
+}
+
+.setup-guide-body ol {
+    margin: 0 0 14px;
+    padding-left: 20px;
+}
+
+.setup-guide-body ol > li {
+    margin-bottom: 10px;
+}
+
+.setup-guide-body ol > li:last-child {
+    margin-bottom: 0;
+}
+
+.setup-guide-body code {
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+    color: #c7254e;
+    font-family: Consolas, Monaco, monospace;
+}
+
+.setup-guide-code-block {
+    background: var(--mmcp-ink);
+    color: var(--mmcp-tile);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 8px 0;
+    overflow-x: auto;
+    font-size: 12.5px;
+    line-height: 1.55;
+}
+
+.setup-guide-code-block code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+}
+
+.setup-guide-full-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--mmcp-accent);
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.setup-guide-full-link:hover {
+    color: var(--mmcp-accent-strong);
+    text-decoration: underline;
+}
+
+.setup-guide-full-link .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+
+/* The former `.outbound-banner` block lived here. Removed in the settings
+   redesign. Its replacement, the two-column `.mmcp-direction-note`, has since
+   been removed as well: External Services now says which direction it is about in
+   its panel name and one-line sub-tab summary, so three paragraphs explaining
+   what the panel is NOT were no longer earning their space. */
+
+/* --- Misc 1.4.25 fixes --- */
+.warning-text {
+    color: var(--mmcp-bad) !important;
+}
+
+/* Responsive overrides for new layout */
+@media screen and (max-width: 782px) {
+    .mmcp-connect-block .mcp-url-input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .mmcp-connect-block .mcp-url-input-group input {
+        min-width: 0;
+        width: 100%;
+    }
+    .setup-guide-body {
+        padding: 14px 16px 16px;
+    }
+    .setup-guide-code-block {
+        font-size: 11.5px;
+    }
+    .advanced-content {
+        padding: 4px 12px 12px;
+    }
+}
+
+/* ==========================================
+   0.1.7 — Settings redesign
+   (sidebar badge, Documentation panel, section
+    primitives, session tables, scope cards)
+   ========================================== */
+
+/* --- Sidebar count badge --- */
+.more-mcp-settings .mmcp-nav-badge {
+    display: inline-block;
+    min-width: 18px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    border-radius: 9px;
+    background: var(--mmcp-accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: 1px;
+}
+
+.more-mcp-settings .mmcp-nav-item.is-active .mmcp-nav-badge {
+    background: var(--mmcp-accent-strong);
+}
+
+/* --- Generic section primitive ---
+   Used by every redesigned panel so vertical rhythm is defined once. */
+.more-mcp-settings .mmcp-section {
+    /* The panel body is a flex column with a 40px gap, so sections no longer
+       carry their own bottom margin — that would stack on top of the gap. */
+    margin: 0;
+}
+
+.more-mcp-settings .mmcp-section:last-child {
+    margin-bottom: 0;
+}
+
+.more-mcp-settings .mmcp-section-head {
+    margin-bottom: 16px;
+}
+
+.more-mcp-settings .mmcp-section-head h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 6px;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-section-head h4 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-section-head .description {
+    margin: 0 0 4px;
+    max-width: 76ch;
+}
+
+.more-mcp-settings .mmcp-section-count {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--mmcp-tile);
+    color: var(--mmcp-ink-soft);
+    font-size: 11.5px;
+    font-weight: 600;
+}
+
+/* --- Small status flags (on/off/warn/info pills) --- */
+.more-mcp-settings .mmcp-flag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+    vertical-align: 1px;
+    white-space: nowrap;
+}
+
+.more-mcp-settings .mmcp-flag-on {
+    background: #edfaef;
+    color: #007017;
+    box-shadow: inset 0 0 0 1px #b8e6c1;
+}
+
+.more-mcp-settings .mmcp-flag-off {
+    background: var(--mmcp-hover);
+    color: var(--mmcp-ink-muted);
+    box-shadow: inset 0 0 0 1px var(--mmcp-border);
+}
+
+.more-mcp-settings .mmcp-flag-warn {
+    background: #fcf3e6;
+    color: #8a5700;
+    box-shadow: inset 0 0 0 1px #f0d5a8;
+    cursor: help;
+}
+
+.more-mcp-settings .mmcp-flag-info {
+    background: var(--mmcp-accent-container);
+    color: var(--mmcp-accent-strong);
+    box-shadow: inset 0 0 0 1px #c3d4e8;
+}
+
+/* --- SEO-data provider cards: inline status label + trial badge --- */
+/* Sits beside the provider name (Semrush  Not configured  [14-day trial]). */
+.more-mcp-settings .mmcp-provider-status {
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 8px;
+    vertical-align: 1px;
+}
+
+.more-mcp-settings .mmcp-provider-status.is-not-configured {
+    color: #b91c1c;
+}
+
+.more-mcp-settings .mmcp-provider-status.is-off {
+    color: var(--mmcp-ink-muted);
+    background: var(--mmcp-hover);
+    border-radius: 3px;
+    padding: 1px 8px;
+}
+
+.more-mcp-settings .mmcp-provider-status.is-configured {
+    color: #007017;
+}
+
+.more-mcp-settings .mmcp-trial-badge {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 2px 10px;
+    border-radius: var(--mmcp-radius, 6px);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mmcp-accent-strong);
+    background: var(--mmcp-accent-container);
+    box-shadow: inset 0 0 0 1px #c3d4e8;
+    white-space: nowrap;
+    vertical-align: 1px;
+}
+
+/* --- Inline AJAX status text next to a button --- */
+.more-mcp-settings .mmcp-inline-status {
+    margin-left: 10px;
+    font-size: 13px;
+    color: var(--mmcp-ink-soft);
+}
+
+.more-mcp-settings .mmcp-inline-status.is-success {
+    color: #007017;
+}
+
+.more-mcp-settings .mmcp-inline-status.is-error {
+    color: var(--mmcp-bad);
+}
+
+/* --- Secondary label text inside a table cell --- */
+.more-mcp-settings .mmcp-subtle {
+    display: block;
+    margin-top: 2px;
+    color: var(--mmcp-ink-muted);
+    font-size: 12px;
+}
+
+/* ==========================================
+   Sub-tab strip, pager, and shared docs primitives
+   (used by both the Documentation panel and the
+    Sessions panel's Clients / Transport split)
+   ========================================== */
+
+/* --- Sub-tab strip --- */
+.more-mcp-settings .mmcp-subtabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin: 0 0 4px;
+    border-bottom: 1px solid var(--mmcp-border);
+}
+
+.more-mcp-settings .mmcp-subtab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: -1px;
+    color: var(--mmcp-ink-soft);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.more-mcp-settings .mmcp-subtab:hover,
+.more-mcp-settings .mmcp-subtab:focus {
+    background: var(--mmcp-tile);
+    color: var(--mmcp-accent-strong);
+}
+
+.more-mcp-settings .mmcp-subtab:focus-visible {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--mmcp-accent);
+    outline: none;
+}
+
+.more-mcp-settings .mmcp-subtab.is-active {
+    background: #fff;
+    border-color: var(--mmcp-border);
+    color: var(--mmcp-ink);
+    font-weight: 600;
+}
+
+.more-mcp-settings .mmcp-subtab .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.more-mcp-settings .mmcp-subtab-summary {
+    margin: 14px 0 20px;
+    color: var(--mmcp-ink-soft);
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 82ch;
+}
+
+/* Count pill inside a sub-tab label (Sessions). Muted on inactive tabs so the
+   numbers do not compete with the active tab for attention. */
+.more-mcp-settings .mmcp-subtab-count {
+    display: inline-block;
+    min-width: 18px;
+    padding: 0 6px;
+    margin-left: 6px;
+    border-radius: 9px;
+    background: var(--mmcp-border);
+    color: var(--mmcp-ink-soft);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 17px;
+    text-align: center;
+}
+
+.more-mcp-settings .mmcp-subtab.is-active .mmcp-subtab-count {
+    background: var(--mmcp-accent);
+    color: #fff;
+}
+
+/* --- Pager --- */
+.more-mcp-settings .mmcp-pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 10px 0 4px;
+}
+
+.more-mcp-settings .mmcp-pager-range {
+    color: var(--mmcp-ink-soft);
+    font-size: 12.5px;
+}
+
+.more-mcp-settings .mmcp-pager-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.more-mcp-settings .mmcp-pager-current {
+    color: var(--mmcp-ink-soft);
+    font-size: 12.5px;
+    white-space: nowrap;
+}
+
+/* Edge-of-range controls render as spans, not links, so they need the disabled
+   look applied explicitly — WordPress only styles .disabled on real buttons. */
+.more-mcp-settings .mmcp-pager-links .button.disabled {
+    color: #a7aaad;
+    border-color: var(--mmcp-border);
+    background: var(--mmcp-tile);
+    cursor: default;
+    pointer-events: none;
+}
+
+.more-mcp-settings .mmcp-docs-body h3 {
+    margin: 30px 0 8px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-docs-body h3:first-child {
+    margin-top: 4px;
+}
+
+.more-mcp-settings .mmcp-docs-body h4 {
+    margin: 22px 0 6px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-docs-footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--mmcp-hover);
+}
+
+.more-mcp-settings .mmcp-docs-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.more-mcp-settings .mmcp-docs-footer .dashicons {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+}
+
+/* --- Lead paragraph block at the top of a docs page --- */
+.more-mcp-settings .mmcp-doc-lead {
+    padding: 16px 18px;
+    margin: 0 0 24px;
+    background: var(--mmcp-tile);
+    border-left: 4px solid var(--mmcp-border-strong);
+    border-radius: 4px;
+}
+
+.more-mcp-settings .mmcp-doc-lead > p {
+    margin: 0 0 8px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--mmcp-ink);
+    max-width: 84ch;
+}
+
+.more-mcp-settings .mmcp-doc-lead > p:last-child {
+    margin-bottom: 0;
+}
+
+.more-mcp-settings .mmcp-doc-lead .description {
+    color: var(--mmcp-ink-soft);
+}
+
+.more-mcp-settings .mmcp-doc-lead-url {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.more-mcp-settings .mmcp-doc-lead-url code {
+    padding: 5px 9px;
+    background: #fff;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 3px;
+    font-size: 12.5px;
+    word-break: break-all;
+}
+
+/* --- Definition-style fact list, used across docs and panels --- */
+.more-mcp-settings .mmcp-doc-facts {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.more-mcp-settings .mmcp-doc-facts > li {
+    padding: 9px 0;
+    border-bottom: 1px solid var(--mmcp-hover);
+    color: var(--mmcp-ink-soft);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.more-mcp-settings .mmcp-doc-facts > li:last-child {
+    border-bottom: 0;
+}
+
+.more-mcp-settings .mmcp-doc-facts > li > strong {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--mmcp-ink);
+    font-size: 13px;
+}
+
+.more-mcp-settings .mmcp-doc-facts code {
+    font-size: 12px;
+}
+
+/* Compact variant. Same list, one line per fact instead of a stacked label and
+   paragraph — for places where the facts are context an admin skims once, not
+   reference material they read. The label goes inline and the row loses most of
+   its vertical padding, which is what turns four facts from a screenful into a
+   block. */
+.more-mcp-settings .mmcp-doc-facts.is-compact > li {
+    padding: 5px 0;
+    line-height: 1.5;
+}
+
+.more-mcp-settings .mmcp-doc-facts.is-compact > li > strong {
+    display: inline;
+    margin-bottom: 0;
+}
+
+.more-mcp-settings .mmcp-doc-facts.is-compact > li > strong::after {
+    content: " — ";
+    color: var(--mmcp-ink-soft);
+    font-weight: 400;
+}
+
+/* --- Setup-guide auth-type badge (OAuth / API key) --- */
+.more-mcp-settings .setup-guide-badge {
+    flex-shrink: 0;
+    padding: 2px 8px;
+    margin-right: 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.more-mcp-settings .setup-guide-badge.badge-oauth {
+    background: #edfaef;
+    color: #007017;
+}
+
+.more-mcp-settings .setup-guide-badge.badge-key {
+    background: var(--mmcp-accent-container);
+    color: var(--mmcp-accent-strong);
+}
+
+.more-mcp-settings .setup-guide-icon.icon-generic {
+    background: var(--mmcp-ink-muted);
+}
+
+.more-mcp-settings .setup-guide-note {
+    margin: 12px 0 0;
+    padding: 10px 12px;
+    background: var(--mmcp-tile);
+    border-left: 3px solid var(--mmcp-border-strong);
+    border-radius: 3px;
+    color: var(--mmcp-ink-soft);
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+/* --- Tool inventory groups (docs/tools.php) --- */
+.more-mcp-settings .mmcp-tool-groups {
+    margin: 0 0 8px;
+}
+
+.more-mcp-settings .mmcp-tool-group {
+    border: 1px solid var(--mmcp-border);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.more-mcp-settings .mmcp-tool-group.open {
+    border-color: var(--mmcp-border-strong);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.more-mcp-settings .mmcp-tool-group-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 13px 16px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+}
+
+.more-mcp-settings .mmcp-tool-group-header:hover {
+    background: var(--mmcp-tile);
+}
+
+.more-mcp-settings .mmcp-tool-group-header:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--mmcp-accent);
+}
+
+.more-mcp-settings .mmcp-tool-group-chevron {
+    flex-shrink: 0;
+    color: var(--mmcp-ink-muted);
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+}
+
+.more-mcp-settings .mmcp-tool-group.open .mmcp-tool-group-chevron {
+    transform: rotate(180deg);
+}
+
+.more-mcp-settings .mmcp-tool-group-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-tool-group-title small {
+    display: block;
+    margin-top: 2px;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--mmcp-ink-muted);
+    line-height: 1.5;
+}
+
+.more-mcp-settings .mmcp-tool-group-count {
+    flex-shrink: 0;
+    padding: 2px 9px;
+    border-radius: 10px;
+    background: var(--mmcp-hover);
+    color: var(--mmcp-ink-soft);
+    font-size: 11.5px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.more-mcp-settings .mmcp-tool-group-body {
+    display: none;
+    padding: 4px 16px 14px;
+    border-top: 1px solid var(--mmcp-hover);
+}
+
+.more-mcp-settings .mmcp-tool-group.open .mmcp-tool-group-body {
+    display: block;
+}
+
+.more-mcp-settings .mmcp-tool-group-note {
+    margin: 12px 0 4px;
+    padding: 9px 11px;
+    background: var(--mmcp-tile);
+    border-left: 3px solid var(--mmcp-border-strong);
+    border-radius: 3px;
+    color: var(--mmcp-ink-soft);
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+.more-mcp-settings .mmcp-tool-list {
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+    /* Names are short; descriptions moved to a hover tooltip. Lay the names out
+       as a responsive multi-column grid so a group of 17 tools reads as a few
+       compact columns rather than one long single-file column. */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 2px 18px;
+}
+
+.more-mcp-settings .mmcp-tool-list > li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 0;
+    /* No per-row separators: in a grid a bottom border reads as ragged across
+       columns, and the column gap already carries the separation. */
+}
+
+.more-mcp-settings .mmcp-tool-list code {
+    display: inline-block;
+    padding: 2px 7px;
+    background: var(--mmcp-accent-container);
+    border-radius: 3px;
+    color: var(--mmcp-accent-strong);
+    font-size: 12px;
+}
+
+/* The (i) marker carrying the description tooltip. Hovering it (or the whole
+   row, which also holds the title) surfaces the full text. cursor:help signals
+   there is more to see without adding any script. */
+.more-mcp-settings .mmcp-tool-info {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--mmcp-hover);
+    color: var(--mmcp-ink-muted);
+    font-size: 10px;
+    font-weight: 700;
+    font-style: italic;
+    cursor: help;
+    user-select: none;
+}
+
+.more-mcp-settings .mmcp-tool-list > li:hover .mmcp-tool-info {
+    background: var(--mmcp-accent-container);
+    color: var(--mmcp-accent-strong);
+}
+
+/* --- Endpoint cards and HTTP method chips (docs/api.php) --- */
+.more-mcp-settings .mmcp-endpoint-card {
+    padding: 14px 16px;
+    margin: 10px 0 8px;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 6px;
+    background: #fff;
+}
+
+.more-mcp-settings .mmcp-endpoint-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 6px 0;
+}
+
+.more-mcp-settings .mmcp-endpoint-path {
+    font-size: 12.5px;
+    word-break: break-all;
+}
+
+.more-mcp-settings .mmcp-endpoint-note {
+    color: var(--mmcp-ink-muted);
+    font-size: 12.5px;
+}
+
+.more-mcp-settings .mmcp-endpoint-card .description {
+    margin-top: 10px;
+}
+
+.more-mcp-settings .mmcp-method {
+    display: inline-block;
+    flex-shrink: 0;
+    min-width: 52px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.more-mcp-settings .mmcp-method-get    { background: var(--mmcp-accent-container); color: var(--mmcp-accent-strong); }
+.more-mcp-settings .mmcp-method-post   { background: #edfaef; color: #007017; }
+.more-mcp-settings .mmcp-method-put    { background: #fcf3e6; color: #8a5700; }
+.more-mcp-settings .mmcp-method-delete { background: #fcebeb; color: #b32d2e; }
+
+.more-mcp-settings .mmcp-rest-reference {
+    margin: 12px 0 8px;
+}
+
+.more-mcp-settings .mmcp-rest-section {
+    margin-bottom: 20px;
+}
+
+.more-mcp-settings .mmcp-rest-section h4 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-rest-section-note {
+    margin: 0 0 6px;
+}
+
+.more-mcp-settings .mmcp-rest-routes {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--mmcp-hover);
+    border-radius: 4px;
+}
+
+.more-mcp-settings .mmcp-rest-routes > li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--mmcp-hover);
+    font-size: 12.5px;
+}
+
+.more-mcp-settings .mmcp-rest-routes > li:last-child {
+    border-bottom: 0;
+}
+
+.more-mcp-settings .mmcp-rest-routes code {
+    font-size: 12px;
+    background: none;
+    padding: 0;
+}
+
+/* --- Troubleshooting list --- */
+.more-mcp-settings .mmcp-troubleshoot-list {
+    margin: 4px 0 8px;
+}
+
+.more-mcp-settings .mmcp-troubleshoot-item {
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 6px;
+    background: #fff;
+}
+
+.more-mcp-settings .mmcp-troubleshoot-item h3 {
+    margin: 0 0 8px !important;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-troubleshoot-item p {
+    margin: 0 0 8px;
+    color: var(--mmcp-ink-soft);
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 84ch;
+}
+
+.more-mcp-settings .mmcp-troubleshoot-fix {
+    margin: 10px 0 0 !important;
+    padding: 10px 12px;
+    background: var(--mmcp-tile);
+    border-left: 3px solid var(--mmcp-accent);
+    border-radius: 3px;
+}
+
+.more-mcp-settings .mmcp-troubleshoot-fix strong {
+    color: var(--mmcp-ink);
+}
+
+/* ==========================================
+   Sessions panel
+   ========================================== */
+
+.more-mcp-settings .mmcp-table {
+    margin: 0 0 10px;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 6px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+.more-mcp-settings .mmcp-table th {
+    padding: 9px 12px;
+    background: var(--mmcp-tile);
+    border-bottom: 1px solid var(--mmcp-border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mmcp-ink-soft);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.more-mcp-settings .mmcp-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--mmcp-hover);
+    font-size: 13px;
+    color: var(--mmcp-ink);
+    vertical-align: top;
+}
+
+.more-mcp-settings .mmcp-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.more-mcp-settings .mmcp-table .mmcp-col-action {
+    width: 1%;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.more-mcp-settings .mmcp-table code {
+    font-size: 12px;
+}
+
+.more-mcp-settings .mmcp-client-id {
+    display: block;
+    margin-top: 3px;
+    color: var(--mmcp-ink-muted);
+    font-size: 11.5px;
+    word-break: break-all;
+}
+
+/* A row whose credential or session has just been revoked. Kept visible and
+   struck through rather than removed, so the admin can see which row the action
+   applied to; it is gone on the next page load. */
+.more-mcp-settings .mmcp-table tr.is-revoked {
+    opacity: 0.45;
+}
+
+.more-mcp-settings .mmcp-table tr.is-revoked td:first-child strong,
+.more-mcp-settings .mmcp-table tr.is-revoked td:first-child code {
+    text-decoration: line-through;
+}
+
+.more-mcp-settings .mmcp-table-note {
+    margin: 0 0 4px;
+    max-width: 84ch;
+}
+
+/* --- Empty states inside a section --- */
+.more-mcp-settings .mmcp-empty {
+    padding: 28px 24px;
+    border: 1px dashed var(--mmcp-border-strong);
+    border-radius: 6px;
+    background: var(--mmcp-surface);
+    text-align: center;
+}
+
+.more-mcp-settings .mmcp-empty .dashicons {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: #a7aaad;
+}
+
+.more-mcp-settings .mmcp-empty h4 {
+    margin: 8px 0 6px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-empty p {
+    margin: 0 auto;
+    max-width: 68ch;
+    color: var(--mmcp-ink-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* --- Danger zone --- */
+.more-mcp-settings .mmcp-section-danger {
+    padding: 18px 20px;
+    border: 1px solid #f0d5a8;
+    border-left: 4px solid #dba617;
+    border-radius: 6px;
+    background: #fffdf7;
+}
+
+.more-mcp-settings .mmcp-danger-action {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 16px 0;
+    border-top: 1px solid #f5e6c8;
+}
+
+.more-mcp-settings .mmcp-danger-copy {
+    flex: 1;
+    min-width: 0;
+}
+
+.more-mcp-settings .mmcp-danger-copy h4 {
+    margin: 0 0 5px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-danger-copy .description {
+    margin: 0 0 6px;
+    max-width: 76ch;
+}
+
+.more-mcp-settings .mmcp-danger-control {
+    flex-shrink: 0;
+    padding-top: 2px;
+    text-align: right;
+}
+
+.more-mcp-settings .mmcp-danger-control .mmcp-inline-status {
+    display: block;
+    margin: 6px 0 0;
+    max-width: 30ch;
+}
+
+/* ==========================================
+   Permissions panel
+   ========================================== */
+
+.more-mcp-settings .mmcp-master-switch {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 28px;
+    margin: 0 0 30px;
+    border: 1px solid var(--mmcp-border);
+    border-left: 4px solid var(--mmcp-accent);
+    border-radius: var(--mmcp-radius-md);
+    background: var(--mmcp-surface);
+    box-shadow: var(--mmcp-shadow-1);
+}
+
+.more-mcp-settings .mmcp-master-switch.is-on {
+    border-color: var(--mmcp-border);
+    border-left-color: var(--mmcp-accent);
+    background: var(--mmcp-surface);
+}
+
+.more-mcp-settings .mmcp-master-copy {
+    flex: 1;
+    min-width: 0;
+}
+
+.more-mcp-settings .mmcp-master-copy h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-master-copy h3 label {
+    cursor: pointer;
+}
+
+.more-mcp-settings .mmcp-master-copy .description {
+    margin: 0 0 6px;
+    max-width: 80ch;
+}
+
+.more-mcp-settings .mmcp-master-copy .description:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Write-scope cards --- */
+.more-mcp-settings .mmcp-scope {
+    border: 1px solid var(--mmcp-border);
+    border-radius: var(--mmcp-radius-md);
+    margin-bottom: 12px;
+    background: var(--mmcp-surface);
+}
+
+.more-mcp-settings .mmcp-scope.is-on {
+    border-color: var(--mmcp-accent);
+    box-shadow: var(--mmcp-shadow-1);
+}
+
+.more-mcp-settings .mmcp-scope-critical.is-on {
+    border-color: #f0c8c8;
+    background: #fffbfb;
+}
+
+.more-mcp-settings .mmcp-scope-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px 0;
+}
+
+.more-mcp-settings .mmcp-scope-title {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.more-mcp-settings .mmcp-scope-title h4 {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-scope-title h4 label {
+    cursor: pointer;
+}
+
+.more-mcp-settings .mmcp-scope-risk {
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.more-mcp-settings .mmcp-risk-low    { background: var(--mmcp-hover); color: var(--mmcp-ink-soft); }
+.more-mcp-settings .mmcp-risk-medium { background: #fcf3e6; color: #8a5700; }
+.more-mcp-settings .mmcp-risk-high   { background: #fcebeb; color: #b32d2e; }
+
+/* The body is indented to align with the scope title rather than the switch, so
+   the switch column reads as a single vertical line down the card list. */
+.more-mcp-settings .mmcp-scope-body {
+    padding: 8px 16px 16px 62px;
+}
+
+.more-mcp-settings .mmcp-scope-body .description {
+    margin: 0 0 8px;
+    max-width: 84ch;
+}
+
+.more-mcp-settings .mmcp-scope-body .mmcp-doc-facts {
+    margin-top: 4px;
+}
+
+.more-mcp-settings .mmcp-scope-field {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--mmcp-hover);
+}
+
+.more-mcp-settings .mmcp-scope-field > label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+/* Same treatment for a non-label heading — the preset block labels a group of
+   checkboxes rather than one control, so a <label for> would be wrong. */
+.more-mcp-settings .mmcp-scope-field-label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+/* --- Option product toggles ---
+   One switch per product (WordPress core, WooCommerce, Yoast, …). The switch is
+   all-or-nothing; the option names it controls are shown only in a read-only
+   "What this includes" disclosure. This replaces the earlier per-option checkbox
+   grid, which put nineteen controls on screen for WordPress core alone. */
+.more-mcp-settings .mmcp-preset-toggles {
+    margin: 12px 0 6px;
+}
+
+.more-mcp-settings .mmcp-preset-toggle {
+    border: 1px solid var(--mmcp-border);
+    border-radius: 5px;
+    margin-bottom: 6px;
+    padding: 11px 13px;
+    background: #fff;
+}
+
+.more-mcp-settings .mmcp-preset-toggle.is-on {
+    border-color: #b8e6c1;
+    background: #fbfefb;
+}
+
+.more-mcp-settings .mmcp-preset-toggle-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+}
+
+.more-mcp-settings .mmcp-preset-toggle-title {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 1px;
+}
+
+.more-mcp-settings .mmcp-preset-toggle-title label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+    cursor: pointer;
+}
+
+.more-mcp-settings .mmcp-preset-toggle-count {
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--mmcp-hover);
+    color: var(--mmcp-ink-muted);
+    font-size: 11.5px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.more-mcp-settings .mmcp-preset-caution {
+    margin: 10px 0 0;
+    padding: 9px 11px;
+    background: #fcf3e6;
+    border-left: 3px solid #dba617;
+    border-radius: 3px;
+    color: var(--mmcp-ink-soft);
+    font-size: 12.5px;
+    line-height: 1.6;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.more-mcp-settings .mmcp-preset-caution .dashicons {
+    flex-shrink: 0;
+    color: #b8860b;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+}
+
+/* "What this includes" — a read-only breakdown of the option names the switch
+   controls. Deliberately understated: it is reference, not a control. */
+.more-mcp-settings .mmcp-preset-incl-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 9px;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--mmcp-accent);
+}
+
+.more-mcp-settings .mmcp-preset-incl-toggle .dashicons {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    transition: transform 0.2s ease;
+}
+
+.more-mcp-settings .mmcp-preset-incl-toggle[aria-expanded="true"] .dashicons {
+    transform: rotate(180deg);
+}
+
+.more-mcp-settings .mmcp-preset-incl {
+    margin-top: 8px;
+    padding: 10px 13px;
+    background: var(--mmcp-tile);
+    border-radius: 4px;
+}
+
+.more-mcp-settings .mmcp-preset-incl-group + .mmcp-preset-incl-group {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--mmcp-hover);
+}
+
+.more-mcp-settings .mmcp-preset-incl-title {
+    margin: 0 0 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--mmcp-ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.more-mcp-settings .mmcp-preset-incl-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+}
+
+.more-mcp-settings .mmcp-preset-incl-list li {
+    font-size: 12.5px;
+    color: var(--mmcp-ink);
+}
+
+@media screen and (max-width: 782px) {
+    .more-mcp-settings .mmcp-scope-body {
+        padding-left: 16px;
+    }
+}
+
+/* ==========================================
+   Connection panel — key row + Advanced section
+   ========================================== */
+
+.more-mcp-settings .mmcp-key-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.more-mcp-settings .mmcp-key-row input {
+    flex: 0 1 320px;
+    min-width: 200px;
+}
+
+.more-mcp-settings .mmcp-key-facts {
+    margin-top: 12px;
+    max-width: 84ch;
+}
+
+/* The Advanced section is a titled region rather than a bare toggle, so it needs
+   a visible container — the whole point is that an admin can tell there is a
+   section here without opening it. */
+.more-mcp-settings .mmcp-advanced-section {
+    margin: 30px 0 8px;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 6px;
+    background: var(--mmcp-surface);
+    overflow: hidden;
+}
+
+.more-mcp-settings .mmcp-advanced-section.is-open {
+    background: #fff;
+    border-color: var(--mmcp-border-strong);
+}
+
+/* Reset the inherited .advanced-toggle link styling: as a full-width section
+   header it is no longer a small blue text link. */
+.more-mcp-settings .mmcp-advanced-header.advanced-toggle {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 16px;
+    margin: 0;
+    color: var(--mmcp-ink);
+    font-size: 13.5px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.more-mcp-settings .mmcp-advanced-header.advanced-toggle:hover {
+    background: var(--mmcp-tile);
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-advanced-header.advanced-toggle:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--mmcp-accent);
+    border-radius: 0;
+}
+
+.more-mcp-settings .mmcp-advanced-chevron {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--mmcp-ink-muted);
+}
+
+.more-mcp-settings .mmcp-advanced-title {
+    flex: 1;
+    min-width: 0;
+}
+
+.more-mcp-settings .mmcp-advanced-title small {
+    display: block;
+    margin-top: 3px;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--mmcp-ink-muted);
+    line-height: 1.55;
+    max-width: 84ch;
+}
+
+/* Override the standalone .advanced-content box styling — inside this section the
+   container already provides the frame. */
+.more-mcp-settings .mmcp-advanced-body.advanced-content {
+    margin: 0;
+    padding: 4px 16px 18px;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--mmcp-hover);
+    border-radius: 0;
+}
+
+.more-mcp-settings .mmcp-advanced-body h4 {
+    margin: 16px 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-advanced-body hr {
+    margin: 22px 0 4px;
+    border: 0;
+    border-top: 1px solid var(--mmcp-hover);
+}
+
+/* ==========================================
+   External Services panel
+   ========================================== */
+
+/* The two-column `.mmcp-direction-note` lived here. It stated which direction of
+   traffic the panel governs, with the muted column being the direction the panel
+   is NOT about. Removed: the panel is now named External Services and each
+   sub-tab carries a one-line summary, so the same point is made in a sentence
+   instead of three paragraphs above the first control. */
+
+/* One-line note under a sub-tab's summary, where a caveat still needs stating. */
+.more-mcp-settings .mmcp-service-note {
+    margin: 0 0 20px;
+    max-width: 88ch;
+}
+
+.more-mcp-settings .mmcp-providers-head {
+    margin-bottom: 12px;
+}
+
+/* A provider whose switch is off keeps its card but recedes. */
+.more-mcp-settings .platform-item.is-disabled .platform-icon,
+.more-mcp-settings .platform-item.is-disabled .platform-details {
+    opacity: 0.6;
+}
+
+.more-mcp-settings .platform-test-note {
+    margin: 10px 0 0;
+    padding: 0 20px 4px;
+    max-width: 84ch;
+}
+
+.more-mcp-settings .mmcp-add-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .add-platform-section .description {
+    margin-top: 8px;
+}
+
+@media screen and (max-width: 782px) {
+    .more-mcp-settings .mmcp-danger-action {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .more-mcp-settings .mmcp-danger-control {
+        text-align: left;
+    }
+    .more-mcp-settings .mmcp-danger-control .mmcp-inline-status {
+        max-width: none;
+    }
+    /* Tables get horizontal scroll rather than collapsing — the timestamps only
+       make sense read across the row. */
+    .more-mcp-settings .mmcp-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    /* The pager sits below a scrolling table, so it stacks instead of competing
+       for the same row width. */
+    .more-mcp-settings .mmcp-pager {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+/* ==========================================
+   Connection landing components (mmcp-ov-*)
+
+   These class names predate the Overview→Connection merge; the markup they style
+   now lives in panel-connection.php. Kept as-is to avoid a churny rename across
+   template and CSS at once. They read from the settings-root tokens rather than
+   redefining their own, so the whole screen shares one palette.
+
+   Information design over typography: a prominent status banner, a row of
+   actionable setup-check chips, then live-state tiles and facts.
+   ========================================== */
+
+/* --- Status banner --- */
+
+.more-mcp-settings .mmcp-ov-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    margin: 4px 0 20px;
+    border: 1px solid var(--mmcp-border);
+    border-left-width: 4px;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.more-mcp-settings .mmcp-ov-banner-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+}
+
+.more-mcp-settings .mmcp-ov-banner-copy {
+    flex: 1;
+    min-width: 0;
+}
+
+.more-mcp-settings .mmcp-ov-banner-copy h3 {
+    margin: 0 0 2px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e1e1e;
+    text-wrap: balance;
+}
+
+.more-mcp-settings .mmcp-ov-banner-copy p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--mmcp-ink-soft);
+}
+
+.more-mcp-settings .mmcp-ov-banner-cta {
+    flex-shrink: 0;
+}
+
+/* Banner tone by state. Each sets the left border and the dot; the acid comes
+   only from the 4px rail, so the card stays calm. */
+.more-mcp-settings .mmcp-ov-banner-on {
+    border-left-color: #007a34;
+}
+.more-mcp-settings .mmcp-ov-banner-on .mmcp-ov-banner-dot {
+    background: var(--mmcp-good);
+}
+.more-mcp-settings .mmcp-ov-banner-attention {
+    border-left-color: #8a6d00;
+    background: #fdfaf3;
+}
+.more-mcp-settings .mmcp-ov-banner-attention .mmcp-ov-banner-dot {
+    background: #dba617;
+}
+.more-mcp-settings .mmcp-ov-banner-off {
+    border-left-color: #b32d2e;
+    background: #fdf5f5;
+}
+.more-mcp-settings .mmcp-ov-banner-off .mmcp-ov-banner-dot {
+    background: var(--mmcp-bad);
+}
+
+/* --- Setup-check chips --- */
+
+.more-mcp-settings .mmcp-ov-checks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.more-mcp-settings .mmcp-ov-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 8px;
+    background: var(--mmcp-surface);
+}
+
+.more-mcp-settings .mmcp-ov-check-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.more-mcp-settings .mmcp-ov-check-copy {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.more-mcp-settings .mmcp-ov-check-label {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-ov-check-detail {
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--mmcp-ink-soft);
+}
+
+.more-mcp-settings .mmcp-ov-check-fix {
+    flex-shrink: 0;
+    align-self: center;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.more-mcp-settings .mmcp-ov-check-good .mmcp-ov-check-icon { color: var(--mmcp-good); }
+.more-mcp-settings .mmcp-ov-check-good { background: var(--mmcp-good-bg); border-color: #b6e3c0; }
+.more-mcp-settings .mmcp-ov-check-warn .mmcp-ov-check-icon { color: var(--mmcp-warn); }
+.more-mcp-settings .mmcp-ov-check-warn { background: var(--mmcp-warn-bg); border-color: #f0dca4; }
+.more-mcp-settings .mmcp-ov-check-bad .mmcp-ov-check-icon { color: var(--mmcp-bad); }
+.more-mcp-settings .mmcp-ov-check-bad { background: var(--mmcp-bad-bg); border-color: #f0bcbd; }
+
+/* --- Two-column body --- */
+
+.more-mcp-settings .mmcp-ov-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.more-mcp-settings .mmcp-ov-card {
+    padding: 18px 20px;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 8px;
+    background: var(--mmcp-surface);
+}
+
+.more-mcp-settings .mmcp-ov-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-ov-card-title .dashicons {
+    color: var(--mmcp-accent);
+}
+
+.more-mcp-settings .mmcp-ov-card-lead {
+    margin: 0 0 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--mmcp-ink-soft);
+}
+
+/* URL row */
+.more-mcp-settings .mmcp-ov-url {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.more-mcp-settings .mmcp-ov-url input {
+    flex: 1;
+    min-width: 0;
+    padding: 7px 10px;
+    font-size: 13px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    background: var(--mmcp-tile);
+    color: var(--mmcp-ink);
+}
+
+/* API key row — sits directly under the URL. Same input treatment as the URL so
+   the two read as one connect step; the Show/Copy buttons sit inline after it. */
+.more-mcp-settings .mmcp-ov-key {
+    margin-bottom: 16px;
+}
+
+.more-mcp-settings .mmcp-ov-key-row {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0 0;
+}
+
+.more-mcp-settings .mmcp-ov-key-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 7px 10px;
+    font-size: 13px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    background: var(--mmcp-tile);
+    color: var(--mmcp-ink);
+    letter-spacing: 0.02em;
+}
+
+.more-mcp-settings .mmcp-ov-key-hint {
+    margin: 8px 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--mmcp-ink-soft);
+}
+
+.more-mcp-settings .mmcp-ov-key-hint code {
+    font-size: 11px;
+    background: var(--mmcp-tile);
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+/* Client chips */
+.more-mcp-settings .mmcp-ov-clients-label,
+.more-mcp-settings .mmcp-ov-stat-label {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--mmcp-ink-soft);
+}
+
+.more-mcp-settings .mmcp-ov-client-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0;
+}
+
+.more-mcp-settings .mmcp-ov-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 999px;
+    border: 1px solid var(--mmcp-border);
+    background: var(--mmcp-tile);
+    color: var(--mmcp-ink);
+}
+
+.more-mcp-settings .mmcp-ov-chip::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.more-mcp-settings .mmcp-ov-chip-oauth::before { background: #007a34; }
+.more-mcp-settings .mmcp-ov-chip-key::before { background: #8a6d00; }
+
+.more-mcp-settings .mmcp-ov-chip-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin: 6px 0 0;
+    font-size: 11px;
+    color: var(--mmcp-ink-soft);
+}
+
+.more-mcp-settings .mmcp-ov-dot-oauth,
+.more-mcp-settings .mmcp-ov-dot-key {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: 3px;
+    vertical-align: baseline;
+}
+.more-mcp-settings .mmcp-ov-dot-oauth { background: #007a34; }
+.more-mcp-settings .mmcp-ov-dot-key { background: #8a6d00; }
+
+/* Card footer link */
+.more-mcp-settings .mmcp-ov-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.more-mcp-settings .mmcp-ov-card-link .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    transition: transform .12s ease;
+}
+
+.more-mcp-settings .mmcp-ov-card-link:hover .dashicons {
+    transform: translateX(2px);
+}
+
+/* Stat tiles */
+.more-mcp-settings .mmcp-ov-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.more-mcp-settings .mmcp-ov-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px;
+    border: 1px solid var(--mmcp-border);
+    border-radius: 8px;
+    background: var(--mmcp-tile);
+    text-decoration: none;
+    transition: border-color .12s ease, background-color .12s ease;
+}
+
+.more-mcp-settings a.mmcp-ov-stat:hover {
+    border-color: var(--mmcp-accent);
+    background: #fff;
+}
+
+.more-mcp-settings .mmcp-ov-stat.is-static {
+    cursor: default;
+}
+
+.more-mcp-settings .mmcp-ov-stat-num {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--mmcp-ink);
+    font-variant-numeric: tabular-nums;
+}
+
+.more-mcp-settings .mmcp-ov-stat-version {
+    font-size: 20px;
+}
+
+/* Facts list */
+.more-mcp-settings .mmcp-ov-facts {
+    margin: 0 0 4px;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--mmcp-border);
+}
+
+.more-mcp-settings .mmcp-ov-facts li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    margin: 0;
+    border-bottom: 1px solid var(--mmcp-border);
+    font-size: 13px;
+}
+
+.more-mcp-settings .mmcp-ov-fact-key {
+    color: var(--mmcp-ink-soft);
+}
+
+.more-mcp-settings .mmcp-ov-facts code {
+    font-size: 12px;
+    background: var(--mmcp-tile);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+@media screen and (max-width: 960px) {
+    .more-mcp-settings .mmcp-ov-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .more-mcp-settings .mmcp-ov-banner {
+        flex-wrap: wrap;
+    }
+    .more-mcp-settings .mmcp-ov-stats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Dark admin colour schemes are intentionally NOT handled here. WordPress core
+   has no official admin dark mode, and the earlier partial prefers-color-scheme
+   block styled only this one panel, so a dark-OS admin saw a single dark panel
+   among light ones. The whole screen is light-mode until a full, consistent dark
+   treatment is done as its own pass. */
+
+
