@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="772" height="250" viewBox="0 0 772 250">
+  <!--
+    More MCP banner, small, Mordenhost brand.
+
+    Authored separately rather than downscaled from the 1544 version. A straight
+    50% reduction would put the capability chips at ~10px and the node card's
+    client labels at ~7px, both below the legibility floor for the directory
+    listing. So at this size the card and the chips are dropped and the two
+    remaining lines are re-proportioned.
+
+    Same brand, fewer elements: this banner has to survive being the only one a
+    visitor ever sees.
+  -->
+  <defs>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0 L0 0 0 44" fill="none" stroke="#111111" stroke-opacity="0.055" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="772" height="250" fill="#ffd21e"/>
+  <rect width="772" height="250" fill="url(#grid)"/>
+
+  <!-- Mark, inverted: ink shield with yellow hub-and-satellites, hard offset
+       shadow. Vertically centered on the text block rather than the canvas. -->
+  <g transform="translate(54, 91) scale(0.44)">
+    <path d="M128 30 L212 57 L212 126 C212 173 176 203 128 222 C80 203 44 173 44 126 L44 57 Z"
+          fill="#4a3d00" fill-opacity="0.28" transform="translate(12,12)"/>
+    <path d="M128 30 L212 57 L212 126 C212 173 176 203 128 222 C80 203 44 173 44 126 L44 57 Z"
+          fill="#111111"/>
+    <g stroke="#ffd21e" stroke-width="14" stroke-linecap="round" fill="#ffd21e">
+      <line x1="128" y1="118" x2="128" y2="166"/>
+      <line x1="128" y1="118" x2="88" y2="94"/>
+      <line x1="128" y1="118" x2="168" y2="94"/>
+      <circle cx="128" cy="166" r="12"/>
+      <circle cx="88" cy="94" r="12"/>
+      <circle cx="168" cy="94" r="12"/>
+    </g>
+    <circle cx="128" cy="118" r="23" fill="#111111" stroke="#ffd21e" stroke-width="14"/>
+  </g>
+
+  <text x="182" y="122" font-family="Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="66" letter-spacing="-2.4">
+    <tspan fill="#111111" font-weight="500">More</tspan><tspan fill="#111111" font-weight="800"> MCP</tspan>
+  </text>
+
+  <text x="185" y="158" font-family="Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="20" font-weight="600" fill="#4a3d00">
+    Connect Claude, ChatGPT &amp; Gemini to WordPress
+  </text>
+
+  <!-- One pill survives at this size, carrying the differentiator that matters
+       most: this is the authenticated one. -->
+  <g font-family="Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif"
+     font-size="16" font-weight="700">
+    <rect x="185" y="180" width="184" height="40" rx="20" fill="#111111"/>
+    <text x="277" y="205" fill="#ffd21e" text-anchor="middle">OAuth + API key</text>
+  </g>
+</svg>
