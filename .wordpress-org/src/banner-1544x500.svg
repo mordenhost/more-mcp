@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1544" height="500" viewBox="0 0 1544 500">
+  <!--
+    More MCP banner, wide, Mordenhost brand.
+
+    This is the mordenhost.com hero inverted onto a banner: yellow ground, ink
+    everything. Their own hero does exactly this (background #ffd21e, headline
+    #111, body copy #4a3d00), and it is the single most recognizable thing about
+    the brand.
+
+    It also happens to be a competitive advantage here. The WordPress.org plugin
+    directory is close to uniformly blue-and-white, so a saturated yellow banner
+    is the one that gets noticed in a grid of search results.
+
+    House style rules being followed, all lifted from their CSS:
+      - 2px ink outlines on every box
+      - hard offset shadows, 6px 6px 0, never soft or blurred
+      - 18px card radius, 999px pill radius
+      - no gradients at all
+      - Plus Jakarta Sans, weight 800 for display, 700 for chips
+      - the shield inverts to ink-on-yellow here, mirroring how their own
+        .btn-yellow and .btn-ink invert against each other
+  -->
+  <defs>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0 L0 0 0 64" fill="none" stroke="#111111" stroke-opacity="0.055" stroke-width="2"/>
+    </pattern>
+  </defs>
+
+  <rect width="1544" height="500" fill="#ffd21e"/>
+  <rect width="1544" height="500" fill="url(#grid)"/>
+
+  <!-- Mark, inverted: ink shield with yellow hub-and-satellites. Carries a hard
+       offset shadow like every other object in the system. -->
+  <g transform="translate(104, 186) scale(0.66)">
+    <path d="M128 30 L212 57 L212 126 C212 173 176 203 128 222 C80 203 44 173 44 126 L44 57 Z"
+          fill="#4a3d00" fill-opacity="0.28" transform="translate(9,9)"/>
+    <path d="M128 30 L212 57 L212 126 C212 173 176 203 128 222 C80 203 44 173 44 126 L44 57 Z"
+          fill="#111111"/>
+    <g stroke="#ffd21e" stroke-width="14" stroke-linecap="round" fill="#ffd21e">
+      <line x1="128" y1="118" x2="128" y2="166"/>
+      <line x1="128" y1="118" x2="88" y2="94"/>
+      <line x1="128" y1="118" x2="168" y2="94"/>
+      <circle cx="128" cy="166" r="12"/>
+      <circle cx="88" cy="94" r="12"/>
+      <circle cx="168" cy="94" r="12"/>
+    </g>
+    <circle cx="128" cy="118" r="23" fill="#111111" stroke="#ffd21e" stroke-width="14"/>
+  </g>
+
+  <!-- Wordmark. Two weights of one family, not two families: "More" light and
+       "MCP" at 800 puts the weight on the protocol, which is what the plugin is.
+       Letter-spacing is tight and negative, matching their h1 at -0.045em. -->
+  <text x="318" y="232" font-family="Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="108" letter-spacing="-4">
+    <tspan fill="#111111" font-weight="500">More</tspan><tspan fill="#111111" font-weight="800"> MCP</tspan>
+  </text>
+
+  <text x="322" y="292" font-family="Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="32" font-weight="600" fill="#4a3d00">
+    Connect Claude, ChatGPT &amp; Gemini to WordPress
+  </text>
+
+  <!-- Capability chips as ink pills. The three things a buyer actually evaluates:
+       is it authenticated, does the data stay put, how much can it do. -->
+  <g font-family="Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif"
+     font-size="21" font-weight="700">
+    <g>
+      <rect x="322" y="336" width="222" height="52" rx="26" fill="#111111"/>
+      <text x="433" y="369" fill="#ffd21e" text-anchor="middle">OAuth + API key</text>
+    </g>
+    <g>
+      <rect x="560" y="336" width="190" height="52" rx="26" fill="#111111"/>
+      <text x="655" y="369" fill="#ffd21e" text-anchor="middle">Self-hosted</text>
+    </g>
+    <g>
+      <rect x="766" y="336" width="196" height="52" rx="26" fill="#111111"/>
+      <text x="864" y="369" fill="#ffd21e" text-anchor="middle">170+ tools</text>
+    </g>
+  </g>
+
+  <!-- Right-hand node card. Restates the metaphor once, inside a bordered card with
+       a hard shadow so it belongs to the same system as the chips rather than
+       floating as decoration. Placed far right so it never crowds the wordmark. -->
+  <g transform="translate(1108, 124)">
+    <rect x="8" y="8" width="336" height="292" rx="18" fill="#4a3d00" fill-opacity="0.25"/>
+    <rect width="336" height="292" rx="18" fill="#111111" stroke="#111111" stroke-width="2"/>
+
+    <g stroke="#ffd21e" stroke-opacity="0.30" stroke-width="2" fill="none">
+      <line x1="168" y1="150" x2="72" y2="74"/>
+      <line x1="168" y1="150" x2="264" y2="74"/>
+      <line x1="168" y1="150" x2="72" y2="222"/>
+      <line x1="168" y1="150" x2="264" y2="222"/>
+    </g>
+
+    <g font-family="Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif"
+       font-size="15" font-weight="700" text-anchor="middle">
+      <g>
+        <rect x="18" y="56" width="108" height="36" rx="18" fill="#ffd21e"/>
+        <text x="72" y="80" fill="#111111">Claude</text>
+      </g>
+      <g>
+        <rect x="210" y="56" width="108" height="36" rx="18" fill="#ffd21e"/>
+        <text x="264" y="80" fill="#111111">ChatGPT</text>
+      </g>
+      <g>
+        <rect x="18" y="204" width="108" height="36" rx="18" fill="#ffd21e"/>
+        <text x="72" y="228" fill="#111111">Gemini</text>
+      </g>
+      <g>
+        <rect x="210" y="204" width="108" height="36" rx="18" fill="#ffd21e"/>
+        <text x="264" y="228" fill="#111111">Cursor</text>
+      </g>
+    </g>
+
+    <circle cx="168" cy="150" r="34" fill="#ffd21e"/>
+    <text x="168" y="158" font-family="Plus Jakarta Sans, Helvetica Neue, Helvetica, Arial, sans-serif"
+          font-size="17" font-weight="800" fill="#111111" text-anchor="middle">WP</text>
+  </g>
+</svg>
