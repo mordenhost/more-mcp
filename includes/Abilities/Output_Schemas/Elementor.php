@@ -1,0 +1,433 @@
+<?php
+
+namespace More_MCP\Abilities\Output_Schemas;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class Elementor {
+
+	public static function get( string $tool_name ): ?array {
+		$map = self::map();
+		return $map[ $tool_name ] ?? null;
+	}
+
+	private static function map(): array {
+		return array(
+			'elementor_clone_page' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'success'        => array( 'type' => 'boolean' ),
+					'source_post_id' => array( 'type' => 'integer' ),
+					'new_post_id'    => array( 'type' => 'integer' ),
+					'new_title'      => array( 'type' => 'string' ),
+					'new_status'     => array( 'type' => 'string' ),
+					'edit_url'       => array( 'type' => 'string' ),
+					'view_url'       => array( 'type' => array( 'string', 'null' ) ),
+				),
+				'additionalProperties' => true,
+			),
+			'elementor_replace_text' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'post_id'      => array( 'type' => 'integer' ),
+					'replacements' => array( 'type' => 'integer' ),
+				),
+				'additionalProperties' => true,
+			),
+			'elementor_replace_image' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'post_id'      => array( 'type' => 'integer' ),
+					'replacements' => array( 'type' => 'integer' ),
+				),
+				'additionalProperties' => true,
+			),
+			'elementor_get_page_outline' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+			),
+			'elementor_get_widget_settings' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+			),
+			'elementor_list_local_templates' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'count'     => array( 'type' => 'integer' ),
+					'templates' => array(
+						'type'  => 'array',
+						'items' => array(
+							'type'                 => 'object',
+							'additionalProperties' => true,
+							'properties'           => array(
+								'id'            => array( 'type' => 'integer' ),
+								'name'          => array( 'type' => 'string' ),
+								'type'          => array( 'type' => 'string' ),
+								'date_modified' => array( 'type' => 'string' ),
+							),
+						),
+					),
+				),
+			),
+			'elementor_import_template' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'         => array( 'type' => 'boolean' ),
+					'template_id'     => array( 'type' => 'integer' ),
+					'title'           => array( 'type' => 'string' ),
+					'template_type'   => array( 'type' => 'string' ),
+					'edit_url'        => array( 'type' => 'string' ),
+
+					'ids_regenerated' => array( 'type' => 'boolean' ),
+					'outline'         => array( 'type' => 'array' ),
+				),
+			),
+			'elementor_add_widget' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'     => array( 'type' => 'boolean' ),
+					'post_id'     => array( 'type' => 'integer' ),
+					'new_id'      => array( 'type' => 'string' ),
+					'widget_type' => array( 'type' => 'string' ),
+					'parent_id'   => array( 'type' => array( 'string', 'null' ) ),
+					'position'    => array( 'type' => array( 'integer', 'null' ) ),
+					'edit_url'    => array( 'type' => 'string' ),
+				),
+			),
+
+			
+			'elementor_update_widget' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'post_id'      => array( 'type' => 'integer' ),
+					'element_id'   => array( 'type' => 'string' ),
+					'element_type' => array( 'type' => 'string' ),
+					'widget_type'  => array( 'type' => array( 'string', 'null' ) ),
+					'written'      => array( 'type' => 'boolean' ),
+					'mode'         => array( 'type' => 'string' ),
+					'verified'     => array( 'type' => 'boolean' ),
+				),
+			),
+			'elementor_delete_widget' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'post_id'             => array( 'type' => 'integer' ),
+					'element_id'          => array( 'type' => 'string' ),
+					'element_type'        => array( 'type' => 'string' ),
+					'widget_type'         => array( 'type' => array( 'string', 'null' ) ),
+					'written'             => array( 'type' => 'boolean' ),
+					'descendants_removed' => array( 'type' => 'integer' ),
+					'total_removed'       => array( 'type' => 'integer' ),
+					'verified'            => array( 'type' => 'boolean' ),
+				),
+			),
+			'elementor_move_widget' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'post_id'      => array( 'type' => 'integer' ),
+					'element_id'   => array( 'type' => 'string' ),
+					'target_id'    => array( 'type' => 'string' ),
+					'position'     => array( 'type' => 'string' ),
+					'element_type' => array( 'type' => 'string' ),
+					'widget_type'  => array( 'type' => array( 'string', 'null' ) ),
+					'written'      => array( 'type' => 'boolean' ),
+					'dry_run'      => array( 'type' => 'boolean' ),
+					'verified'     => array( 'type' => 'boolean' ),
+				),
+			),
+			'elementor_get_loop_template' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'has_loop_template' => array( 'type' => 'boolean' ),
+					'post_id'           => array( 'type' => 'integer' ),
+					'element_id'        => array( 'type' => 'string' ),
+					'widget_type'       => array( 'type' => array( 'string', 'null' ) ),
+					'loop_post_id'      => array( 'type' => 'integer' ),
+					'template_type'     => array( 'type' => array( 'string', 'null' ) ),
+					'title'             => array( 'type' => 'string' ),
+					'outline'           => array( 'type' => 'array' ),
+					'edit_hint'         => array( 'type' => 'string' ),
+					'message'           => array( 'type' => 'string' ),
+				),
+			),
+			'elementor_get_kit' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'    => array( 'type' => 'boolean' ),
+					'kit_id'     => array( 'type' => 'integer' ),
+					
+					'mode'       => array( 'type' => 'string' ),
+					'total_keys' => array( 'type' => 'integer' ),
+					
+					'keys'       => array( 'type' => 'object', 'additionalProperties' => true ),
+					
+					'settings'   => array( 'type' => 'object', 'additionalProperties' => true ),
+					'unset_keys' => array( 'type' => 'array', 'items' => array( 'type' => 'string' ) ),
+					'note'       => array( 'type' => 'string' ),
+				),
+			),
+			'elementor_get_kit_schema' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'       => array( 'type' => 'boolean' ),
+					
+					'mode'          => array( 'type' => 'string' ),
+
+					'tabs'          => array( 'type' => 'object', 'additionalProperties' => true ),
+					'control_count' => array( 'type' => 'integer' ),
+					'search'        => array( 'type' => 'string' ),
+					'note'          => array( 'type' => 'string' ),
+				),
+			),
+			'elementor_list_widget_types' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'      => array( 'type' => 'boolean' ),
+					'total'        => array( 'type' => 'integer' ),
+					'provider'     => array( 'type' => 'string' ),
+					'page'         => array( 'type' => 'integer' ),
+					'per_page'     => array( 'type' => 'integer' ),
+					'pages'        => array( 'type' => 'integer' ),
+					'returned'     => array( 'type' => 'integer' ),
+					'has_more'     => array( 'type' => 'boolean' ),
+					'widget_types' => array(
+						'type'  => 'array',
+						'items' => array(
+							'type'                 => 'object',
+							'additionalProperties' => true,
+							'properties'           => array(
+								'name'       => array( 'type' => 'string' ),
+								'title'      => array( 'type' => 'string' ),
+								'categories' => array( 'type' => 'array', 'items' => array( 'type' => 'string' ) ),
+								'keywords'   => array( 'type' => 'array', 'items' => array( 'type' => 'string' ) ),
+								'icon'       => array( 'type' => 'string' ),
+							),
+						),
+					),
+				),
+			),
+			'elementor_get_widget_type_schema' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'         => array( 'type' => 'boolean' ),
+					'widget_type'     => array( 'type' => 'string' ),
+					'title'           => array( 'type' => 'string' ),
+					'categories'      => array( 'type' => 'array', 'items' => array( 'type' => 'string' ) ),
+					'atomic'          => array( 'type' => 'boolean' ),
+					
+					'mode'            => array( 'type' => 'string' ),
+					'tab'             => array( 'type' => 'string' ),
+					'search'          => array( 'type' => 'string' ),
+					
+					'control_count'   => array( 'type' => 'integer' ),
+					'total_controls'  => array( 'type' => 'integer' ),
+					'controls_by_tab' => array( 'type' => 'object', 'additionalProperties' => true ),
+					'controls'        => array( 'type' => 'object', 'additionalProperties' => true ),
+					'note'            => array( 'type' => 'string' ),
+				),
+			),
+			'elementor_get_kit_fonts' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'              => array( 'type' => 'boolean' ),
+					'fonts'                => array( 'type' => 'object', 'additionalProperties' => true ),
+					'font_groups'          => array( 'type' => 'object', 'additionalProperties' => true ),
+					'google_fonts_enabled' => array( 'type' => array( 'boolean', 'null' ) ),
+					'font_display_setting' => array( 'type' => array( 'string', 'null' ) ),
+					
+					'total_fonts'          => array( 'type' => 'integer' ),
+					'fonts_by_group'       => array( 'type' => 'object', 'additionalProperties' => true ),
+					
+					'total'                => array( 'type' => 'integer' ),
+					'page'                 => array( 'type' => 'integer' ),
+					'per_page'             => array( 'type' => 'integer' ),
+					'pages'                => array( 'type' => 'integer' ),
+					'returned'             => array( 'type' => 'integer' ),
+					'has_more'             => array( 'type' => 'boolean' ),
+					'search'               => array( 'type' => 'string' ),
+					'group'                => array( 'type' => 'string' ),
+					'note'                 => array( 'type' => 'string' ),
+				),
+			),
+			'elementor_update_kit' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'          => array( 'type' => 'boolean' ),
+					'written'          => array( 'type' => 'boolean' ),
+					'dry_run'          => array( 'type' => 'boolean' ),
+					'kit_id'           => array( 'type' => 'integer' ),
+					'mode'             => array( 'type' => 'string' ),
+					
+					'changes'          => array( 'type' => 'object', 'additionalProperties' => true ),
+					
+					'verified'         => array( 'type' => 'object', 'additionalProperties' => true ),
+					'keys_total_after' => array( 'type' => 'integer' ),
+					
+					'settings'         => array( 'type' => 'object', 'additionalProperties' => true ),
+					'settings_before'  => array( 'type' => 'object', 'additionalProperties' => true ),
+					'settings_after'   => array( 'type' => 'object', 'additionalProperties' => true ),
+					'keys_removed'     => array( 'type' => 'array' ),
+					'warning'          => array( 'type' => 'string' ),
+					'note'             => array( 'type' => 'string' ),
+					'edit_url'         => array( 'type' => 'string' ),
+				),
+			),
+			'elementor_sync_library_type' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'       => array( 'type' => 'boolean' ),
+					'post_id'       => array( 'type' => 'integer' ),
+					'template_type' => array( 'type' => 'string' ),
+					'terms'         => array( 'type' => 'array' ),
+				),
+			),
+			'elementor_set_template_conditions' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success'       => array( 'type' => 'boolean' ),
+					'post_id'       => array( 'type' => 'integer' ),
+					'conditions'    => array( 'type' => 'array', 'items' => array( 'type' => 'string' ) ),
+					'cache_rebuilt' => array( 'type' => 'boolean' ),
+					'cleared'       => array( 'type' => 'boolean' ),
+
+					'unchanged'     => array( 'type' => 'boolean' ),
+					'warning'       => array( 'type' => 'string' ),
+				),
+			),
+
+			'elementor_list_fonts' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'count' => array( 'type' => 'integer' ),
+					'fonts' => array( 'type' => 'array' ),
+				),
+			),
+			'elementor_get_font' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'font_id'    => array( 'type' => 'integer' ),
+					'family'     => array( 'type' => 'string' ),
+					'variations' => array( 'type' => 'array' ),
+				),
+			),
+			'elementor_create_font' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success' => array( 'type' => 'boolean' ),
+					'font_id' => array( 'type' => 'integer' ),
+					'family'  => array( 'type' => 'string' ),
+				),
+			),
+			'elementor_update_font' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success' => array( 'type' => 'boolean' ),
+					'font_id' => array( 'type' => 'integer' ),
+					'changed' => array( 'type' => 'array', 'items' => array( 'type' => 'string' ) ),
+				),
+			),
+			'elementor_delete_font' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success' => array( 'type' => 'boolean' ),
+					'dry_run' => array( 'type' => 'boolean' ),
+					'font_id' => array( 'type' => 'integer' ),
+				),
+			),
+			'elementor_list_icon_sets' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'count'     => array( 'type' => 'integer' ),
+					'icon_sets' => array( 'type' => 'array' ),
+				),
+			),
+			'elementor_get_icon_set' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'set_id' => array( 'type' => 'integer' ),
+					'label'  => array( 'type' => 'string' ),
+					'icons'  => array( 'type' => 'array', 'items' => array( 'type' => 'string' ) ),
+				),
+			),
+			'elementor_delete_icon_set' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success' => array( 'type' => 'boolean' ),
+					'dry_run' => array( 'type' => 'boolean' ),
+					'set_id'  => array( 'type' => 'integer' ),
+				),
+			),
+
+			'elementor_list_code' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'count' => array( 'type' => 'integer' ),
+					'code'  => array( 'type' => 'array' ),
+				),
+			),
+			'elementor_get_code' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'code_id'  => array( 'type' => 'integer' ),
+					'title'    => array( 'type' => 'string' ),
+					'location' => array( 'type' => 'string' ),
+					'priority' => array( 'type' => 'integer' ),
+					'active'   => array( 'type' => 'boolean' ),
+					'code'     => array( 'type' => 'string' ),
+				),
+			),
+
+			'elementor_create_code' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success' => array( 'type' => 'boolean' ),
+					'code_id' => array( 'type' => 'integer' ),
+					'active'  => array( 'type' => 'boolean' ),
+				),
+			),
+			'elementor_update_code' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success' => array( 'type' => 'boolean' ),
+					'code_id' => array( 'type' => 'integer' ),
+					'active'  => array( 'type' => 'boolean' ),
+				),
+			),
+			'elementor_delete_code' => array(
+				'type'                 => 'object',
+				'additionalProperties' => true,
+				'properties'           => array(
+					'success' => array( 'type' => 'boolean' ),
+					'dry_run' => array( 'type' => 'boolean' ),
+					'code_id' => array( 'type' => 'integer' ),
+				),
+			),
+		);
+	}
+}

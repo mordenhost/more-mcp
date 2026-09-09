@@ -1,0 +1,2725 @@
+# Copyright (C) 2026 Sadewadee
+# This file is distributed under the same license as the More MCP plugin.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: More MCP 0.13.1\n"
+"Report-Msgid-Bugs-To: https://github.com/mordenhost/more-mcp/issues\n"
+"POT-Creation-Date: 2026-09-08 01:27+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: more-mcp make-pot.php\n"
+"X-Domain: more-mcp\n"
+
+#: templates/admin/settings/panel-sessions.php:346
+msgid "\"Token refreshed\" is when this client last exchanged its refresh token for a new access token, which well-behaved clients do quietly in the background. A recent value means the client is alive; a value older than the session length means it has stopped calling."
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:103
+msgid "$1 trial credit available"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:72
+msgid "%1$s of %2$s active"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:464
+msgid "%1$s service account key was not saved: %2$s"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:178
+msgid "%1$s–%2$s of %3$s"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:119
+msgid "%s ago"
+msgstr ""
+
+#: templates/admin/logs.php:25
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Settings_Page.php:1128
+msgid "%s disabled. Its tools are no longer exposed, even though the plugin is still active."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1123
+msgid "%s enabled. Its tools are now available to connected MCP clients."
+msgstr ""
+
+#: templates/admin/logs.php:57
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/settings/services/ai.php:66
+msgid "%s provider, active"
+msgid_plural "%s providers, all active"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Well_Known_Notice.php:539
+msgid "%s returned an HTML document instead of JSON. A membership plugin (ARMember, MemberPress, Restrict Content Pro) or a theme template is intercepting the request and serving its own page. Discovery clients require JSON, so claude.ai and other MCP clients will fail to connect."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:182
+msgid "%s setting"
+msgid_plural "%s settings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Settings_Page.php:1213
+msgid "%s settings are no longer writable."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1208
+msgid "%s settings are now writable by agents."
+msgstr ""
+
+#: templates/admin/logs.php:210
+msgid "(no description recorded)"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:367
+msgid "1 hour"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:65
+msgid "14-day free trial available"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:84
+msgid "14-day free trial · 100,000 API credits"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:369
+msgid "24 hours (default)"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:370
+msgid "7 days"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:368
+msgid "8 hours"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:437
+msgid "A created snippet does not run until you activate it in the Code Snippets admin. This tool never activates code."
+msgstr ""
+
+#: templates/admin/settings/services/seo.php:135
+msgid "A key is already stored. Leave this blank to keep it, or paste a new key JSON to replace it."
+msgstr ""
+
+#: templates/admin/logs.php:37
+msgid "A maximum of %s rows is kept, oldest removed first."
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:133
+msgid "A required field is empty. Outbound calls to this provider will fail until it is filled in."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:366
+msgid "A session appears here as soon as any client sends its first request, and expires 24 hours after its last activity."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:137
+msgid "A wrong value here is edited back. Nothing is deleted and no money is spent."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:105
+msgid "AI clients can connect and call tools. Content editing is always available; the scopes below are extra. Every gate sits on top of WordPress capability checks, never instead of them."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:95
+msgid "AI clients cannot connect. Turn it on from Access when you are ready."
+msgstr ""
+
+#: includes/Abilities/Categories.php:173
+msgid "AI image generation and alt-text via a configured AI provider (OpenAI, Google). Off by default and gated by an admin toggle; each call spends the site owner's provider credits. No credentials returned."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:310
+msgid "AI media generation"
+msgstr ""
+
+#: templates/admin/settings/panel-services.php:48
+msgid "AI models"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:73
+msgid "API Key"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:112
+msgid "API Login"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:119
+msgid "API Password"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:92
+msgid "API Token"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:195
+msgid "API key"
+msgstr ""
+
+#: includes/API/REST_Controller.php:32
+msgid "API key is required"
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:120
+msgid "Abilities"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:82
+msgid "Access"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:267
+msgid "Acting as"
+msgstr ""
+
+#: templates/admin/logs.php:85
+msgid "Action"
+msgstr ""
+
+#: templates/admin/settings/services/seo.php:53
+msgid "Active"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:100
+msgid "Activity Log"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:280
+msgid "Acts as an administrator: unlike an OAuth grant it is not role-scoped. Treat it as an admin password."
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:327
+msgid "Add Provider"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:293
+msgid "Add a provider"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:203
+msgid "Add an option name manually"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:96
+msgid "Add one only if you want WordPress itself to call an AI service, and you have code or a plugin that does so."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:548
+msgid "Add the OAuth paths (/.well-known/, /register, /authorize, /token) to your membership plugin's unrestricted-URL list."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:207
+msgid "Additional option names, one per line"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:414
+msgid "Advanced"
+msgstr ""
+
+#: includes/Abilities/Categories.php:57
+msgid "Advanced Custom Fields (ACF) field read/update and group enumeration."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:276
+msgid "Agents can install, update, activate, deactivate, and delete plugins and themes. A bad content edit is recoverable from a revision; a deleted plugin is not."
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:146
+msgid "Ahrefs APIv3 key from Account → API. Sent as a Bearer token."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:170
+msgid "Allow search engines to index this site"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:392
+msgid "Applies to newly issued tokens only. Tokens already issued keep their original expiry; disconnect a client from <a href=\"%s\">Sessions</a> to have it re-issued at the new length immediately."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:577
+msgid "Are you sure you want to remove this platform?"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:578
+msgid "Are you sure? This will invalidate the current API key."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:276
+msgid "As an <code>MMCP-Key</code> HTTP header on every request."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:586
+msgid "Ask your host to allowlist these paths in Imunify360:"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:623
+msgid "Ask your host to disable BitNinja WebShield for these paths, or for the whole domain if per-path exclusion isn't offered:"
+msgstr ""
+
+#: includes/OAuth/Server.php:203
+msgid "Authorization Error"
+msgstr ""
+
+#: templates/admin/authorize.php:18
+msgid "Authorize"
+msgstr ""
+
+#: includes/Abilities/Categories.php:93
+msgid "Autoptimize aggregated-asset cache: purge all cached CSS/JS via the plugin's own clearall(), and read its cache statistics. No write tools beyond the purge."
+msgstr ""
+
+#: includes/Abilities/Categories.php:105
+msgid "BackWPup backup jobs, read-only: list jobs with schedule and last-run status, and read one job's tasks and destinations. No start, edit, or delete."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:251
+msgid "Behind Cloudflare?"
+msgstr ""
+
+#: includes/Integrations/Elementor_Coexistence.php:143
+msgid "Both MCP servers are active. More MCP's Elementor tools continue to work. Agents will see both tool surfaces and can pick per task: for structural page writes, Elementor's own primitives are typically the better choice."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:534
+msgid "Both actions below affect every connected client at once. To disconnect a single client, use the per-row control on the Sessions panel instead."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:592
+msgid "Cancel"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:194
+msgid "Catalog behavior"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:74
+msgid "Change permalinks"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:270
+msgid "Changes running code"
+msgstr ""
+
+#: includes/Integrations/MetaBox.php:222
+msgid "Check whether the field is registered for this post type and whether its type accepts this value shape."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:257
+msgid "Claude.ai and ChatGPT appear here once they complete the OAuth handshake. Clients that authenticate with the API key instead, such as Claude Desktop, Cursor, and raw REST calls, hold no OAuth grant and never appear in this list. Look under Transport sessions for those."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:72
+msgid "Claude.ai and ChatGPT cannot complete the handshake. API-key clients still work."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:230
+msgid "Claude.ai and ChatGPT need only the URL. Claude Desktop, Cursor, and REST calls also send the key. <a href=\"%s\">Setup walkthroughs</a> show where each goes."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:458
+msgid "Clear"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:503
+msgid "Clearing a field writes the change immediately rather than waiting for Save, because an empty submission on this form is treated as \"keep the current value\". That guard protects against accidental blanking, and the Clear button is the deliberate way around it."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:435
+msgid "Clears transport state for every client without touching credentials, so nothing has to re-authorize afterwards. To actually cut off access, use Revoke all on the Connected clients tab."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:266
+msgid "Client"
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:30
+msgid "Client setup"
+msgstr ""
+
+#: templates/admin/settings.php:106
+msgid "Client setup, API reference, troubleshooting."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:61
+msgid "Clients cannot connect until you enable it."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:140
+msgid "Close comments on old posts"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:391
+msgid "Code snippets (CSS / JS)"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:133
+msgid "Comment defaults and moderation behavior."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:132
+msgid "Comments and discussion"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:137
+msgid "Comments open on new posts"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:60
+msgid "Configured providers"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:444
+msgid "Confirmed and reversible"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:171
+msgid "Connect a client"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:268
+msgid "Connected"
+msgstr ""
+
+#: templates/admin/settings.php:494
+msgid "Connected clients"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:66
+msgid "Connection"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:573
+msgid "Connection failed"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:572
+msgid "Connection successful!"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:189
+msgid "Copy"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:449
+msgid "Copy client ID"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:483
+msgid "Copy client secret"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:591
+msgid "Copy-paste hosting request"
+msgstr ""
+
+#: includes/Abilities/Categories.php:29
+msgid "Core WordPress operations: posts, pages, media, terms, comments, users, options, menus, themes, SEO meta (post and term level, six SEO plugins), permalinks, revisions, cron, error log, connection health, search, site info."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:580
+msgid "Could not load the API key. Reload the page and try again."
+msgstr ""
+
+#: templates/admin/authorize.php:149
+msgid "Create and edit content"
+msgstr ""
+
+#: templates/admin/settings/services/seo.php:169
+msgid "Create service account"
+msgstr ""
+
+#: templates/admin/logs.php:183
+msgid "Created"
+msgstr ""
+
+#: templates/admin/settings.php:100
+msgid "Credentials this site uses to call out: AI models, SEO and analytics data."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:181
+msgid "Currency"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:177
+msgid "Currency and units"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:182
+msgid "Currency symbol position"
+msgstr ""
+
+#: includes/Integrations/Elementor/Code.php:390
+msgid "Custom Code deletion"
+msgstr ""
+
+#: includes/Integrations/Elementor/Code.php:321
+msgid "Custom Code snippet"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:122
+msgid "DataForSEO API password from your dashboard, NOT your login password unless you set them the same."
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:115
+msgid "DataForSEO account login (the email you registered with)."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:123
+msgid "Date format"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:184
+msgid "Decimal separator"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:572
+msgid "Deletes all registered OAuth clients, issued tokens, and pending authorization codes. Your settings, API key, and Activity Log are not affected."
+msgstr ""
+
+#: templates/admin/authorize.php:177
+msgid "Deny"
+msgstr ""
+
+#: templates/admin/logs.php:91
+msgid "Details"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:187
+msgid "Dimension unit"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:148
+msgid "Dimensions WordPress generates for new uploads. Changing these does not regenerate existing images."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:335
+msgid "Disconnect"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:477
+msgid "Dismiss"
+msgstr ""
+
+#: includes/Integrations/Elementor_Coexistence.php:147
+msgid "Dismiss for this version"
+msgstr ""
+
+#: more-mcp.php:185
+msgid "Docs"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:85
+msgid "Documentation"
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:77
+msgid "Documentation sections"
+msgstr ""
+
+#: includes/Abilities/Categories.php:109
+msgid "Duplicator backup packages, read-only: list packages with build status and read an overview of build activity. Never returns the package hash. No start-build tool."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:214
+msgid "Each of these is one option containing dozens of settings. A write replaces the whole thing, so an agent that does not read the current value first will wipe every other Yoast setting in that group. Per-post SEO fields do not need this: those are post meta, already writable through the SEO tools."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:229
+msgid "Each of these is one option containing many settings, replaced wholesale on write. Per-post SEO fields are post meta and do not need this."
+msgstr ""
+
+#: templates/admin/settings/services/seo.php:28
+msgid "Each source is off until you add its credentials. Keys live in the options table, so treat this screen as holding live secrets."
+msgstr ""
+
+#: includes/Integrations/Elementor_Coexistence.php:142
+msgid "Elementor MCP module detected on this site."
+msgstr ""
+
+#: includes/Abilities/Categories.php:37
+msgid "Elementor page operations: outline read, clone, replace text, replace image, import template, add/update/delete/move widget, resolve loop templates, list local templates."
+msgstr ""
+
+#: includes/Integrations/Elementor/Code.php:325
+msgid "Elementor sanitizes the code meta key unless the caller holds unfiltered_html; re-read the snippet before publishing it."
+msgstr ""
+
+#: includes/Integrations/Elementor/Code.php:210
+msgid "Elementor sanitizes this meta key unless the caller holds unfiltered_html; compare the stored body before publishing the snippet."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:447
+msgid "Empty. Clients register automatically"
+msgstr ""
+
+#: templates/admin/settings.php:517
+msgid "Enable"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:590
+msgid "Enable a security-sensitive permission?"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:144
+msgid "Enable or disable outbound calls to this provider"
+msgstr ""
+
+#: templates/admin/settings/services/seo.php:74
+msgid "Enable or disable this data source"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:198
+msgid "Enable product reviews"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:199
+msgid "Enable star ratings"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:141
+msgid "Enable threaded comments"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:413
+msgid "End"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:430
+msgid "End all sessions"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1008
+msgid "Ended %d transport session(s). Credentials are untouched: clients reconnect without re-authorizing."
+msgstr ""
+
+#: templates/admin/logs.php:28
+msgid "Entries older than %s are removed automatically by the daily cleanup."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:323
+msgid "Environment"
+msgstr ""
+
+#: templates/admin/logs.php:117
+msgid "Error"
+msgstr ""
+
+#: includes/Abilities/Categories.php:361
+msgid "Event-triggered outbound HTTPS webhook subscriptions with HMAC-signed, privacy-bounded payloads. Create and delete operations require administrator confirmation."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:576
+msgid "Every connected client must be removed and re-added afterwards, and any manually configured OAuth client ID and secret above are cleared so the connector falls back to automatic registration. Use it for a connector stuck mid-handshake; Troubleshooting explains when."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:445
+msgid "Every write needs a two-part confirmation and emits an undo token."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:99
+msgid "Everything checks out. Connect a client using the URL below."
+msgstr ""
+
+#: templates/admin/settings/platform-template.php:24
+msgid "Expand / collapse"
+msgstr ""
+
+#: templates/admin/logs.php:184
+msgid "Expires"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:84
+msgid "External Services"
+msgstr ""
+
+#: includes/API/REST_Controller.php:534
+msgid "Failed to delete media"
+msgstr ""
+
+#: includes/API/REST_Controller.php:393
+msgid "Failed to delete page"
+msgstr ""
+
+#: includes/API/REST_Controller.php:231
+msgid "Failed to delete post"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:799
+msgid "Field cleared. Save your settings to confirm."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:671
+msgid "Fix in Permalink Settings"
+msgstr ""
+
+#: includes/Abilities/Categories.php:73
+msgid "Forms and lead capture (Gravity Forms, Fluent Forms): list forms and field schemas, read submissions with privacy-safe summaries, aggregate stats, and guarded entry status/trash writes with confirmation and undo."
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:100
+msgid "Full documentation site"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:216
+msgid "General settings"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:454
+msgid "Generate"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:575
+msgid "Get API Key"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:211
+msgid "Global SEO settings"
+msgstr ""
+
+#: includes/Abilities/Categories.php:357
+msgid "Gutenberg block editing, FSE site templates, patterns, and reusable blocks."
+msgstr ""
+
+#: templates/admin/settings.php:117
+msgid "Help"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:586
+msgid "Hide key"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:251
+msgid "High impact"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:138
+msgid "Hold comments for moderation"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:81
+msgid "Hosted clients need a public HTTPS address. Fine for local testing only."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:243
+msgid "Hosted clients need a public HTTPS address. Local testing only."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:385
+msgid "How long an access token stays valid before the client has to refresh it. Shorter is tighter but means more refresh traffic; clients handle refreshes on their own either way, so this is not a re-authorization interval."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:119
+msgid "How many posts a page lists, and how dates and times are displayed."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:270
+msgid "How the API key works"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:282
+msgid "How this works"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:275
+msgid "How to send it"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:593
+msgid "I understand the risk and am enabling this deliberately."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:591
+msgid "I understand — enable it"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:365
+msgid "Image generation and alt text run in-request. Video is out of scope."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:284
+msgid "Immediate, no grace period. Every client on the old key breaks, and the old value is unrecoverable."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:627
+msgid "Insist on a path-based or domain-level exclusion, not an IP allowlist. Claude.ai's outbound IPs rotate, so an IP-only rule silently breaks again in weeks."
+msgstr ""
+
+#: includes/Abilities/Categories.php:365
+msgid "Install, update, activate, deactivate, and delete plugins and themes. Highest-impact category: these change the code running on the site. Disabled unless an administrator enables plugin management, and every write requires a two-part confirmation."
+msgstr ""
+
+#: includes/Integrations/Elementor_Coexistence.php:160
+msgid "Insufficient permissions."
+msgstr ""
+
+#: includes/API/REST_Controller.php:51
+msgid "Invalid API key"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:787
+msgid "Invalid field name."
+msgstr ""
+
+#: includes/API/REST_Controller.php:474
+msgid "Invalid file type"
+msgstr ""
+
+#: includes/OAuth/Server.php:311
+msgid "Invalid redirect URI."
+msgstr ""
+
+#: includes/OAuth/Server.php:212
+msgid "Invalid redirect_uri."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:286
+msgid "Invisible to clients while off. Two-part confirmation on every action, installs are WordPress.org slugs only, and More MCP cannot delete itself. Keep a working backup either way."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:356
+msgid "Invisible while off"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:256
+msgid "Its \"Block AI Bots\" rule stops the handshake. <a href=\"%s\">Troubleshooting</a> has the fix."
+msgstr ""
+
+#: templates/admin/settings/services/seo.php:120
+msgid "Key stored for %s"
+msgstr ""
+
+#: templates/admin/settings/panel-services.php:50
+msgid "Keys for WordPress to call an AI model. Optional, not needed to connect Claude or ChatGPT."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:156
+msgid "Large height"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:155
+msgid "Large width"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:377
+msgid "Last request"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:430
+msgid "Leave both fields empty in almost every case. MCP clients register themselves through Dynamic Client Registration, which is why connecting Claude.ai takes nothing but the URL. Setting a static client ID here switches that off and every client then has to be configured with these exact values."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:369
+msgid "Leave off unless you want an agent producing images, and watch your provider spend."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:159
+msgid "Lets agents change core WordPress settings and the permalink structure through <code>wp_update_option</code>. Only allowlisted names are writable, out of the box just five harmless site settings."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:239
+msgid "Lets agents change customizer settings and the theme's custom CSS. Nothing is destroyed, but every visitor sees a mistake immediately."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:397
+msgid "Lets an agent create and update CSS or JS snippets through the Code Snippets plugin."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:316
+msgid "Lets an agent generate images and alt text via a configured AI provider."
+msgstr ""
+
+#: includes/Abilities/Categories.php:53
+msgid "LiteSpeed Cache purge operations: single-URL purge and full cache purge."
+msgstr ""
+
+#: includes/Platform/Registry.php:554
+msgid "Localhost and loopback addresses are not allowed."
+msgstr ""
+
+#: templates/admin/logs.php:245
+msgid "Log Details"
+msgstr ""
+
+#: templates/admin/logs.php:32
+msgid "Log retention is unlimited: this table grows without bound until you set a retention period."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:511
+msgid "Looking for the legacy per-endpoint REST base URL? It moved to the <a href=\"%s\">REST API reference</a>, alongside the framing for when to use it."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:202
+msgid "Low stock threshold"
+msgstr ""
+
+#: templates/admin/logs.php:82
+msgid "MCP Server"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:99
+msgid "MCP server"
+msgstr ""
+
+#: templates/admin/settings.php:512
+msgid "MCP server disabled"
+msgstr ""
+
+#: templates/admin/settings.php:511
+msgid "MCP server enabled"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:60
+msgid "MCP server is off"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:57
+msgid "MCP server is on"
+msgstr ""
+
+#: templates/admin/authorize.php:150
+msgid "Manage categories, tags, and menus"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:201
+msgid "Manage stock"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:428
+msgid "Manual OAuth credentials"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:416
+msgid "Manual OAuth credentials. Nothing here is required. Skip this section unless a specific client has told you it needs one of these values."
+msgstr ""
+
+#: includes/OAuth/Token_Store.php:475
+msgid "Manually configured client"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:758
+msgid "Manually-configured OAuth client credentials were also cleared; the connector will fall back to Dynamic Client Registration."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:147
+msgid "Media image sizes"
+msgstr ""
+
+#: includes/API/REST_Controller.php:440
+msgid "Media not found"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:154
+msgid "Medium height"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:153
+msgid "Medium width"
+msgstr ""
+
+#: includes/Abilities/Categories.php:61
+msgid "Meta Box custom fields: read one field or all fields on a post (hydrated per field type), update a field with undo, and enumerate registered fields by post type."
+msgstr ""
+
+#: includes/Integrations/MetaBox.php:228
+msgid "Meta Box field types transform some values on save, so a rewritten value is expected for some types."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:921
+msgid "Missing client or user identifier."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:964
+msgid "Missing session identifier."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:55
+msgid "More MCP"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:54
+msgid "More MCP Settings"
+msgstr ""
+
+#: includes/API/REST_Controller.php:42
+msgid "More MCP integration is disabled"
+msgstr ""
+
+#: includes/Abilities/Categories.php:56
+msgid "More MCP: ACF"
+msgstr ""
+
+#: includes/Abilities/Categories.php:172
+msgid "More MCP: AI Media"
+msgstr ""
+
+#: includes/Abilities/Categories.php:136
+msgid "More MCP: Akismet"
+msgstr ""
+
+#: includes/Abilities/Categories.php:328
+msgid "More MCP: All-in-One WP Migration"
+msgstr ""
+
+#: includes/Abilities/Categories.php:288
+msgid "More MCP: Amelia"
+msgstr ""
+
+#: includes/Abilities/Categories.php:68
+msgid "More MCP: Analytics"
+msgstr ""
+
+#: includes/Abilities/Categories.php:344
+msgid "More MCP: AutomatorWP"
+msgstr ""
+
+#: includes/Abilities/Categories.php:92
+msgid "More MCP: Autoptimize"
+msgstr ""
+
+#: includes/Abilities/Categories.php:104
+msgid "More MCP: BackWPup"
+msgstr ""
+
+#: includes/Abilities/Categories.php:44
+msgid "More MCP: Beaver Builder"
+msgstr ""
+
+#: includes/Abilities/Categories.php:356
+msgid "More MCP: Blocks"
+msgstr ""
+
+#: includes/Abilities/Categories.php:212
+msgid "More MCP: Blog2Social"
+msgstr ""
+
+#: includes/Abilities/Categories.php:300
+msgid "More MCP: BookingPress"
+msgstr ""
+
+#: includes/Abilities/Categories.php:296
+msgid "More MCP: Bookly"
+msgstr ""
+
+#: includes/Abilities/Categories.php:260
+msgid "More MCP: BuddyPress"
+msgstr ""
+
+#: includes/Abilities/Categories.php:200
+msgid "More MCP: Business Directory Plugin"
+msgstr ""
+
+#: includes/Abilities/Categories.php:252
+msgid "More MCP: Charitable"
+msgstr ""
+
+#: includes/Abilities/Categories.php:176
+msgid "More MCP: Code Snippets"
+msgstr ""
+
+#: includes/Abilities/Categories.php:28
+msgid "More MCP: Core"
+msgstr ""
+
+#: includes/Abilities/Categories.php:308
+msgid "More MCP: Custom Post Type UI"
+msgstr ""
+
+#: includes/Abilities/Categories.php:40
+msgid "More MCP: Divi"
+msgstr ""
+
+#: includes/Abilities/Categories.php:108
+msgid "More MCP: Duplicator"
+msgstr ""
+
+#: includes/Abilities/Categories.php:144
+msgid "More MCP: EWWW Image Optimizer"
+msgstr ""
+
+#: includes/Abilities/Categories.php:320
+msgid "More MCP: Easy Digital Downloads"
+msgstr ""
+
+#: includes/Abilities/Categories.php:36
+msgid "More MCP: Elementor"
+msgstr ""
+
+#: includes/Abilities/Categories.php:76
+msgid "More MCP: Email"
+msgstr ""
+
+#: includes/Abilities/Categories.php:216
+msgid "More MCP: Estatik"
+msgstr ""
+
+#: includes/Abilities/Categories.php:168
+msgid "More MCP: Events Manager"
+msgstr ""
+
+#: includes/Abilities/Categories.php:264
+msgid "More MCP: Fluent Support"
+msgstr ""
+
+#: includes/Abilities/Categories.php:220
+msgid "More MCP: FluentCRM"
+msgstr ""
+
+#: includes/Abilities/Categories.php:324
+msgid "More MCP: FluentCart"
+msgstr ""
+
+#: includes/Abilities/Categories.php:72
+msgid "More MCP: Forms"
+msgstr ""
+
+#: includes/Abilities/Categories.php:196
+msgid "More MCP: GeoDirectory"
+msgstr ""
+
+#: includes/Abilities/Categories.php:232
+msgid "More MCP: GiveWP"
+msgstr ""
+
+#: includes/Abilities/Categories.php:228
+msgid "More MCP: Groundhogg"
+msgstr ""
+
+#: includes/Abilities/Categories.php:140
+msgid "More MCP: Imagify"
+msgstr ""
+
+#: includes/Abilities/Categories.php:156
+msgid "More MCP: Instant Images"
+msgstr ""
+
+#: includes/Abilities/Categories.php:204
+msgid "More MCP: Ivory Search"
+msgstr ""
+
+#: includes/Abilities/Categories.php:292
+msgid "More MCP: LatePoint"
+msgstr ""
+
+#: includes/Abilities/Categories.php:268
+msgid "More MCP: LearnPress"
+msgstr ""
+
+#: includes/Abilities/Categories.php:284
+msgid "More MCP: LifterLMS"
+msgstr ""
+
+#: includes/Abilities/Categories.php:52
+msgid "More MCP: LiteSpeed Cache"
+msgstr ""
+
+#: includes/Abilities/Categories.php:312
+msgid "More MCP: MB Custom Post Types"
+msgstr ""
+
+#: includes/Abilities/Categories.php:224
+msgid "More MCP: MailPoet"
+msgstr ""
+
+#: includes/Abilities/Categories.php:276
+msgid "More MCP: Masteriyo LMS"
+msgstr ""
+
+#: includes/Abilities/Categories.php:60
+msgid "More MCP: Meta Box"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:610
+msgid "More MCP: OAuth discovery is being blocked by BitNinja WebShield."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:573
+msgid "More MCP: OAuth discovery is being blocked by Imunify360 bot-protection."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:461
+msgid "More MCP: OAuth discovery is being blocked by your host."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:533
+msgid "More MCP: OAuth discovery is being served as HTML by another plugin or theme."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:652
+msgid "More MCP: OAuth discovery requires pretty permalinks."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:693
+msgid "More MCP: OAuth registration may be blocked by your web server."
+msgstr ""
+
+#: includes/Abilities/Categories.php:236
+msgid "More MCP: Paid Memberships Pro"
+msgstr ""
+
+#: includes/Abilities/Categories.php:332
+msgid "More MCP: Patchstack"
+msgstr ""
+
+#: includes/Abilities/Categories.php:364
+msgid "More MCP: Plugins & Themes"
+msgstr ""
+
+#: includes/Abilities/Categories.php:304
+msgid "More MCP: Pods"
+msgstr ""
+
+#: includes/Abilities/Categories.php:184
+msgid "More MCP: Polylang"
+msgstr ""
+
+#: includes/Abilities/Categories.php:244
+msgid "More MCP: ProfilePress"
+msgstr ""
+
+#: includes/Abilities/Categories.php:132
+msgid "More MCP: Really Simple Security"
+msgstr ""
+
+#: includes/Abilities/Categories.php:64
+msgid "More MCP: Redirection"
+msgstr ""
+
+#: includes/Abilities/Categories.php:88
+msgid "More MCP: Redis Object Cache"
+msgstr ""
+
+#: includes/Abilities/Categories.php:336
+msgid "More MCP: Relevanssi"
+msgstr ""
+
+#: includes/Abilities/Categories.php:248
+msgid "More MCP: Restrict Content"
+msgstr ""
+
+#: includes/Abilities/Categories.php:272
+msgid "More MCP: Sensei LMS"
+msgstr ""
+
+#: includes/Abilities/Categories.php:152
+msgid "More MCP: ShortPixel"
+msgstr ""
+
+#: includes/Abilities/Categories.php:240
+msgid "More MCP: Simple Membership"
+msgstr ""
+
+#: includes/Abilities/Categories.php:48
+msgid "More MCP: SiteOrigin Page Builder"
+msgstr ""
+
+#: includes/Abilities/Categories.php:340
+msgid "More MCP: SliceWP"
+msgstr ""
+
+#: includes/Abilities/Categories.php:148
+msgid "More MCP: Smush"
+msgstr ""
+
+#: includes/Abilities/Categories.php:124
+msgid "More MCP: Solid Security"
+msgstr ""
+
+#: includes/Abilities/Categories.php:128
+msgid "More MCP: Sucuri Security"
+msgstr ""
+
+#: includes/Abilities/Categories.php:164
+msgid "More MCP: Sugar Calendar"
+msgstr ""
+
+#: includes/Abilities/Categories.php:160
+msgid "More MCP: The Events Calendar"
+msgstr ""
+
+#: includes/Abilities/Categories.php:316
+msgid "More MCP: Toolset Types"
+msgstr ""
+
+#: includes/Abilities/Categories.php:180
+msgid "More MCP: TranslatePress"
+msgstr ""
+
+#: includes/Abilities/Categories.php:280
+msgid "More MCP: Tutor LMS"
+msgstr ""
+
+#: includes/Abilities/Categories.php:208
+msgid "More MCP: Uncanny Automator"
+msgstr ""
+
+#: includes/Abilities/Categories.php:100
+msgid "More MCP: UpdraftPlus"
+msgstr ""
+
+#: includes/Abilities/Categories.php:84
+msgid "More MCP: W3 Total Cache"
+msgstr ""
+
+#: includes/Abilities/Categories.php:120
+msgid "More MCP: WP Defender"
+msgstr ""
+
+#: includes/Abilities/Categories.php:352
+msgid "More MCP: WP Go Maps"
+msgstr ""
+
+#: includes/Abilities/Categories.php:348
+msgid "More MCP: WP Job Manager"
+msgstr ""
+
+#: includes/Abilities/Categories.php:80
+msgid "More MCP: WP Rocket"
+msgstr ""
+
+#: includes/Abilities/Categories.php:96
+msgid "More MCP: WP-Optimize"
+msgstr ""
+
+#: includes/Abilities/Categories.php:188
+msgid "More MCP: WPML"
+msgstr ""
+
+#: includes/Abilities/Categories.php:112
+msgid "More MCP: WPvivid"
+msgstr ""
+
+#: includes/Abilities/Categories.php:360
+msgid "More MCP: Webhooks"
+msgstr ""
+
+#: includes/Abilities/Categories.php:192
+msgid "More MCP: Weglot"
+msgstr ""
+
+#: includes/Abilities/Categories.php:32
+msgid "More MCP: WooCommerce"
+msgstr ""
+
+#: includes/Abilities/Categories.php:116
+msgid "More MCP: Wordfence"
+msgstr ""
+
+#: includes/Abilities/Categories.php:256
+msgid "More MCP: bbPress"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:493
+msgid "More MCP: stale OAuth discovery files detected in your webroot."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:207
+msgid "Next ›"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:440
+msgid "No PHP writes"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1256
+msgid "No abilities found for that plugin."
+msgstr ""
+
+#: templates/admin/logs.php:99
+msgid "No activity logs found."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:255
+msgid "No clients are connected via OAuth"
+msgstr ""
+
+#: includes/API/REST_Controller.php:460
+msgid "No file was uploaded"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:361
+msgid "No new key is stored here. The provider key comes from the AI Providers panel and is never returned."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:364
+msgid "No open sessions"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:717
+msgid "No platform selected"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:94
+msgid "No providers, which is correct for most sites"
+msgstr ""
+
+#: templates/admin/logs.php:192
+msgid "No reversible operations are currently stored."
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:44
+msgid "No supported plugins detected. When you activate a plugin More MCP can work with, it appears here."
+msgstr ""
+
+#: includes/OAuth/Server.php:317
+msgid "Not authenticated."
+msgstr ""
+
+#: templates/admin/settings/services/seo.php:47
+msgid "Not configured"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:575
+msgid "Note:"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:185
+msgid "Number of decimals"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:437
+msgid "OAuth Client ID"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:466
+msgid "OAuth Client Secret"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:751
+msgid "OAuth state reset. Deleted %1$d clients, %2$d tokens, %3$d auth codes. Connected MCP clients will need to re-authorize."
+msgstr ""
+
+#: templates/admin/settings/services/seo.php:50
+msgid "Off"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:324
+msgid "On with no provider"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:404
+msgid "On without the plugin"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:299
+msgid "On, but no AI provider key is configured, so no tools are exposed yet."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:380
+msgid "On, but the Code Snippets plugin is not installed, so no tools are exposed yet."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:214
+msgid "One database option name per line, for anything the toggles do not cover. These are option names, not the labels on a settings screen. Saves when you click away from the field."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:248
+msgid "One row per AI client that has authorized through OAuth. Each acts as the WordPress user shown, with exactly that user's capabilities. Disconnecting a client revokes its tokens, so it must authorize again before it can call this site."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:357
+msgid "One row per open MCP conversation. Sessions are opened after authentication, so both OAuth and API-key clients appear here, which is why this count can differ from the client count. Ending a session does not revoke credentials: the client simply starts a new one on its next request."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:168
+msgid "One wrong write here deindexes the site, and the damage is invisible on the site itself: you find out from traffic weeks later. Leave this off unless you have a specific reason."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:441
+msgid "Only CSS and JS can be created or edited. A PHP snippet write is refused by name."
+msgstr ""
+
+#: includes/Platform/Registry.php:542
+msgid "Only HTTP and HTTPS URLs are allowed."
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:49
+msgid "Only for WordPress calling out: drafting copy, summarizing comments. Connecting Claude or ChatGPT <em>to</em> this site needs nothing here, just the URL on <a href=\"%s\">Connection</a>."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:496
+msgid "Only meaningful alongside a client ID. Leave blank unless the client requires a confidential client."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:305
+msgid "Open sessions"
+msgstr ""
+
+#: templates/admin/settings.php:116
+msgid "Operate"
+msgstr ""
+
+#: templates/admin/logs.php:181
+msgid "Operation"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:319
+msgid "Other plugins"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:203
+msgid "Out of stock threshold"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:198
+msgid "Page %1$s of %2$s"
+msgstr ""
+
+#: includes/API/REST_Controller.php:276
+msgid "Page not found"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:192
+msgid "Paste the full service account key JSON from Google Cloud → IAM & Admin → Service Accounts → Keys. Then share the property with the service account email. GA4: add it as a property Viewer; Search Console: add it as a user on the property. Stored encrypted-at-rest is not provided by WordPress, so treat this as a live secret."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:68
+msgid "Permalinks support OAuth"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:114
+msgid "Permission groups"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:71
+msgid "Plain permalinks block OAuth"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:269
+msgid "Plugin and theme management"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:313
+msgid "Plugin version"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:123
+msgid "Plugins"
+msgstr ""
+
+#: includes/API/REST_Controller.php:98
+msgid "Post not found"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:122
+msgid "Posts per page"
+msgstr ""
+
+#: templates/admin/authorize.php:186
+msgid "Powered by More MCP"
+msgstr ""
+
+#: includes/Platform/Registry.php:560
+msgid "Private and reserved IP addresses are not allowed."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:319
+msgid "Protocol"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:83
+msgid "Public HTTPS address"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:545
+msgid "Quick things to try:"
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:40
+msgid "REST API reference"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:272
+msgid "Rank Math"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:227
+msgid "Rank Math groups its settings into a few options, each holding many values at once."
+msgstr ""
+
+#: templates/admin/settings/panel-services.php:55
+msgid "Ranking, traffic, keyword, and backlink data, so an agent can see how content performs."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:549
+msgid "Re-save Permalinks (Settings → Permalinks → Save) to flush rewrite rules."
+msgstr ""
+
+#: includes/Abilities/Categories.php:177
+msgid "Read code snippets, and create/update CSS or JS snippets through the Code Snippets plugin. PHP snippets are read-only (writing executable PHP is refused). Writes require an admin toggle, are saved disabled for a human to activate, and use two-part confirmation with undo."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:674
+msgid "Read full explanation"
+msgstr ""
+
+#: templates/admin/authorize.php:148
+msgid "Read your posts, pages, and media"
+msgstr ""
+
+#: includes/Abilities/Categories.php:137
+msgid "Read-only Akismet anti-spam status: whether a key is configured (never the key), lifetime spam caught, and spam currently in the moderation queue. Also re-checks one existing comment against Akismet without changing its status. No settings are written."
+msgstr ""
+
+#: includes/Abilities/Categories.php:329
+msgid "Read-only All-in-One WP Migration backup inventory: list existing .wpress backup archives with filename, user-assigned label, size, and creation time, plus total count and total size. Answers \"is there a recoverable backup?\" before risky maintenance. Never returns the backup directory path or any download URL, and offers no start, restore, or delete: the export path is a multi-step protocol that is not safe to trigger blind."
+msgstr ""
+
+#: includes/Abilities/Categories.php:289
+msgid "Read-only Amelia booking reads: counts of categories, services (by status), employees, appointments (by status), and events (by status), plus the bookable service catalogue (categories with each service's name, price, duration, capacity, status). Aggregate counts and service definitions only, never a customer name/email, appointment participant, time slot, or payment record. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:345
+msgid "Read-only AutomatorWP automation discovery: list automations (recipes) with title, type, status (active/in-progress/inactive, AutomatorWP's own vocabulary), run limits, and trigger/action counts, plus aggregate run statistics (total log entries and counts by log type: trigger completions, action executions, filter evaluations). The logs table records which user each entry belongs to — that column is never selected; counts only. No tools to create, edit, or trigger an automation: running a recipe is an outward-facing action that stays out of scope."
+msgstr ""
+
+#: includes/Abilities/Categories.php:45
+msgid "Read-only Beaver Builder layout structure: page outline and addressed node inspection by stable node ID."
+msgstr ""
+
+#: includes/Abilities/Categories.php:213
+msgid "Read-only Blog2Social social-publishing health: whether Blog2Social is connected (a local API token row exists — the token is never returned), scheduled vs published network-post counts, the publish-error count, and a per-social-network breakdown, read from Blog2Social's own local b2s_posts tables. Aggregate counts only, never post content, target URL, or author. No publish or schedule tool. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:301
+msgid "Read-only BookingPress booking reads: counts of service categories, services, staff members (when the staff module is present), appointment bookings (total and by status: Approved/Pending/Cancelled/Rejected), and customers, plus the configured currency and the bookable service catalogue (categories with each service's name, price, and duration value/unit and derived minutes). Reads the plugin's own bookingpress_ tables via core $wpdb, each guarded by an existence check. Aggregate counts and service definitions only, never a customer name/email/phone, appointment participant, time slot, note, or payment record, and never a service description. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:297
+msgid "Read-only Bookly booking reads: counts of service categories, services (by visibility), staff (by visibility), scheduled appointment slots, per-customer bookings (by status: pending/approved/cancelled/rejected/waitlisted/done), and customers, plus the bookable service catalogue (categories with each service's title, type, price, duration in seconds and minutes, capacity, visibility). Reads the plugin's own bookly_ tables via core $wpdb, each guarded by an existence check. Aggregate counts and service definitions only, never a customer name/email/phone, appointment participant, time slot, or payment record. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:261
+msgid "Read-only BuddyPress community health: site-wide counts of total members, active members, and groups, plus which BuddyPress components (members, groups, activity, friends, messages, notifications, profiles) are active, read through BuddyPress's own count accessors (bp_core_get_total_member_count, bp_core_get_active_member_count, groups_get_total_group_count) with component presence tested via bp_is_active(); plus the group structure listing for each group its id, name, slug, status (public/private/hidden), parent group id, creation date, and member count via groups_get_groups() and the group object's own total_member_count accessor. Aggregate counts and group structure only, never a member profile or identity (no user id, display name, login, email, avatar, or last-activity), a group's creator or its admins/moderators, a group description or profile-field content, an activity-stream item, a friendship, a private message, or a notification. The group name is surfaced as public community structure. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:201
+msgid "Read-only Business Directory Plugin scale and field-schema discovery: listing counts by status, category count, fee-plan counts (total and enabled), and the directory form-field schema (each field's label, type, association, and shortname). Listings themselves stay on the core post/term/meta tools. Payment and payer data is never read. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:253
+msgid "Read-only Charitable fundraising health: campaign counts by status, donation counts by status label (Paid/Pending/Failed/Cancelled/Refunded), donor count, and the site-wide total raised with its currency, plus an optional campaign list (id, title, status, date). Reads campaign/donation post-status counts via core wp_count_posts and the plugin's own aggregate helpers (get_total, count_donors_with_donations) for the totals. Aggregate counts and a single total figure only, never a donation record, donor identity, per-donation amount, payment detail, or a campaign's body content or goal configuration. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:41
+msgid "Read-only Divi 4 shortcode and Divi 5 block structure, with positional module inspection."
+msgstr ""
+
+#: includes/Abilities/Categories.php:145
+msgid "Read-only EWWW Image Optimizer status: version, total original vs optimized bytes, and derived bytes saved and savings percent. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:321
+msgid "Read-only Easy Digital Downloads store reads: download counts by post status, order counts by payment status, total customers, lifetime earnings and store currency, plus the download catalogue (each product's title, type, single or variable price range, variable-tier count, and file count). Aggregate counts and product definitions only, never an order record, a purchase, an order line item, a customer name/email, a license key, or a downloadable file URL. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:217
+msgid "Read-only Estatik real-estate scale and field-schema discovery: property counts by status, per-taxonomy term counts (types, categories, statuses, locations, labels), and the property field schema (each field's name, label, type, and section) from Estatik's field-builder tables. Properties themselves stay on the core post/term/meta tools; agent/owner contact in post meta is never read. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:169
+msgid "Read-only Events Manager access: list events by date range, category, and keyword, and read one event with its timezone-aware start/end datetime, all-day and recurring flags, status, category names, and permalink. Reads the plugin's own event schedule table via its EM_Event API. No bookings or attendee data. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:265
+msgid "Read-only Fluent Support helpdesk diagnostics: total tickets with breakdowns by status (new/active/closed via the plugin's own filterable Helper::ticketStatuses() vocabulary), by agent-set priority and by customer-set priority (via Helper::adminTicketPriorities()), and per mailbox id; conversation volume; mailbox, product, agent, and customer totals; and service-timing aggregates read from the integer columns Fluent Support already keeps on the ticket row (average first-response seconds, average time-to-close seconds, resolved count, total responses). Plus desk configuration: the mailbox definitions (id, name, slug, box type, default flag, and whether an inbound and a mapped address are configured) and the product catalogue (id, title, source, mailbox id). Aggregate counts and configuration only. This never returns a ticket record, a ticket title or number, ticket content or secret_content, any conversation or message content, an attachment, or a customer or agent identity (no id, name, email address, avatar, IP address, postal address, phone, note, or description), and no per-ticket or per-person breakdown. A mailbox's email address is reported only as configured or not, never as a value, and the mailbox settings blob is never read because on an IMAP-connected mailbox it holds mail credentials; a product's description and settings blob are likewise never read. No write tools: replying, changing status, assigning an agent, and closing or deleting a ticket all email the customer, so they are outward-facing actions that stay out of scope."
+msgstr ""
+
+#: includes/Abilities/Categories.php:221
+msgid "Read-only FluentCRM health: total contacts by subscription status, and email-campaign counts by status with an optional recent-campaign list (title, type, status, recipient count, dates). Metadata and aggregate counts only, never contact records, recipient identities, or email content. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:325
+msgid "Read-only FluentCart store reads: product counts by post status, order counts by payment status, total customers, subscription counts by status, and store currency, plus the product catalogue (each product's title and its variations' title, SKU, price, fulfillment type, stock status, and active flag). Aggregate counts and product/variation definitions only, never an order record, an order line item, a customer name/email, a subscriber, a transaction, or a downloadable file. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:197
+msgid "Read-only GeoDirectory scale and field-schema discovery: for each listing post type GeoDirectory registers, the listing counts by status and category-taxonomy count, plus the custom-field schema (each active field's name, label, type, data type, and required flag) for a chosen post type. Listings themselves stay on the core post/term/meta tools; this adds the aggregate counts and field definitions those cannot give. Never a listing record, coordinates, owner identity, or the submit IP. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:233
+msgid "Read-only GiveWP fundraising health: donation-form counts by status, donation counts by status (pending/complete/refunded/failed/cancelled/abandoned/processing), donor count, the site-wide total raised with its currency, and campaign counts by status and goal type with an optional campaign list (id, name, status, goal type, goal amount, dates). Reads form/donation post-status counts via core wp_count_posts, the stored earnings-total option without recalculation, and the give_campaigns table via guarded $wpdb. Aggregate counts and a single total figure only, never a donation record, donor identity, per-donation amount, payment detail, or a campaign's marketing description/image/URL. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:229
+msgid "Read-only Groundhogg health: contact counts by opt-in status (unconfirmed/confirmed/unsubscribed/weekly/monthly/hard_bounce/spam/complained/blocked), tag count, funnel (automation) counts by status, and broadcast (campaign) counts by status with an optional recent-broadcast list (id, object type, status, scheduled date). Reads the plugin's own gh_ tables via core $wpdb, each guarded by an existence check; the integer optin_status is mapped to a fixed public label vocabulary. Aggregate counts and state only, never a contact record, email address, tag membership, or email content. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:141
+msgid "Read-only Imagify image-optimization status: whether a key is configured (never the key), total attachments in scope, optimized/unoptimized/errored counts, and total size saved. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:205
+msgid "Read-only Ivory Search index health: whether the inverted index exists, the number of indexed posts and distinct terms, the total index size, and the number of configured search forms, plus a list of those search forms (id, title, status). Read through Ivory Search's own count helpers and its is_search_form CPT. No submitted queries, no write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:293
+msgid "Read-only LatePoint booking reads: counts of service categories, services (by status), agents (by status), bookings (by status), and customers, plus the bookable service catalogue (categories with each service's name, price range, duration, capacity, status). Aggregate counts and service definitions only, never a customer name/email, booking participant, time slot, or payment record. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:269
+msgid "Read-only LearnPress LMS reads: course counts by status, distinct enrolled-student count, and one course's curriculum outline (ordered sections and their lessons/quizzes by title and type). No lesson content, no per-learner progress or grades. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:285
+msgid "Read-only LifterLMS reads: course counts by status, distinct enrolled-student count, and one course's curriculum outline (ordered sections and their lessons by title and order, each lesson flagged for whether it has a quiz plus that quiz's title, and category names). Reads the plugin's own course/section/lesson/llms_quiz CPTs via the _llms_parent_* meta and the lifterlms_user_postmeta enrolment table. No lesson or quiz content, no questions, no student identity, and no per-learner progress or grades. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:225
+msgid "Read-only MailPoet health: subscriber counts by status (subscribed/unconfirmed/unsubscribed/bounced/inactive), list/segment counts by type, and newsletter counts by status and type with an optional recent-campaign list (id, type, status, dates). Reads the plugin's own mailpoet_ tables via core $wpdb, each guarded by an existence check, excluding soft-deleted rows. Aggregate counts and campaign state only, never a subscriber record, email address, segment membership, or the email subject/pre-header/body content. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:277
+msgid "Read-only Masteriyo LMS reads: course counts by status, distinct enrolled-student count, and one course's curriculum outline (ordered sections and their lessons/quizzes by title, type, and order, plus ungrouped items and category names). Reads the plugin's own mto- CPTs and enrolment activities table. No lesson or quiz content, no questions, no per-learner progress or grades. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:237
+msgid "Read-only Paid Memberships Pro health: the membership-level count, member counts by status (active/inactive/cancelled/expired/changed/admin_changed/admin_cancelled), payment-subscription counts by status (kept separate from membership status), the configured currency, and the membership-level catalogue (per level: id, name, initial/recurring pricing, billing cycle, signup flag, expiration terms). Reads the plugin's own pmpro_membership_levels/pmpro_memberships_users/pmpro_subscriptions tables via core $wpdb, each guarded by an existence check. Aggregate counts and level definitions only, never a member record, user id, email, per-member level/expiration/subscription, order/transaction, or a level's marketing description. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:333
+msgid "Read-only Patchstack security status: plugin version, license edition, last successful cloud-sync time, the locally mirrored count of known vulnerabilities and available fixes, the number of IP block list entries, and aggregate counts of blocked requests and failed logins from the plugin's own local log tables. Vulnerability data itself lives in Patchstack's cloud; this reads only the local mirror the plugin writes after each sync, never calls the API, and never returns an IP address, user agent, request URI, request body, or credential. No start-scan tool."
+msgstr ""
+
+#: includes/Abilities/Categories.php:185
+msgid "Read-only Polylang multilingual status: configured languages, a post or term's assigned language, and its translation siblings. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:245
+msgid "Read-only ProfilePress membership health: the plan count, subscription counts by status (active/pending/expired/completed/trialling/cancelled), order counts by status (pending/completed/refunded/failed), the customer count, the store currency, and the plan catalogue (per plan: id, name, price, billing frequency, subscription length, signup fee, free-trial terms, and enabled state). Reads the plugin's own ppress_plans/ppress_subscriptions/ppress_orders/ppress_customers tables via core $wpdb, each guarded by an existence check; each status is mapped through the plugin's published label vocabulary. Aggregate counts and plan definitions only, never a subscription/order/customer record, user id, email, name, billing address, phone, IP, transaction/gateway id, per-member amount, a customer note or total spend, or a plan's description or internal metadata. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:133
+msgid "Read-only Really Simple Security state: SSL/firewall enablement and known vulnerabilities affecting installed plugins, themes, and core. No start-scan tool."
+msgstr ""
+
+#: includes/Abilities/Categories.php:337
+msgid "Read-only Relevanssi search-index health: whether the index is built, indexed document and distinct-term counts (read from Relevanssi's own cached count options), whether query logging is enabled, aggregate query-log statistics (total and distinct searches, average hits, top queries by hit count), and a bounded search through Relevanssi's own index capped at 20 results. The query-log table stores user ids, IPs, and session ids — those columns are never selected. No reindex or index-management tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:249
+msgid "Read-only Restrict Content (Kadence Memberships) health: the membership-level count, membership counts by status (active/inactive/pending/cancelled/expired/free), the customer count, payment counts by status (pending/complete/failed/refunded/abandoned), the store currency, and the membership-level catalogue (per level: id, name, price, duration terms, trial terms, the WordPress role granted, and enabled state). Reads the plugin's own restrict_content_pro/rcp_memberships/rcp_customers/rcp_payments tables via core $wpdb, each guarded by an existence check; each status is mapped through the plugin's published label vocabulary. Aggregate counts and level definitions only, never a membership/customer/payment record, user id, email, name, a customer's stored IP addresses or notes, a membership's per-member amount/gateway/subscription-key, a payment's amount/transaction id/gateway, or a level's description text. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:273
+msgid "Read-only Sensei LMS reads: course counts by status, distinct enrolled-student count, and one course's curriculum outline (ordered modules and their lessons, plus ungrouped lessons, by title and order). No lesson or quiz content, no questions, no per-learner progress or grades. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:153
+msgid "Read-only ShortPixel status: version, average compression, and pending-optimization count. No write tools; no credentials returned."
+msgstr ""
+
+#: includes/Abilities/Categories.php:241
+msgid "Read-only Simple Membership (Simple WP Membership) health: the membership-level count, member counts by account state (active/inactive/activation_required/expired/pending/unsubscribed), and the membership-level catalogue (per level: id, name, the WordPress role granted, and duration terms — No Expiry/Days/Weeks/Months/Years/Fixed Date/Annual Fixed Date plus the period). Reads the plugin's own swpm_membership_tbl/swpm_members_tbl tables via core $wpdb, each guarded by an existence check; the numeric duration type is mapped through the plugin's published label vocabulary. Aggregate counts and level definitions only, never a member record, name, email, phone, address, IP, per-member level/dates, payment/transaction row, or a level's content-protection lists. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:69
+msgid "Read-only Site Kit, Jetpack Stats, MonsterInsights, Burst Statistics, Matomo, and Independent Analytics status, traffic summaries, and top content. The self-hosted providers (Burst, Matomo, Independent Analytics) report from their own local databases."
+msgstr ""
+
+#: includes/Abilities/Categories.php:49
+msgid "Read-only SiteOrigin Page Builder layout structure: page outline across both storage paths (classic panels_data meta and Layout Blocks) and addressed widget inspection by row/cell/index. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:341
+msgid "Read-only SliceWP affiliate-program health: affiliate counts total and by status (active/inactive/pending/rejected), commission counts total and by status (paid/unpaid/pending/rejected), aggregate commission amounts per status, and the total visit count, read through SliceWP's own public getter functions with the plugin's own published status vocabularies. Aggregate counts and amounts only — never an affiliate record, user id, payment email, website, a commission's customer or order reference, or a payout. No write tools, and payouts stay out of scope."
+msgstr ""
+
+#: includes/Abilities/Categories.php:125
+msgid "Read-only Solid Security state: active modules, event-log findings (file changes, brute-force, lockouts), and currently active lockouts. No start-scan tool."
+msgstr ""
+
+#: includes/Abilities/Categories.php:165
+msgid "Read-only Sugar Calendar access: list events (filter by start-date range, status, keyword; order and paginate) and read one event with full detail (start/end datetimes and time zones, all-day flag, recurrence, linked post id, and calendar/category names). Reads the plugin's own events table via its public query API. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:161
+msgid "Read-only The Events Calendar access: list events by date range and read one event with hydrated venue (name, address, city) and organizer detail. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:181
+msgid "Read-only TranslatePress multilingual configuration: default language, translation languages with their slugs and published state, and default-language subdirectory routing. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:281
+msgid "Read-only Tutor LMS reads: course counts by status, distinct enrolled-student count, and one course's curriculum outline (ordered topics and their lessons/quizzes/assignments by title, type, and order, plus category names). Reads the plugin's own courses/topics/lesson/tutor_quiz/tutor_assignments CPTs and the tutor_enrolled post type. No lesson or quiz content, no questions, no student identity, and no per-learner progress or grades. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:209
+msgid "Read-only Uncanny Automator discovery: list recipes (id, title, post status live/draft, and trigger/action counts from their uo-trigger/uo-action child posts) and aggregate run statistics (total, completed, and incomplete runs from the recipe log, plus recipe counts by status). The recipe log records which user each run belongs to — that column is never selected; counts only. No create/edit/run tools (running a recipe is an outward-facing action)."
+msgstr ""
+
+#: includes/Abilities/Categories.php:121
+msgid "Read-only WP Defender security state: scan results and status, blocked IPs, lockout statistics, and hardening recommendation status."
+msgstr ""
+
+#: includes/Abilities/Categories.php:353
+msgid "Read-only WP Go Maps inventory: every map with its title, centre, zoom, active state, per-map marker counts split by the plugin's approved flag, and polygon/polyline/circle/rectangle counts. Marker rows (addresses, coordinates) are never returned — aggregate counts only. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:349
+msgid "Read-only WP Job Manager job-board statistics: job counts by status (publish, pending, expired, preview, and pending_payment when the paid listings extension is active), job-category and job-type term counts, filled and featured listing counts, and published listings expired or expiring within 7 days. Job listings themselves stay on the core post, term, and meta tools — this is the one-read operational aggregate. Application data (a paid add-on holding applicant personal data) is never touched. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:149
+msgid "Read-only WP Smush status: images smushed, size before/after, bytes saved, and savings percent. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:189
+msgid "Read-only WPML multilingual status: active languages, an element's assigned language, and its translation siblings, via WPML's documented hook API. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:193
+msgid "Read-only Weglot multilingual configuration: the original language, the configured destination languages with each one's code, custom code, and public flag, and whether Weglot is connected. Weglot translates through its cloud rather than storing one post per language, so it offers site-wide configuration only, no per-object language resolution. The API key is never returned. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:257
+msgid "Read-only bbPress community health: site-wide counts of forums, topics (published and non-public), replies (published and non-public), topic tags, and registered users, read through bbPress's own bbp_get_statistics() aggregate (integer variants only); plus the forum structure listing for each forum its id, title, status (open/closed), visibility (public/private/hidden), parent forum id, topic count, and reply count via the plugin's own forum accessors and core get_posts against bbp_get_forum_post_type(). Aggregate counts and forum structure only, never a topic or reply record, a post body or excerpt, a topic/reply title, an author or user identity (no user id, display name, login, email, or IP), the anonymous-poster fields stored for guest replies, a subscription/favourite/engagement list, or a forum's moderator assignment. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:305
+msgid "Read-only content-model discovery for models defined with Pods: list every registered model with its type, storage, and field/group counts, and read one model's full field schema (name, label, type, required/repeatable, and relationship target type/name). Registration definitions only, never row content or field values. No write tools."
+msgstr ""
+
+#: includes/Abilities/Categories.php:129
+msgid "Read-only local Sucuri Security configuration status: account link presence, monitoring API state, alert email, and per-directory hardening. Audit logs and malware scans live in Sucuri's own remote dashboard."
+msgstr ""
+
+#: includes/Abilities/Categories.php:77
+msgid "Read-only outgoing-email (SMTP) configuration status through WP Mail SMTP, Easy WP SMTP, FluentSMTP, or Post SMTP: active mailer, setup completeness, and non-secret From name/email. Never returns credentials; no write tools."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:118
+msgid "Reading and formatting"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:398
+msgid "Reading snippets is always available when a snippet plugin is active; this switch controls writing. PHP snippets are read-only — creating executable PHP is refused."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:532
+msgid "Recovery actions"
+msgstr ""
+
+#: includes/Abilities/Categories.php:65
+msgid "Redirection plugin: list/create/update redirects, list groups."
+msgstr ""
+
+#: includes/Abilities/Categories.php:89
+msgid "Redis object-cache status (drop-in state, connection, server and client version) and an object-cache flush through wp_cache_flush()."
+msgstr ""
+
+#: templates/admin/logs.php:49
+msgid "Refresh"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:220
+msgid "Regenerate"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:283
+msgid "Regenerating"
+msgstr ""
+
+#: includes/Abilities/Categories.php:309
+msgid "Registration-definition management for post types and taxonomies created with Custom Post Type UI. Read: list each post type (labels, public/hierarchical flags, supports, bound taxonomies, archive/REST exposure) and each taxonomy (labels, hierarchical flag, attached post types, public/REST exposure). Write: create, update, or delete a post-type or taxonomy DEFINITION (dry-run preview, confirmation on delete, undo token). Registration definitions only, never the content: existing posts and terms are never created, edited, or deleted here, they stay on the core post/term tools. Deleting a definition unregisters it and orphans its existing rows rather than removing them."
+msgstr ""
+
+#: includes/Abilities/Categories.php:313
+msgid "Registration-definition management for post types and taxonomies created with MB Custom Post Types (Meta Box). Read: list each post type (labels, public/hierarchical flags, supports, bound taxonomies, archive/REST exposure) and each taxonomy (labels, hierarchical flag, attached post types, public/REST exposure). Write: create, update, or delete a post-type or taxonomy DEFINITION (dry-run preview, confirmation on delete, undo token). Registration definitions only, never the content: existing posts and terms are never created, edited, or deleted here, they stay on the core post/term tools. Deleting a definition trashes its backing definition post, which unregisters it and orphans its existing rows rather than removing them; the undo token restores it."
+msgstr ""
+
+#: includes/Abilities/Categories.php:317
+msgid "Registration-definition management for post types and taxonomies created with Toolset Types, plus read-only custom-field discovery. Read: list custom post types (labels, public/hierarchical flags, supports, bound taxonomies), taxonomies (labels, hierarchical flag, attached post types), and custom-field definitions (slug, name, type, description). Write: create, update, or delete a post-type or taxonomy DEFINITION (dry-run preview, confirmation on delete, undo token); binding a post type to a taxonomy is mirrored across both Types options exactly as the Types admin does. Registration definitions only, never the content: existing posts and terms are never created, edited, or deleted here, they stay on the core post/term tools, and a field's values stay on the meta tools. Field definitions are read-only. Deleting a definition unregisters it and orphans its existing rows rather than removing them."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:574
+msgid "Remove"
+msgstr ""
+
+#: templates/admin/settings/platform-template.php:27
+msgid "Remove provider"
+msgstr ""
+
+#: templates/admin/logs.php:247
+msgid "Request Data"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:139
+msgid "Require registration to comment"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:339
+msgid "Requires an API key first; none is configured yet. <a href=\"%s\">Set one up in AI Providers.</a>"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:419
+msgid "Requires the Code Snippets plugin (not installed). <a href=\"%s\">Search the plugin directory.</a>"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:570
+msgid "Reset OAuth state"
+msgstr ""
+
+#: templates/admin/logs.php:249
+msgid "Response Data"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:585
+msgid "Reveal key in this example"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:136
+msgid "Reversible"
+msgstr ""
+
+#: templates/admin/logs.php:173
+msgid "Reversible operations"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:195
+msgid "Reviews, ratings, and stock display on product pages."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:562
+msgid "Revoke all"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:540
+msgid "Revoke all active sessions"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:853
+msgid "Revoked %d active session(s). All connected AI clients must re-authorize."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:936
+msgid "Revoked %d token(s) for this client. It must re-authorize before it can call this site again."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:542
+msgid "Revokes every issued token, so every OAuth client must authorize again. Registered clients and all settings are preserved; only the tokens are invalidated. Use it during incident response, or to force every client onto a newly shortened session length at once."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:295
+msgid "Right now"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:392
+msgid "Runs code on the site"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:95
+msgid "SE Ranking API token from Account → API. Sent as a Bearer token."
+msgstr ""
+
+#: templates/admin/settings/panel-services.php:53
+msgid "SEO & analytics"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:509
+msgid "SSH/SFTP fix:"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:436
+msgid "Saved disabled"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:165
+msgid "Search engine visibility"
+msgstr ""
+
+#: includes/API/REST_Controller.php:570
+msgid "Search query is required"
+msgstr ""
+
+#: templates/admin/settings.php:457
+msgid "Secure AI connector"
+msgstr ""
+
+#: includes/OAuth/Server.php:282
+msgid "Security check failed. Please try again."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:707
+msgid "See Nginx and Apache fixes"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:474
+msgid "See the 5-minute fix"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:514
+msgid "See the full fix"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:554
+msgid "See the troubleshooting guide"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:569
+msgid "Select a platform..."
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:297
+msgid "Select a provider…"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:76
+msgid "Semrush API key from your subscription. Standard/Business plan with API units required."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:174
+msgid "Server URL"
+msgstr ""
+
+#: includes/SEO_Data/Providers.php:189
+msgid "Service Account key (JSON)"
+msgstr ""
+
+#: templates/admin/settings/panel-services.php:93
+msgid "Service categories"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:375
+msgid "Session"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:424
+msgid "Session IDs are stored only as a hash, so the values above are truncated prefixes: enough to tell two rows apart, never enough to reuse. The credential fingerprint is what binds a session to the client that opened it: two rows sharing a fingerprint are the same client on two conversations."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:980
+msgid "Session ended. The client will start a new session on its next request if its credentials are still valid."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:356
+msgid "Session length"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:841
+msgid "Session revocation is disabled by a filter on this site."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:230
+msgid "Session views"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:83
+msgid "Sessions"
+msgstr ""
+
+#: templates/admin/settings.php:115
+msgid "Set up"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:65
+msgid "Settings"
+msgstr ""
+
+#: templates/admin/settings.php:450
+msgid "Settings sections"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:207
+msgid "Show or hide the API key"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:479
+msgid "Show or hide the client secret"
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:173
+msgid "Show the %s imported ability"
+msgid_plural "Show all %s imported abilities"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/settings/services/ai.php:211
+msgid "Show/Hide"
+msgstr ""
+
+#: templates/admin/authorize.php:159
+msgid "Signed in as %1$s on %2$s"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:107
+msgid "Site identity"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:80
+msgid "Site is on localhost"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:153
+msgid "Site options"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:126
+msgid "Site timezone"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:111
+msgid "Site title"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:108
+msgid "Site title and tagline. The two settings most often adjusted on request, and the easiest to verify afterwards."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:233
+msgid "Sitemap settings"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:218
+msgid "Social profiles and defaults"
+msgstr ""
+
+#: templates/admin/logs.php:175
+msgid "Some MCP tools save a snapshot before a destructive write, so the change can be undone. These are the snapshots still available. Each expires 72 hours after it was created, and undoing one consumes it."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:311
+msgid "Spends provider credits"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:200
+msgid "Star rating required"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:376
+msgid "Started"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:499
+msgid "Static files at %1$s and %2$s are advertising old OAuth endpoint URLs (under /wp-json/more-mcp/v1/) that no longer exist. Claude.ai reads these and tries to register against a 404, so connection silently fails."
+msgstr ""
+
+#: templates/admin/logs.php:88
+msgid "Status"
+msgstr ""
+
+#: templates/admin/settings.php:82
+msgid "Status, connect a client, API key, session length, and OAuth setup."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:362
+msgid "Stay connected for"
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:32
+msgid "Step-by-step connection walkthroughs for each MCP host."
+msgstr ""
+
+#: includes/Abilities/Categories.php:157
+msgid "Stock-photo search across Unsplash and Pexels using the API keys already stored by the Instant Images plugin (never returned). Returns candidates with license and required attribution; the image is added to the library via wp_upload_media_from_url."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:188
+msgid "Store base country / region"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:178
+msgid "Store currency, price formatting, and measurement units. Each is its own option, so a write changes only that one setting."
+msgstr ""
+
+#: templates/admin/logs.php:117
+msgid "Success"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:81
+msgid "Switching one off keeps its key but stops outbound calls. Removing it discards the key. Keys live in the options table: treat this screen as holding live secrets."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:364
+msgid "Synchronous images only"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:112
+msgid "Tagline"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:550
+msgid "Temporarily deactivate suspect plugins one at a time to identify the culprit."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:570
+msgid "Test Connection"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:279
+msgid "Test Connection uses the values in the fields above, not the saved ones. Save afterwards to keep them."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:571
+msgid "Testing..."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:970
+msgid "That session no longer exists. It may have expired or already been ended."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1461
+msgid "That undo point was not found. It may have expired, or already been undone."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1453
+msgid "That undo token is not valid."
+msgstr ""
+
+#: includes/Integrations/Write_Verify.php:236
+msgid "The %s was not stored at all: storage still holds its pre-write value. Do not rely on the undo token, it would reverse a change that did not happen."
+msgstr ""
+
+#: includes/Integrations/Write_Verify.php:187
+msgid "The %s was not stored: the store kept its own value, so nothing changed and no undo token was issued."
+msgstr ""
+
+#: includes/Integrations/Elementor/Code.php:391
+msgid "The Custom Code post is still present."
+msgstr ""
+
+#: includes/Platform/Registry.php:567
+msgid "The URL hostname resolves to a private or reserved address."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:313
+msgid "The WordPress user this grant was issued to has been deleted. The tokens cannot authenticate anyone, so revoke them to clear the row."
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:37
+msgid "The abilities an AI client sees, grouped by area."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:357
+msgid "The ai_generate_* tools are never sent to clients, and the toggle is re-checked on execution."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:295
+msgid "The client registration for these tokens no longer exists. This is normal after an OAuth reset; the tokens are cleaned up by the daily cron. Revoke them here to take effect immediately."
+msgstr ""
+
+#: includes/Integrations/CptUi.php:474
+msgid "The definition is still present in the CPT UI option."
+msgstr ""
+
+#: includes/Integrations/ToolsetTypes.php:619
+msgid "The definition is still present in the Types option."
+msgstr ""
+
+#: includes/Integrations/MbCpt.php:682
+msgid "The definition post is still published, so the type remains registered."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:667
+msgid "The fix takes 10 seconds: open Settings → Permalinks, choose any option except Plain (Post name is a safe default), and Save Changes."
+msgstr ""
+
+#: includes/Integrations/Elementor/Assets.php:348
+msgid "The font post is still present."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:275
+msgid "The highest-risk scope on this page."
+msgstr ""
+
+#: includes/Integrations/Elementor/Assets.php:478
+msgid "The icon-set post is still present."
+msgstr ""
+
+#: includes/Integrations/Elementor/Runtime.php:4010
+msgid "The kit document could not be re-resolved after the save, so the stored values were never read. The save itself committed and the undo token is valid."
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:42
+msgid "The legacy per-endpoint REST surface, for integrations that predate MCP."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1493
+msgid "The operation was undone."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:103
+msgid "The server is running, but a setup check below needs your attention."
+msgstr ""
+
+#: includes/Integrations/Write_Verify.php:218
+msgid "The stored %s matches what was sent."
+msgstr ""
+
+#: includes/Integrations/Write_Verify.php:226
+msgid "The write landed but the stored %s is not byte-for-byte what was sent: something between this tool and the database rewrote it. The undo token is valid. Re-read before writing again."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:233
+msgid "Theme appearance"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:252
+msgid "These change the code that runs your site, spend provider credits, or run code More MCP has not reviewed. Each asks you to confirm before it turns on. Keep a working backup."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:506
+msgid "These files were likely placed by a host-support workaround for an earlier version. Delete them and More MCP will serve fresh metadata from PHP automatically."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:242
+msgid "This is a localhost URL."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:384
+msgid "This lets an agent create and edit CSS/JS code snippets that run on your site. Snippets are saved disabled and you must activate them yourself, but CSS/JS still executes in visitors' browsers."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:303
+msgid "This lets an agent generate images and alt text through your configured AI provider. Every call spends real money against that account."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:262
+msgid "This lets an agent install, update, activate, deactivate, and delete plugins and themes — the code that runs your site, not just its content. A deleted plugin is not recoverable from a revision."
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:331
+msgid "This only creates the card. Nothing is stored until you fill in its fields and save."
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:87
+msgid "This plugin exposes its actions through the WordPress Abilities API (6.9+), not a built-in More MCP integration."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:328
+msgid "This switch is on, but no AI provider key is configured, so the ai_generate_* tools are still not exposed. <a href=\"%s\">Add a provider key</a> to make it effective."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:408
+msgid "This switch is on, but the Code Snippets plugin is not installed on this site, so no snippet tools are exposed. <a href=\"%s\">Install Code Snippets</a> to make this effective."
+msgstr ""
+
+#: templates/admin/authorize.php:146
+msgid "This will allow the application to:"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1470
+msgid "This will restore the pre-operation state and consume the undo point. Confirm to proceed."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:183
+msgid "Thousand separator"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:152
+msgid "Thumbnail height"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:151
+msgid "Thumbnail width"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:124
+msgid "Time format"
+msgstr ""
+
+#: templates/admin/logs.php:79
+msgid "Timestamp"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:232
+msgid "Titles and metadata"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:217
+msgid "Titles and metadata templates"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:269
+msgid "Token refreshed"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:309
+msgid "Tools available"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:224
+msgid "Transport sessions"
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:45
+msgid "Troubleshooting"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:123
+msgid "Turn it on"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:135
+msgid "Turning moderation off site-wide is a spam decision, not a formatting one. Allow these only if you want an agent making that call."
+msgstr ""
+
+#: includes/Platform/Registry.php:546
+msgid "URL must include a hostname."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:685
+msgid "Unauthorized"
+msgstr ""
+
+#: templates/admin/logs.php:231
+msgid "Undo"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1247
+msgid "Unknown ability group."
+msgstr ""
+
+#: includes/OAuth/Server.php:305
+msgid "Unknown client."
+msgstr ""
+
+#: includes/OAuth/Server.php:202
+msgid "Unknown client_id. The application has not been registered."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1037
+msgid "Unknown integration."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1312
+msgid "Unknown scope."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:1161
+msgid "Unknown settings source."
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:289
+msgid "Unnamed client"
+msgstr ""
+
+#: includes/Abilities/Categories.php:101
+msgid "UpdraftPlus backups: list backup sets, read the last run and running state, and start a backup behind two-part confirmation. No restore or deletion."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:360
+msgid "Uses existing credentials"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:317
+msgid "Uses the API keys you entered in the AI Providers panel (OpenAI, Google). Every generation call spends real money against that account, so nothing is exposed until you turn this on."
+msgstr ""
+
+#: templates/admin/logs.php:128
+msgid "View Details"
+msgstr ""
+
+#: templates/admin/authorize.php:151
+msgid "View site settings and user info"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:337
+msgid "View the Activity Log"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:234
+msgid "Visible site-wide"
+msgstr ""
+
+#: includes/Abilities/Categories.php:85
+msgid "W3 Total Cache purges through the plugin's public API: all cache types, single-post page purge, minified assets, and a separate object-cache flush."
+msgstr ""
+
+#: includes/Abilities/Categories.php:81
+msgid "WP Rocket cache purges: full-cache purge, single-URL purge, and minified-asset purge."
+msgstr ""
+
+#: includes/Abilities/Categories.php:97
+msgid "WP-Optimize page cache only: purge via the plugin's own purge() and read enablement, size, and file count. No database-optimization operations."
+msgstr ""
+
+#: includes/Abilities/Categories.php:113
+msgid "WPvivid backups, read-only: list stored backups with type, time, and size, and read an overview of backup activity. No start-backup tool."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:125
+msgid "Week starts on"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:186
+msgid "Weight unit"
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:35
+msgid "What agents can do"
+msgstr ""
+
+#: templates/admin/settings.php:88
+msgid "What connected agents may change, plus which plugins back each ability."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:279
+msgid "What it can do"
+msgstr ""
+
+#: templates/admin/logs.php:182
+msgid "What it would restore"
+msgstr ""
+
+#: templates/admin/settings/panel-docs.php:47
+msgid "What to check when a client will not connect."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:166
+msgid "Whether search engines are asked to index this site."
+msgstr ""
+
+#: includes/Integrations/Write_Verify.php:245
+msgid "Whether the %s was stored could not be confirmed: reading it back failed. Treat this as unknown rather than as success, and re-read before writing again."
+msgstr ""
+
+#: templates/admin/settings.php:94
+msgid "Who is connected right now: OAuth clients and transport sessions."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:270
+msgid "WooCommerce"
+msgstr ""
+
+#: includes/Abilities/Categories.php:33
+msgid "WooCommerce products, orders, coupons, variations, customers, and store stats."
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:118
+msgid "WordPress"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:327
+msgid "WordPress %1$s · PHP %2$s"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:269
+msgid "WordPress core"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:658
+msgid "WordPress is currently set to Plain permalinks. More MCP serves its OAuth endpoints (%1$s, %2$s, %3$s, %4$s) from the domain root via rewrite rules, and rewrite rules don't fire on Plain. Claude.ai cannot complete the connection until this is changed."
+msgstr ""
+
+#: includes/Abilities/Categories.php:117
+msgid "Wordfence security reads: firewall/scan status, scan findings, blocked IPs, failed-login summaries, and a guarded start-scan."
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:271
+msgid "Yoast SEO"
+msgstr ""
+
+#: includes/Admin/Option_Presets.php:212
+msgid "Yoast stores its settings grouped into a few options, each holding many values at once."
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:94
+msgid "Your MCP server is off"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:102
+msgid "Your MCP server is on, with one thing to check"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:98
+msgid "Your MCP server is ready"
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:616
+msgid "Your host runs BitNinja WebShield, a bot-protection layer that serves a JavaScript challenge page in place of %1$s and %2$s. MCP clients (Claude, ChatGPT, Cursor) do not execute JavaScript and cannot solve the challenge, so the OAuth handshake fails at discovery. No WordPress setting can fix this: the exclusion must happen at the host layer."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:579
+msgid "Your host runs Imunify360 (a CloudLinux security layer on many shared cPanel hosts), and it is intercepting %1$s and %2$s before WordPress can respond. Claude.ai and other MCP clients will fail to connect until your host allowlists these paths. No WordPress setting can fix this."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:699
+msgid "Your web server is redirecting %1$s to %2$s with a 301. OAuth clients don't follow 301s on POST, so claude.ai's registration request dies before it reaches More MCP. This is a web-server config issue (Nginx, Apache mod_dir, or .htaccess canonicalization), not a More MCP setting."
+msgstr ""
+
+#: includes/Admin/Well_Known_Notice.php:467
+msgid "Your web server is returning a 404 for %s before WordPress sees the request. Claude.ai and other MCP clients will fail to connect until this is fixed. SiteGround and a few other managed hosts reserve this path for their own use."
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:92
+msgid "active"
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:139
+msgid "bundled — replaced wholesale"
+msgstr ""
+
+#: includes/Integrations/Elementor/Code.php:209
+msgid "code body"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:396
+msgid "credential %s…"
+msgstr ""
+
+#: includes/Integrations/Elementor/Assets.php:279
+msgid "custom font"
+msgstr ""
+
+#: includes/Integrations/Elementor/Assets.php:347
+msgid "custom font deletion"
+msgstr ""
+
+#: includes/Integrations/Elementor/Assets.php:477
+msgid "custom icon set deletion"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:317
+msgid "deleted user #%d"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:101
+msgid "disabled"
+msgstr ""
+
+#: includes/Integrations/Elementor/Runtime.php:564
+msgid "element move"
+msgstr ""
+
+#: includes/Integrations/Elementor/Runtime.php:422
+msgid "element removal"
+msgstr ""
+
+#: includes/Integrations/Elementor/Runtime.php:312
+msgid "element settings"
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:137
+msgid "enable Site options first"
+msgstr ""
+
+#: templates/admin/settings/panel-permissions.php:101
+msgid "enabled"
+msgstr ""
+
+#: includes/Integrations/Forms/Normalizers.php:125
+msgid "entry %s"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:143
+msgid "expired"
+msgstr ""
+
+#: includes/Integrations/MetaBox.php:221
+msgid "field value"
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:197
+msgid "imported abilities run third-party code with no dry-run or undo; they join tools/list when this card is on"
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:90
+msgid "imported via WP Abilities API"
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:163
+msgid "imported — third-party code, no dry-run or undo"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:150
+msgid "in %s"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:420
+msgid "in use"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:134
+msgid "incomplete"
+msgstr ""
+
+#: includes/Integrations/Elementor/Runtime.php:4009
+msgid "kit settings"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:307
+msgid "no role"
+msgstr ""
+
+#: templates/admin/settings/services/ai.php:137
+msgid "off"
+msgstr ""
+
+#: templates/admin/settings/panel-connection.php:438
+msgid "optional"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:296
+msgid "orphaned"
+msgstr ""
+
+#: includes/Integrations/CptUi.php:396
+msgid "post-type definition"
+msgstr ""
+
+#: includes/Integrations/ToolsetTypes.php:506
+msgid "post-type definition and its taxonomy bindings"
+msgstr ""
+
+#: includes/Integrations/CptUi.php:473
+msgid "post-type definition removal"
+msgstr ""
+
+#: includes/Integrations/ToolsetTypes.php:613
+msgid "post-type definition removal and its taxonomy unbinding"
+msgstr ""
+
+#: templates/admin/settings/_plugin-cards.php:124
+msgid "see list"
+msgstr ""
+
+#: includes/Integrations/CptUi.php:587
+msgid "taxonomy definition"
+msgstr ""
+
+#: includes/Integrations/ToolsetTypes.php:798
+msgid "taxonomy definition and its post-type bindings"
+msgstr ""
+
+#: includes/Integrations/CptUi.php:656
+msgid "taxonomy definition removal"
+msgstr ""
+
+#: includes/Integrations/ToolsetTypes.php:899
+msgid "taxonomy definition removal and its post-type unbinding"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:112
+msgid "unknown"
+msgstr ""
+
+#: templates/admin/authorize.php:142
+msgid "wants to connect to your WordPress site"
+msgstr ""
+
+#: templates/admin/settings/panel-sessions.php:188
+msgid "‹ Previous"
+msgstr ""
+
