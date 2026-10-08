@@ -1,0 +1,1309 @@
+jQuery(document).ready(function($) {
+    'use strict';
+
+
+    // ==========================================
+    // Copy Buttons
+    // ==========================================
+
+    // Regenerate API key confirmation
+    $('#rmcp-regenerate-key').on('click', function(e) {
+        if (!confirm(moreMcp.strings.confirmRegenerate)) {
+            e.preventDefault();
+        }
+    });
+
+    // GitHub #186: masked-key reveal/copy.
+    //
+    // The settings page ships only Api_Key::mask() preview text; the real key
+    // is fetched once through more_mcp_get_api_key when the admin first
+    // reveals or copies, held in this closure (never re-injected while
+    // hidden), and purged back to the mask whenever hidden again so a left-
+    // open tab does not keep the credential in its DOM. These handlers bind
+    // before the generic .toggle-password / copy handlers below and stop
+    // propagation there, because hiding is not just type-flipping for this
+    // field.
+    let mmcpRealKey = null;
+
+    function mmcpLoadRealKey() {
+        return $.Deferred(function(defer) {
+            if (mmcpRealKey !== null) {
+                defer.resolve(mmcpRealKey);
+                return;
+            }
+            $.post(moreMcp.ajaxUrl, {
+                action: 'more_mcp_get_api_key',
+                nonce: moreMcp.nonce
+            }).done(function(res) {
+                const key = res && res.success ? String(res.data.key || '') : '';
+                if (key === '') {
+                    defer.reject();
+                    return;
+                }
+                mmcpRealKey = key;
+                defer.resolve(key);
+            }).fail(function() {
+                defer.reject();
+            });
+        }).promise();
+    }
+
+    $(document).on('click', '.mmcp-key-row[data-live="masked"] .toggle-password', function(e) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+
+        const $input = $('#api_key');
+        const $icon = $(this).find('.dashicons');
+        const masking = $input.attr('type') === 'password';
+
+        mmcpLoadRealKey().done(function(realKey) {
+            $input.attr('type', masking ? 'text' : 'password')
+                  .val(masking ? realKey : moreMcp.strings.apiKeyPreview);
+            $icon.toggleClass('dashicons-visibility', !masking)
+                 .toggleClass('dashicons-hidden', masking);
+        }).fail(function() {
+            showNotice(moreMcp.strings.keyRevealFailed);
+        });
+    });
+
+    $('#copy-api-key').on('click', function(e) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+
+        mmcpLoadRealKey().done(function(realKey) {
+            copyToClipboard(realKey);
+            showNotice('API key copied to clipboard!');
+        }).fail(function() {
+            showNotice(moreMcp.strings.keyRevealFailed);
+        });
+    });
+
+    // GitHub #186 follow-up: same reveal pattern, applied to the Documentation
+    // panel's per-client config examples. Those blocks default to the masked
+    // preview (data-masked, rendered server-side) and swap in the real key
+    // fetched through the same mmcpLoadRealKey() cache above on click, so a
+    // client already opened for the connection-panel reveal does not need a
+    // second AJAX round trip. Toggles per code block independently, since a
+    // reader may only expand one client's guide.
+    $(document).on('click', '.mmcp-reveal-guide-key', function(e) {
+        e.preventDefault();
+
+        const $btn = $(this);
+        const $pre = $btn.prev('pre.setup-guide-code-block');
+        const $keySpan = $pre.find('.mmcp-guide-key');
+        if ($keySpan.length === 0) {
+            return;
+        }
+
+        const revealing = $keySpan.attr('data-live') === 'masked';
+        const $icon = $btn.find('.dashicons');
+        const $label = $btn.find('.mmcp-reveal-guide-key-label');
+
+        if (revealing) {
+            mmcpLoadRealKey().done(function(realKey) {
+                $keySpan.text(realKey).attr('data-live', 'revealed');
+                $icon.removeClass('dashicons-visibility').addClass('dashicons-hidden');
+                $label.text(moreMcp.strings.hideGuideKey);
+            }).fail(function() {
+                showNotice(moreMcp.strings.keyRevealFailed);
+            });
+        } else {
+            $keySpan.text($keySpan.attr('data-masked')).attr('data-live', 'masked');
+            $icon.removeClass('dashicons-hidden').addClass('dashicons-visibility');
+            $label.text(moreMcp.strings.revealGuideKey);
+        }
+    });
+
+    $('#copy-rest-url').on('click', function(e) {
+        e.preventDefault();
+        const restUrl = $(this).prev('input').val();
+        copyToClipboard(restUrl);
+        showNotice('REST API URL copied to clipboard!');
+    });
+
+    // Generic copy button handler.
+    //
+    // Two sources, checked in order: data-copy-text carries a literal value (used
+    // on the Documentation pages, which display URLs as text rather than in an
+    // input), and data-target names an input to read. Without the literal form the
+    // docs pages would need hidden inputs purely to give this handler something to
+    // read from.
+    $(document).on('click', '.copy-btn', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const literal = $btn.attr('data-copy-text');
+        let value = null;
+
+        if (typeof literal === 'string' && literal !== '') {
+            value = literal;
+        } else {
+            const $input = $('#' + $btn.data('target'));
+            if ($input.length) {
+                value = $input.val();
+            }
+        }
+
+        if (value === null) return;
+
+        copyToClipboard(value);
+        $btn.addClass('copied');
+        setTimeout(function() {
+            $btn.removeClass('copied');
+        }, 1500);
+        showNotice('Copied to clipboard!');
+    });
+
+    // ==========================================
+    // Setup Guides accordion + Advanced collapsibles (1.4.25)
+    // ==========================================
+
+    // MCP Client Setup Guides — accordion. Clicking a header toggles its
+    // own body open/closed; others remain in whatever state the user left them.
+    $(document).on('click', '.setup-guide-header', function(e) {
+        e.preventDefault();
+        const $item = $(this).closest('.setup-guide-item');
+        const isOpen = $item.hasClass('open');
+        $item.toggleClass('open');
+        $(this).attr('aria-expanded', isOpen ? 'false' : 'true');
+    });
+
+    // Tool-inventory groups on Documentation → What agents can do. Same
+    // independent-toggle behavior as the setup guides; kept as its own handler
+    // rather than sharing a class because the two lists have different markup and
+    // one day one of them will grow a behavior the other should not inherit.
+    $(document).on('click', '.mmcp-tool-group-header', function(e) {
+        e.preventDefault();
+        const $group = $(this).closest('.mmcp-tool-group');
+        const isOpen = $group.hasClass('open');
+        $group.toggleClass('open');
+        $(this).attr('aria-expanded', isOpen ? 'false' : 'true');
+    });
+
+    // Option product toggles on Permissions. Each product is one switch; the
+    // "What this includes" disclosure under it is a read-only breakdown of the
+    // option names that switch controls.
+    $(document).on('click', '.mmcp-preset-incl-toggle', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const targetId = $btn.attr('aria-controls');
+        const $content = targetId ? $('#' + targetId) : $btn.next('.mmcp-preset-incl');
+        if (!$content.length) return;
+
+        const willOpen = $content.is('[hidden]') || $content.is(':hidden');
+        $btn.attr('aria-expanded', willOpen ? 'true' : 'false');
+        if (willOpen) {
+            $content.removeAttr('hidden').hide().slideDown(160);
+        } else {
+            $content.slideUp(160, function() { $(this).attr('hidden', true); });
+        }
+    });
+
+    // Mirror the switch state onto the wrapper so it can highlight when on, the
+    // same way the write-scope rows do.
+    $(document).on('change', '.mmcp-preset-toggle input[type="checkbox"]', function() {
+        $(this).closest('.mmcp-preset-toggle').toggleClass('is-on', this.checked);
+    });
+
+    // Advanced collapsible (Connection → Advanced).
+    //
+    // The wrapper also gets an is-open class so the section can style its own
+    // border and background when expanded — the button alone cannot reach its
+    // container in CSS.
+    $(document).on('click', '.advanced-toggle', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const targetId = $btn.attr('aria-controls') || $btn.attr('id') + '-content';
+        const $content = $btn.next('.advanced-content').length
+            ? $btn.next('.advanced-content')
+            : $('#' + targetId);
+
+        if (!$content.length) return;
+
+        const willOpen = $content.is('[hidden]') || $content.is(':hidden');
+        $btn.toggleClass('open', willOpen);
+        $btn.attr('aria-expanded', willOpen ? 'true' : 'false');
+        $btn.closest('.mmcp-advanced-section').toggleClass('is-open', willOpen);
+
+        if (willOpen) {
+            $content.removeAttr('hidden').hide().slideDown(200);
+        } else {
+            $content.slideUp(200, function() { $(this).attr('hidden', true); });
+        }
+    });
+
+    // Generate OAuth credentials
+    $(document).on('click', '.generate-oauth', function(e) {
+        e.preventDefault();
+        const field = $(this).data('field');
+        const $input = $('#' + field);
+
+        // Generate a random string
+        let value;
+        if (field === 'oauth_client_id') {
+            value = 'wp_' + generateRandomString(24);
+        } else {
+            value = generateRandomString(48);
+        }
+
+        $input.val(value);
+        $(this).hide();
+        showNotice('OAuth ' + (field === 'oauth_client_id' ? 'Client ID' : 'Client Secret') + ' generated. Remember to save your settings!');
+    });
+
+    // Clear OAuth credentials — wipes the stored value via AJAX so the connector
+    // can fall back to Dynamic Client Registration. Without this button an admin
+    // in manual-creds mode has no UI path to clear these fields once generated.
+    $(document).on('click', '.clear-oauth', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const field = $btn.data('field');
+        const fieldLabel = field === 'oauth_client_id' ? 'Client ID' : 'Client Secret';
+
+        if (!confirm('Clear the stored OAuth ' + fieldLabel + '? Any MCP client using these credentials will need to re-authorize.')) {
+            return;
+        }
+
+        $btn.prop('disabled', true);
+
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: {
+                action: 'more_mcp_clear_oauth_field',
+                nonce: moreMcp.nonce,
+                field: field
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#' + field).val('');
+                    showNotice('OAuth ' + fieldLabel + ' cleared. The connector will use Dynamic Client Registration on the next handshake.');
+                    // Reload so the Generate button reappears in place of Clear.
+                    setTimeout(function() { window.location.reload(); }, 800);
+                } else {
+                    $btn.prop('disabled', false);
+                    showNotice((response.data && response.data.message) || 'Failed to clear field.', 'error');
+                }
+            },
+            error: function() {
+                $btn.prop('disabled', false);
+                showNotice('Network error while clearing field.', 'error');
+            }
+        });
+    });
+
+    function generateRandomString(length) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    // ==========================================
+    // Collapsible provider cards (SEO & analytics data sources)
+    // ==========================================
+
+    // Toggle platform config visibility
+    $(document).on('click', '.platform-toggle', function(e) {
+        e.preventDefault();
+        const $item = $(this).closest('.platform-item');
+        const $config = $item.find('.platform-config');
+        const $icon = $(this).find('.dashicons');
+
+        $config.slideToggle(200);
+        $icon.toggleClass('dashicons-arrow-down-alt2 dashicons-arrow-up-alt2');
+    });
+
+    // Toggle password visibility
+    $(document).on('click', '.toggle-password', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const $input = $btn.parent().find('input[type="password"], input[type="text"]').first();
+        const $icon = $btn.find('.dashicons');
+
+        if ($input.length === 0) return;
+
+        if ($input.attr('type') === 'password') {
+            $input.attr('type', 'text');
+            $icon.removeClass('dashicons-visibility').addClass('dashicons-hidden');
+        } else {
+            $input.attr('type', 'password');
+            $icon.removeClass('dashicons-hidden').addClass('dashicons-visibility');
+        }
+    });
+
+    // ==========================================
+    // Reset OAuth State button (Troubleshooting section)
+    // ==========================================
+    $(document).on('click', '#more-mcp-reset-oauth-state', function(e) {
+        e.preventDefault();
+
+        const confirmMsg = 'This will delete all registered OAuth clients, issued access/refresh tokens, and pending authorization codes.\n\nAll currently-connected MCP clients (Claude.ai, Claude Desktop, ChatGPT, etc.) will need to re-authorize after this runs.\n\nYour settings, API key, and Activity Log are NOT affected.\n\nContinue?';
+        if (!window.confirm(confirmMsg)) {
+            return;
+        }
+
+        const $btn = $(this);
+        const $status = $('#more-mcp-reset-oauth-state-status');
+
+        $btn.prop('disabled', true);
+        $status.removeClass('is-error is-success').text('Resetting...');
+
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: {
+                action: 'more_mcp_reset_oauth_state',
+                nonce: moreMcp.nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    $status.addClass('is-success').text(response.data.message);
+                    // Every grant is gone, so reflect that in the table rather than
+                    // leaving rows that now describe nothing.
+                    $('#more-mcp-grants-table tbody tr').addClass('is-revoked');
+                    $('#more-mcp-grants-table .mmcp-revoke-grant').prop('disabled', true);
+                } else {
+                    $status.addClass('is-error').text((response.data && response.data.message) || 'Reset failed');
+                }
+            },
+            error: function() {
+                $status.addClass('is-error').text('Reset request failed (network or server error)');
+            },
+            complete: function() {
+                $btn.prop('disabled', false);
+            }
+        });
+    });
+
+    // ==========================================
+    // Revoke all active sessions button (OAuth Sessions section)
+    // ==========================================
+    $(document).on('click', '#more-mcp-revoke-all-sessions', function(e) {
+        e.preventDefault();
+
+        const confirmMsg = 'This will disconnect all connected AI clients including your current session. You\'ll need to reconnect. Continue?';
+        if (!window.confirm(confirmMsg)) {
+            return;
+        }
+
+        const $btn = $(this);
+        const $status = $('#more-mcp-revoke-all-sessions-status');
+        const originalHtml = $btn.html();
+
+        $btn.prop('disabled', true);
+        $status.removeClass('is-error is-success').text('Revoking...');
+
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: {
+                action: 'more_mcp_revoke_all_sessions',
+                nonce: moreMcp.nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    $status.addClass('is-success').text(response.data.message);
+                    $('#more-mcp-grants-table tbody tr').addClass('is-revoked');
+                    $('#more-mcp-grants-table .mmcp-revoke-grant').prop('disabled', true);
+                } else {
+                    $status.addClass('is-error').text((response.data && response.data.message) || 'Revoke failed');
+                }
+            },
+            error: function() {
+                $status.addClass('is-error').text('Revoke request failed (network or server error)');
+            },
+            complete: function() {
+                $btn.prop('disabled', false);
+                $btn.html(originalHtml);
+            }
+        });
+    });
+
+    // ==========================================
+    // Per-row session management (Sessions panel)
+    // ==========================================
+
+    // Disconnect one OAuth client. The row carries the client_id + user_id pair
+    // that identifies the grant; the server groups tokens by that same pair, so
+    // revoking here matches exactly the row the admin clicked.
+    $(document).on('click', '.mmcp-revoke-grant', function(e) {
+        e.preventDefault();
+
+        const $btn = $(this);
+        const $row = $btn.closest('tr');
+        const clientId = $row.attr('data-client-id');
+        const userId = $row.attr('data-user-id');
+
+        if (!clientId || !userId) return;
+
+        if (!window.confirm('Disconnect this client? It will need to authorize again before it can call this site. Other connected clients are unaffected.')) {
+            return;
+        }
+
+        $btn.prop('disabled', true).text('Disconnecting…');
+
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: {
+                action: 'more_mcp_revoke_grant',
+                nonce: moreMcp.nonce,
+                client_id: clientId,
+                user_id: userId
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Fade the row out rather than removing it instantly, so the
+                    // admin sees which row the action applied to. The row is gone
+                    // on the next page load either way.
+                    $row.addClass('is-revoked');
+                    $btn.text('Disconnected');
+                    showNotice((response.data && response.data.message) || 'Client disconnected.');
+                } else {
+                    $btn.prop('disabled', false).text('Disconnect');
+                    showNotice((response.data && response.data.message) || 'Failed to disconnect that client.', 'error');
+                }
+            },
+            error: function() {
+                $btn.prop('disabled', false).text('Disconnect');
+                showNotice('Network error while disconnecting that client.', 'error');
+            }
+        });
+    });
+
+    // End one transport session. Addressed by table row ID because the admin
+    // screen never holds a plaintext session ID — only its hash is stored.
+    $(document).on('click', '.mmcp-end-session', function(e) {
+        e.preventDefault();
+
+        const $btn = $(this);
+        const $row = $btn.closest('tr');
+        const rowId = $row.attr('data-session-row-id');
+
+        if (!rowId) return;
+
+        $btn.prop('disabled', true).text('Ending…');
+
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: {
+                action: 'more_mcp_delete_session',
+                nonce: moreMcp.nonce,
+                session_row_id: rowId
+            },
+            success: function(response) {
+                if (response.success) {
+                    $row.addClass('is-revoked');
+                    $btn.text('Ended');
+                    showNotice((response.data && response.data.message) || 'Session ended.');
+                } else {
+                    $btn.prop('disabled', false).text('End');
+                    showNotice((response.data && response.data.message) || 'Failed to end that session.', 'error');
+                }
+            },
+            error: function() {
+                $btn.prop('disabled', false).text('End');
+                showNotice('Network error while ending that session.', 'error');
+            }
+        });
+    });
+
+    // End every transport session. No confirmation prompt on purpose: this
+    // revokes nothing and every client reconnects on its own, so the worst
+    // outcome is a brief reconnect. The destructive bulk actions below do prompt.
+    $(document).on('click', '#more-mcp-clear-all-sessions', function(e) {
+        e.preventDefault();
+
+        const $btn = $(this);
+        const $status = $('#more-mcp-clear-all-sessions-status');
+
+        $btn.prop('disabled', true);
+        $status.removeClass('is-error is-success').text('Ending sessions…');
+
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: {
+                action: 'more_mcp_clear_all_sessions',
+                nonce: moreMcp.nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    $status.addClass('is-success').text(response.data.message);
+                    $('#more-mcp-sessions-table tbody tr').addClass('is-revoked');
+                    $('#more-mcp-sessions-table .mmcp-end-session').prop('disabled', true);
+                } else {
+                    $status.addClass('is-error').text((response.data && response.data.message) || 'Failed to end sessions.');
+                }
+            },
+            error: function() {
+                $status.addClass('is-error').text('Request failed (network or server error)');
+            },
+            complete: function() {
+                $btn.prop('disabled', false);
+            }
+        });
+    });
+
+    // ==========================================
+    // Helper Functions
+    // ==========================================
+
+    function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text);
+        } else {
+            // Fallback for older browsers
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = 0;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+    }
+
+    function showNotice(message, type = 'success') {
+        const noticeClass = type === 'error' ? 'notice-error' : 'notice-success';
+        const notice = $('<div class="notice ' + noticeClass + ' is-dismissible"><p>' + escapeHtml(message) + '</p></div>');
+
+        $('.wrap h1').after(notice);
+
+        setTimeout(function() {
+            notice.fadeOut(function() {
+                $(this).remove();
+            });
+        }, 4000);
+    }
+
+    function escapeHtml(text) {
+        if (text === null || text === undefined) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // ==========================================
+    // Logs Page - View Details Modal
+    // ==========================================
+    //
+    // Delegated (not direct-bound): the Activity Log table now renders inside
+    // the settings shell as ?panel=logs as well as on the legacy screen, and
+    // delegated binding fires on both without depending on bind order.
+    $(document).on('click', '.view-log-details', function() {
+        // Use .attr() rather than .data() — jQuery's .data() auto-parses
+        // JSON-looking attribute values into JavaScript objects, which then
+        // crash JSON.parse() and render as "[object Object]" in the modal.
+        // .attr() returns the raw string value of the HTML attribute.
+        const requestData = $(this).attr('data-request') || '';
+        const responseData = $(this).attr('data-response') || '';
+
+        try {
+            const formattedRequest = JSON.stringify(JSON.parse(requestData), null, 2);
+            $('#log-request-data').text(formattedRequest);
+        } catch (e) {
+            $('#log-request-data').text(requestData);
+        }
+
+        try {
+            const formattedResponse = JSON.stringify(JSON.parse(responseData), null, 2);
+            $('#log-response-data').text(formattedResponse);
+        } catch (e) {
+            $('#log-response-data').text(responseData);
+        }
+
+        $('#log-details-modal').fadeIn();
+    });
+
+    // Close modal (delegated, same reason as above).
+    $(document).on('click', '.log-modal-close', function() {
+        $('#log-details-modal').fadeOut();
+    });
+
+    // Close modal on outside click
+    $(window).on('click', function(e) {
+        if ($(e.target).is('#log-details-modal')) {
+            $('#log-details-modal').fadeOut();
+        }
+    });
+
+    // Close modal on escape key
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape' && $('#log-details-modal').is(':visible')) {
+            $('#log-details-modal').fadeOut();
+        }
+    });
+
+    // ==========================================
+    // Legacy MCP Server Support (for backward compatibility)
+    // ==========================================
+
+    let serverIndex = $('#mcp-servers-list .mcp-server-item').length;
+
+    $('#add-server').on('click', function(e) {
+        e.preventDefault();
+
+        const template = $('#mcp-server-template').html();
+        if (!template) return;
+
+        const newServer = template.replace(/__INDEX__/g, serverIndex);
+
+        $('#mcp-servers-list').append(newServer);
+        updateServerNumbers();
+        serverIndex++;
+    });
+
+    $(document).on('click', '.remove-server', function(e) {
+        e.preventDefault();
+
+        if ($('#mcp-servers-list .mcp-server-item').length === 1) {
+            showNotice('You must have at least one server configured.', 'error');
+            return;
+        }
+
+        if (confirm('Are you sure you want to remove this server?')) {
+            $(this).closest('.mcp-server-item').remove();
+            updateServerNumbers();
+        }
+    });
+
+    function updateServerNumbers() {
+        $('#mcp-servers-list .mcp-server-item').each(function(index) {
+            $(this).find('.server-number').text(index + 1);
+        });
+    }
+
+    updateServerNumbers();
+
+    // ------------------------------------------------------------------
+    //  Global save-on-change for the Settings screen.
+    //
+    //  Every toggle/select below posts its new state immediately — there is no
+    //  Save button for these controls anywhere on the screen. A shared helper
+    //  posts one AJAX action, shows a transient hint, and reverts the control on
+    //  failure so the UI never claims a state the server did not store. The
+    //  credential fields (Connection, External Services) are the deliberate
+    //  exception: they still ride the settings form and its Save button.
+    // ------------------------------------------------------------------
+    function mmcpSaveToggle($toggle, data, hintText) {
+        var enabled = $toggle.is(':checked');
+        var $hint   = $('.mmcp-plugin-hint, .mmcp-integration-hint').first();
+        $toggle.prop('disabled', true);
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: $.extend({ nonce: moreMcp.nonce }, data),
+            success: function(response) {
+                $toggle.prop('disabled', false);
+                if (response && response.success) {
+                    if ($hint.length) {
+                        $hint.text((response.data && response.data.message) || hintText || 'Saved.');
+                    }
+                } else {
+                    $toggle.prop('checked', !enabled);
+                    showNotice((response && response.data && response.data.message) || 'Failed to save. Please try again.', 'error');
+                }
+            },
+            error: function() {
+                $toggle.prop('disabled', false).prop('checked', !enabled);
+                showNotice('Failed to save. Please try again.', 'error');
+            }
+        });
+    }
+
+    // Reusable security-acknowledgement modal. Shown before enabling any scope
+    // that could let an agent change how the site behaves (run code, spend money,
+    // manage plugins). Builds a one-off modal, wires a checkbox that gates the
+    // confirm button, and runs onConfirm only when the admin ticks + confirms.
+    // Purely a deliberate-consent step in the browser — the server still enforces
+    // capability + toggle on every call. `reason` is the per-scope sentence from
+    // the toggle's data-security-ack attribute.
+    function mmcpSecurityAck(reason, onConfirm) {
+        var s = (moreMcp.strings || {});
+        $('.mmcp-ack-overlay').remove();
+        var $overlay = $(
+            '<div class="mmcp-ack-overlay">' +
+              '<div class="mmcp-ack-modal" role="dialog" aria-modal="true" aria-labelledby="mmcp-ack-title">' +
+                '<h2 id="mmcp-ack-title"></h2>' +
+                '<p class="mmcp-ack-reason"></p>' +
+                '<label class="mmcp-ack-check"><input type="checkbox" class="mmcp-ack-box"> <span></span></label>' +
+                '<div class="mmcp-ack-actions">' +
+                  '<button type="button" class="button mmcp-ack-cancel"></button>' +
+                  '<button type="button" class="button button-primary mmcp-ack-ok" disabled></button>' +
+                '</div>' +
+              '</div>' +
+            '</div>'
+        );
+        // Text set via .text() so a translated reason cannot inject markup.
+        $overlay.find('#mmcp-ack-title').text(s.ackTitle || 'Enable a security-sensitive permission?');
+        $overlay.find('.mmcp-ack-reason').text(reason || '');
+        $overlay.find('.mmcp-ack-check span').text(s.ackCheckbox || 'I understand the risk and am enabling this deliberately.');
+        $overlay.find('.mmcp-ack-cancel').text(s.ackCancel || 'Cancel');
+        $overlay.find('.mmcp-ack-ok').text(s.ackConfirm || 'I understand — enable it');
+        $('body').append($overlay);
+
+        var close = function() { $overlay.remove(); };
+        $overlay.on('change', '.mmcp-ack-box', function() {
+            $overlay.find('.mmcp-ack-ok').prop('disabled', ! $(this).is(':checked'));
+        });
+        $overlay.on('click', '.mmcp-ack-cancel', close);
+        $overlay.on('click', function(e) { if (e.target === this) { close(); } }); // click backdrop = cancel
+        $overlay.on('click', '.mmcp-ack-ok', function() {
+            if (! $overlay.find('.mmcp-ack-box').is(':checked')) { return; }
+            close();
+            onConfirm();
+        });
+    }
+
+    // ---- Plugin cards: one switch per plugin, plus "Enable all" ------------
+    //
+    // Every card's master switch posts its card KEY to more_mcp_toggle_plugin;
+    // the server switches every row the card carries (tools, settings, imported
+    // abilities) and answers with every card's stored state, which is what the
+    // switches then show. A card that is only partly on renders as mixed.
+
+    // Reflect server state ('on' | 'off' | 'partial') on the card switches and on
+    // the "Enable all" switch, which reads on only when every card is on.
+    function mmcpApplyPluginStates(states) {
+        $('.mmcp-plugin-toggle').each(function() {
+            var key = String($(this).data('plugin'));
+            if (states && Object.prototype.hasOwnProperty.call(states, key)) {
+                $(this).attr('data-state', states[key]);
+            }
+            var state = $(this).attr('data-state');
+            this.checked = ('on' === state);
+            this.indeterminate = ('partial' === state);
+        });
+        var $cards = $('.mmcp-plugin-toggle');
+        var allOn  = $cards.length > 0 && $cards.filter('[data-state="on"]').length === $cards.length;
+        $('.mmcp-plugins-all-toggle').prop('checked', allOn);
+    }
+    mmcpApplyPluginStates(null);
+
+    function mmcpPostPluginSwitch($toggle, data, wasChecked) {
+        var $all = $('.mmcp-plugin-toggle, .mmcp-plugins-all-toggle');
+        $all.prop('disabled', true);
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: $.extend({ nonce: moreMcp.nonce }, data),
+            success: function(response) {
+                $all.prop('disabled', false);
+                if (response && response.success) {
+                    mmcpApplyPluginStates(response.data && response.data.states);
+                    var $hint = $('.mmcp-plugin-hint, .mmcp-integration-hint').first();
+                    if ($hint.length && response.data && response.data.message) {
+                        $hint.text(response.data.message);
+                    }
+                } else {
+                    $toggle.prop('checked', wasChecked);
+                    mmcpApplyPluginStates(null);
+                    showNotice((response && response.data && response.data.message) || 'Failed to save. Please try again.', 'error');
+                }
+            },
+            error: function() {
+                $all.prop('disabled', false);
+                $toggle.prop('checked', wasChecked);
+                mmcpApplyPluginStates(null);
+                showNotice('Failed to save. Please try again.', 'error');
+            }
+        });
+    }
+
+    $(document).on('change', '.mmcp-plugin-toggle', function() {
+        var $t = $(this);
+        var on = $t.is(':checked');
+        mmcpPostPluginSwitch($t, {
+            action: 'more_mcp_toggle_plugin',
+            plugin: String($t.data('plugin')),
+            enabled: on ? '1' : '0'
+        }, !on);
+    });
+
+    // "Enable all": turning everything ON asks for the same deliberate
+    // acknowledgement as other security-sensitive switches (imported abilities
+    // run third-party code); turning everything off never prompts.
+    $(document).on('change', '.mmcp-plugins-all-toggle', function() {
+        var $t = $(this);
+        var on = $t.is(':checked');
+        var send = function() {
+            mmcpPostPluginSwitch($t, { action: 'more_mcp_toggle_all_plugins', enabled: on ? '1' : '0' }, !on);
+        };
+        if (on && $t.data('security-ack')) {
+            $t.prop('checked', false);
+            mmcpSecurityAck($t.data('security-ack'), function() {
+                $t.prop('checked', true);
+                send();
+            });
+            return;
+        }
+        send();
+    });
+
+    // Option-source Settings toggle (a product's writable settings).
+    $(document).on('change', '.mmcp-source-toggle', function() {
+        var $t = $(this);
+        $t.closest('.mmcp-preset-toggle').toggleClass('is-on', $t.is(':checked'));
+        mmcpSaveToggle($t, {
+            action: 'more_mcp_toggle_option_source',
+            slug: $t.data('slug'),
+            enabled: $t.is(':checked') ? '1' : '0'
+        });
+    });
+
+
+    // Expand/collapse the per-ability list under a plugin's Abilities row.
+    $(document).on('click', '.mmcp-ability-disclose', function() {
+        var $btn = $(this);
+        var $list = $('#' + $btn.attr('aria-controls'));
+        if (! $list.length) { return; }
+        var willOpen = $list.is('[hidden]') || $list.is(':hidden');
+        $btn.attr('aria-expanded', willOpen ? 'true' : 'false');
+        if (willOpen) { $list.removeAttr('hidden').hide().slideDown(160); }
+        else { $list.slideUp(160, function() { $(this).attr('hidden', true); }); }
+    });
+
+    // Escape a value for use inside a CSS attribute selector.
+    function mmcpAttrEsc(v) {
+        return String(v == null ? '' : v).replace(/["\\]/g, '\\$&');
+    }
+
+    // A boolean write scope (master switch, option/theme/lifecycle scopes).
+    // Reflect on/off classes so the card styling tracks the state, and toggle the
+    // dependent Settings switches when Site options flips.
+    $(document).on('change', '.mmcp-scope-toggle', function() {
+        var $t   = $(this);
+        var on   = $t.is(':checked');
+        var key  = $t.data('scope');
+        var ack  = $t.data('security-ack');
+
+        // Security-sensitive scopes require a deliberate acknowledgement on the
+        // way ON — a modal the admin must tick before the switch commits. This is
+        // a consent affordance, not a security boundary (the server re-checks caps
+        // and the toggle). Turning OFF never prompts. If the admin cancels, the
+        // switch snaps back and nothing is saved.
+        if (on && ack) {
+            // Undo the visual flip until confirmed, then run the modal.
+            $t.prop('checked', false);
+            mmcpSecurityAck(ack, function() {
+                $t.prop('checked', true);
+                $t.closest('.mmcp-scope, .mmcp-master-switch').toggleClass('is-on', true).toggleClass('is-off', false);
+                if ('allow_option_writes' === key) {
+                    $('.mmcp-source-toggle').prop('disabled', false);
+                }
+                mmcpSaveToggle($t, {
+                    action: 'more_mcp_set_scope',
+                    scope: key,
+                    enabled: '1'
+                });
+            });
+            return;
+        }
+
+        $t.closest('.mmcp-scope, .mmcp-master-switch').toggleClass('is-on', on).toggleClass('is-off', !on);
+        if ('allow_option_writes' === key) {
+            // Settings toggles are gated on this scope; enable/disable them live.
+            $('.mmcp-source-toggle').prop('disabled', !on);
+        }
+        mmcpSaveToggle($t, {
+            action: 'more_mcp_set_scope',
+            scope: key,
+            enabled: on ? '1' : '0'
+        });
+    });
+
+    // Session access-token TTL (save-on-change select).
+    $(document).on('change', '.mmcp-ttl-select', function() {
+        var $sel = $(this);
+        var val  = $sel.val();
+        var prev = $sel.data('current');
+        $sel.prop('disabled', true);
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: { action: 'more_mcp_set_ttl', nonce: moreMcp.nonce, ttl: val },
+            success: function(response) {
+                $sel.prop('disabled', false);
+                if (response && response.success) {
+                    $sel.data('current', val);
+                } else {
+                    $sel.val(prev);
+                    showNotice('Failed to save token length. Please try again.', 'error');
+                }
+            },
+            error: function() {
+                $sel.prop('disabled', false).val(prev);
+                showNotice('Failed to save token length. Please try again.', 'error');
+            }
+        });
+    });
+
+    // Activity Log retention selects (save-on-change, GitHub #22). Each select
+    // posts its own key; the server keeps whichever key was not posted, so the
+    // two controls save independently through one AJAX action.
+    $(document).on('change', '.mmcp-log-retention-select', function() {
+        var $sel = $(this);
+        var val  = $sel.val();
+        var prev = $sel.data('current');
+        var data = { action: 'more_mcp_set_log_retention', nonce: moreMcp.nonce };
+        if ($sel.attr('id') === 'log_row_cap') {
+            data.row_cap = val;
+        } else {
+            data.retention_days = val;
+        }
+        $sel.prop('disabled', true);
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: data,
+            success: function(response) {
+                $sel.prop('disabled', false);
+                if (response && response.success) {
+                    $sel.data('current', val);
+                } else {
+                    $sel.val(prev);
+                    showNotice('Failed to save log retention. Please try again.', 'error');
+                }
+            },
+            error: function() {
+                $sel.prop('disabled', false).val(prev);
+                showNotice('Failed to save log retention. Please try again.', 'error');
+            }
+        });
+    });
+
+    // Manual option-name textarea (save-on-change, on blur — free text, not a toggle).
+    $(document).on('blur', '.mmcp-custom-options', function() {
+        var $ta  = $(this);
+        var text = $ta.val();
+        if (text === $ta.data('last')) { return; } // nothing changed since last save
+        $ta.data('last', text);
+        var $hint = $('.mmcp-plugin-hint, .mmcp-integration-hint').first();
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: { action: 'more_mcp_set_custom_options', nonce: moreMcp.nonce, names: text },
+            success: function(response) {
+                if (response && response.success) {
+                    if ($hint.length) { $hint.text('Saved.'); }
+                } else {
+                    showNotice('Failed to save option names. Please try again.', 'error');
+                }
+            },
+            error: function() {
+                showNotice('Failed to save option names. Please try again.', 'error');
+            }
+        });
+    });
+
+    // Undo panel on the Logs screen. Two-step, mirroring the server handler:
+    // the first POST is a preview (writes nothing) and returns the snapshot's
+    // summary, which is what the confirm() prompt shows; only the confirmed
+    // second POST carries confirm=1 and actually restores. A restore is not
+    // reversible from here, so a single click never triggers it.
+    $(document).on('click', '.more-mcp-undo-run', function(e) {
+        e.preventDefault();
+
+        var $btn  = $(this);
+        var $row  = $btn.closest('tr');
+        var token = $btn.attr('data-token') || '';
+        if (!token) { return; }
+
+        $btn.prop('disabled', true).text('Checking…');
+
+        // Step 1: preview. No confirm flag, so the server writes nothing and
+        // hands back what would be restored.
+        $.ajax({
+            url: moreMcp.ajaxUrl,
+            type: 'POST',
+            data: { action: 'more_mcp_run_undo', nonce: moreMcp.nonce, token: token },
+            success: function(preview) {
+                if (!preview || !preview.success) {
+                    $btn.prop('disabled', false).text('Undo');
+                    showNotice((preview && preview.data && preview.data.message) || 'That undo point is no longer available.', 'error');
+                    return;
+                }
+                var summary = (preview.data && preview.data.summary) || '';
+                var prompt  = 'Undo this operation? This restores the pre-operation state and cannot be redone from here.';
+                if (summary) { prompt += '\n\n' + summary; }
+                if (!window.confirm(prompt)) {
+                    $btn.prop('disabled', false).text('Undo');
+                    return;
+                }
+
+                // Step 2: confirmed restore.
+                $btn.text('Undoing…');
+                $.ajax({
+                    url: moreMcp.ajaxUrl,
+                    type: 'POST',
+                    data: {
+                        action: 'more_mcp_run_undo',
+                        nonce: moreMcp.nonce,
+                        token: token,
+                        confirm: 1
+                    },
+                    success: function(done) {
+                        if (done && done.success) {
+                            // The token is consumed, so the row can no longer act.
+                            $row.css('opacity', '0.5');
+                            $btn.text('Undone');
+                            showNotice((done.data && done.data.message) || 'The operation was undone.');
+                        } else {
+                            $btn.prop('disabled', false).text('Undo');
+                            showNotice((done && done.data && done.data.message) || 'The undo could not be completed.', 'error');
+                        }
+                    },
+                    error: function() {
+                        $btn.prop('disabled', false).text('Undo');
+                        showNotice('Network error while undoing that operation.', 'error');
+                    }
+                });
+            },
+            error: function() {
+                $btn.prop('disabled', false).text('Undo');
+                showNotice('Network error while checking that undo point.', 'error');
+            }
+        });
+    });
+
+    // ==========================================
+    // Access control: read-only mode, per-connection access, IP allowlist
+    // ==========================================
+    //
+    // Everything here saves on change and posts to Admin\Access_Controls. The
+    // per-connection editors are built from moreMcpAccess.groups so the list of
+    // permission groups has one source of truth (Access\Classifier::groups) and
+    // the markup cannot drift from what the server accepts.
+    (function() {
+        if (typeof moreMcpAccess === 'undefined') {
+            return;
+        }
+        var S = moreMcpAccess.strings;
+        var statusTimer = null;
+
+        function setStatus($el, text, kind) {
+            if (!$el || !$el.length) {
+                return;
+            }
+            $el.removeClass('is-error is-ok is-busy').text(text || '');
+            if (kind) {
+                $el.addClass('is-' + kind);
+            }
+            if ('ok' === kind) {
+                clearTimeout(statusTimer);
+                statusTimer = setTimeout(function() { $el.text('').removeClass('is-ok'); }, 2500);
+            }
+        }
+
+        function failMessage(response) {
+            return (response && response.data && response.data.message) || S.saveFailed;
+        }
+
+        function opt(value, label) {
+            return $('<option></option>').attr('value', value).text(label);
+        }
+
+        // Site-wide settings. Posts only the keys passed, which the server keeps
+        // apart from the ones it was not given.
+        function postAccess(fields, $status, done) {
+            setStatus($status, S.saving, 'busy');
+            $.ajax({
+                url: moreMcp.ajaxUrl,
+                type: 'POST',
+                data: $.extend({ action: 'more_mcp_set_access', nonce: moreMcp.nonce }, fields),
+                success: function(response) {
+                    if (response && response.success) {
+                        setStatus($status, S.saved, 'ok');
+                        if (done) { done(true, response.data); }
+                    } else {
+                        setStatus($status, failMessage(response), 'error');
+                        if (done) { done(false, response && response.data); }
+                    }
+                },
+                error: function() {
+                    setStatus($status, S.saveFailed, 'error');
+                    if (done) { done(false); }
+                }
+            });
+        }
+
+        $(document).on('change', '.mmcp-access-readonly', function() {
+            var $t = $(this);
+            var on = $t.is(':checked');
+            var $card = $t.closest('.mmcp-scope');
+            $card.toggleClass('is-on', on);
+            postAccess({ read_only: on ? '1' : '0' }, null, function(ok) {
+                if (!ok) {
+                    $t.prop('checked', !on);
+                    $card.toggleClass('is-on', !on);
+                    showNotice(S.saveFailed, 'error');
+                } else {
+                    showNotice(on ? 'Read-only mode is on. Tools that change the site are now refused.' : 'Read-only mode is off.');
+                }
+            });
+        });
+
+        $(document).on('change', '.mmcp-access-default', function() {
+            var $sel = $(this);
+            var prev = $sel.data('current');
+            if (undefined === prev) {
+                prev = 'full' === $sel.val() ? 'read_only' : 'full';
+            }
+            $sel.prop('disabled', true);
+            postAccess({ default_oauth_access: $sel.val() }, null, function(ok) {
+                $sel.prop('disabled', false);
+                if (ok) {
+                    $sel.data('current', $sel.val());
+                } else {
+                    $sel.val(prev);
+                    showNotice(S.saveFailed, 'error');
+                }
+            });
+        });
+
+        $(document).on('click', '.mmcp-ip-save', function() {
+            var $btn = $(this);
+            var fields = {};
+            $('.mmcp-ip-field').each(function() {
+                fields[$(this).data('field')] = $(this).val();
+            });
+            $btn.prop('disabled', true);
+            postAccess(fields, $('#mmcp-ip-status'), function(ok, data) {
+                $btn.prop('disabled', false);
+                if (ok && data) {
+                    $('#mmcp-ip-allowlist').val(data.ip_allowlist || '');
+                    $('#mmcp-ip-scope').toggleClass('is-on', !!$.trim(data.ip_allowlist || ''));
+                    if (data.warning) {
+                        showNotice(data.warning);
+                    }
+                }
+            });
+        });
+
+        // ---- Per-connection editors --------------------------------------
+
+        function buildEditor($ed) {
+            var access = $ed.attr('data-access') || 'full';
+            var groups = {};
+            try {
+                groups = JSON.parse($ed.attr('data-groups') || '{}') || {};
+            } catch (err) {
+                groups = {};
+            }
+
+            var $preset = $('<select class="mmcp-access-preset"></select>')
+                .append(opt('full', S.full), opt('read_only', S.readOnly), opt('custom', S.custom))
+                .val(access);
+            var $status = $('<span class="mmcp-access-status" role="status" aria-live="polite"></span>');
+
+            var $list = $('<ul class="mmcp-access-groups"></ul>');
+            $.each(moreMcpAccess.groups, function(slug, label) {
+                var $level = $('<select class="mmcp-access-level"></select>')
+                    .attr('data-group', slug)
+                    .attr('aria-label', label)
+                    .append(opt('', S.none), opt('read', S.read), opt('write', S.write))
+                    .val(groups[slug] || '');
+                $list.append(
+                    $('<li></li>')
+                        .append($('<span class="mmcp-access-group-name"></span>').text(label))
+                        .append($level)
+                );
+            });
+
+            var $matrix = $('<div class="mmcp-access-matrix"></div>')
+                .append($list)
+                .append($('<p class="description"></p>').text(S.undoNote));
+            if ('custom' !== access) {
+                $matrix.attr('hidden', true);
+            }
+
+            $ed.data('prev', access)
+                .empty()
+                .append($('<div class="mmcp-access-row"></div>').append($preset, $status))
+                .append($matrix);
+        }
+
+        function saveEditor($ed) {
+            var access = $ed.find('.mmcp-access-preset').val();
+            var data = { action: 'more_mcp_set_connection_access', nonce: moreMcp.nonce, access: access };
+
+            if ('api-key' === $ed.attr('data-target')) {
+                data.target = 'api-key';
+            } else {
+                var $row = $ed.closest('tr');
+                data.target = 'grant';
+                data.client_id = $row.attr('data-client-id');
+                data.user_id = $row.attr('data-user-id');
+            }
+
+            if ('custom' === access) {
+                data.groups = {};
+                $ed.find('.mmcp-access-level').each(function() {
+                    var level = $(this).val();
+                    if (level) {
+                        data.groups[$(this).attr('data-group')] = level;
+                    }
+                });
+            }
+
+            var $status = $ed.find('.mmcp-access-status');
+            setStatus($status, S.saving, 'busy');
+            $ed.find('select').prop('disabled', true);
+
+            $.ajax({
+                url: moreMcp.ajaxUrl,
+                type: 'POST',
+                data: data,
+                success: function(response) {
+                    $ed.find('select').prop('disabled', false);
+                    if (response && response.success) {
+                        $ed.data('prev', access);
+                        setStatus($status, S.saved, 'ok');
+                    } else {
+                        setStatus($status, failMessage(response), 'error');
+                    }
+                },
+                error: function() {
+                    $ed.find('select').prop('disabled', false);
+                    setStatus($status, S.saveFailed, 'error');
+                }
+            });
+        }
+
+        $(document).on('change', '.mmcp-access-preset', function() {
+            var $ed = $(this).closest('.mmcp-access-editor');
+            var access = $(this).val();
+            var $matrix = $ed.find('.mmcp-access-matrix');
+
+            if ('custom' === access) {
+                // Start Custom from what the connection can do now, then narrow:
+                // a fresh Custom with every group on "No access" would lock the
+                // connection out of everything the moment it is chosen.
+                var $levels = $ed.find('.mmcp-access-level');
+                var untouched = true;
+                $levels.each(function() { if ($(this).val()) { untouched = false; } });
+                if (untouched) {
+                    var seed = 'read_only' === $ed.data('prev') ? 'read' : 'write';
+                    $levels.val(seed);
+                }
+                $matrix.removeAttr('hidden');
+            } else {
+                $matrix.attr('hidden', true);
+            }
+            saveEditor($ed);
+        });
+
+        $(document).on('change', '.mmcp-access-level', function() {
+            saveEditor($(this).closest('.mmcp-access-editor'));
+        });
+
+        $('.mmcp-access-editor').each(function() {
+            buildEditor($(this));
+        });
+    })();
+});

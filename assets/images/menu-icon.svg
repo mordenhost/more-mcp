@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!--
+    More MCP admin-menu mark, Mordenhost brand.
+
+    A trimmed variant of .wordpress-org/src/icon.svg tuned for the ~20px slot in
+    the WordPress admin menu. Differences from the directory icon, all in service
+    of legibility at that size:
+
+      - No rounded tile clip and no 2px keyline. At 20px the corner radius and the
+        1px inset stroke both collapse to mud; a plain filled shield reads cleaner.
+      - Slightly heavier satellite/hub strokes for the same reason the directory
+        icon over-weights them: hairlines vanish first on downscale.
+
+    This is rendered full-colour on purpose. WordPress greyscales dashicon-style
+    menu marks and tints them to the active colour scheme, but a branded product
+    icon (WooCommerce, Elementor, Yoast) keeps its own colour so the plugin is
+    recognisable at a glance in a long menu. The brand's neo-brutalist palette,
+    ink #111111 ground and #ffd21e mark, is kept exactly.
+
+    Editors: this renderer rejects a double hyphen inside an SVG comment, which is
+    why CSS custom properties elsewhere are written without their leading dashes.
+  -->
+  <rect width="256" height="256" fill="#111111"/>
+
+  <!-- Security-first is the plugin's real differentiator, so the container is a
+       shield. Wide and blunt so the silhouette survives below 32px. -->
+  <path d="M128 30 L212 57 L212 126 C212 173 176 203 128 222 C80 203 44 173 44 126 L44 57 Z"
+        fill="#ffd21e"/>
+
+  <!-- Hub and three satellites: many AI clients converging on one site. Drawn in
+       ink ON the yellow, never cut out; a cutout wide enough to stay open at
+       small sizes severs the shield into wedges. Three, not four, so it never
+       reads as a plus or an X. -->
+  <g stroke="#111111" stroke-width="16" stroke-linecap="round" fill="#111111">
+    <line x1="128" y1="118" x2="128" y2="166"/>
+    <line x1="128" y1="118" x2="88" y2="94"/>
+    <line x1="128" y1="118" x2="168" y2="94"/>
+    <circle cx="128" cy="166" r="13"/>
+    <circle cx="88" cy="94" r="13"/>
+    <circle cx="168" cy="94" r="13"/>
+  </g>
+  <!-- The hub is a ring so it reads as its own object, not a larger fourth
+       satellite. Filled in the shield colour since it sits inside it. -->
+  <circle cx="128" cy="118" r="24" fill="#ffd21e" stroke="#111111" stroke-width="16"/>
+</svg>

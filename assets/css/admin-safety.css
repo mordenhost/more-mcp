@@ -1,0 +1,188 @@
+/* Safety, API Tokens and Change History panels, and the profile token section. */
+
+.more-mcp-settings .mmcp-safety-status,
+.more-mcp-settings .mmcp-token-status {
+	display: inline-block;
+	min-height: 1.4em;
+	margin: 0 0 8px;
+	font-weight: 600;
+	color: #1d6f42;
+}
+
+.more-mcp-settings .mmcp-safety-status.is-error,
+.more-mcp-settings .mmcp-token-status.is-error {
+	color: #b32d2e;
+}
+
+.more-mcp-settings .mmcp-locked {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	color: #50575e;
+}
+
+.more-mcp-settings .mmcp-tool-list {
+	margin-top: 8px;
+}
+
+.more-mcp-settings .mmcp-tool-list summary {
+	cursor: pointer;
+	color: #2271b1;
+}
+
+.more-mcp-settings .mmcp-tool-list code {
+	display: inline-block;
+	margin: 2px 4px 2px 0;
+}
+
+/* Status pills used by approvals, tokens and history. */
+.more-mcp-settings .mmcp-pill {
+	display: inline-block;
+	padding: 1px 8px;
+	border-radius: 999px;
+	background: #f0f0f1;
+	color: #3c434a;
+	font-size: 12px;
+	line-height: 1.6;
+	text-transform: capitalize;
+}
+
+.more-mcp-settings .mmcp-pill-pending {
+	background: #fcf0c3;
+	color: #6b4e00;
+}
+
+.more-mcp-settings .mmcp-pill-approved,
+.more-mcp-settings .mmcp-pill-active,
+.more-mcp-settings .mmcp-pill-restored {
+	background: #d6f0e0;
+	color: #14532d;
+}
+
+.more-mcp-settings .mmcp-pill-denied,
+.more-mcp-settings .mmcp-pill-revoked,
+.more-mcp-settings .mmcp-pill-expired {
+	background: #f6d6d6;
+	color: #7a1d1d;
+}
+
+/* Token form */
+.more-mcp-settings .mmcp-token-heading {
+	margin: 24px 0 8px;
+}
+
+.more-mcp-settings .mmcp-token-form {
+	max-width: 640px;
+}
+
+.more-mcp-settings .mmcp-token-field {
+	margin: 0 0 14px;
+}
+
+.more-mcp-settings .mmcp-token-field label {
+	display: block;
+	margin-bottom: 4px;
+}
+
+.more-mcp-settings .mmcp-token-inline {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 24px;
+}
+
+.more-mcp-settings .mmcp-token-matrix {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 6px 20px;
+	margin-top: 6px;
+}
+
+.more-mcp-settings .mmcp-token-matrix-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.more-mcp-settings .mmcp-token-matrix-row label {
+	margin: 0;
+	flex: 1;
+	font-size: 13px;
+}
+
+.more-mcp-settings .mmcp-token-secret {
+	max-width: 720px;
+	padding: 12px 16px;
+	margin: 12px 0;
+	border-left: 4px solid #dba617;
+	background: #fcf9e8;
+}
+
+.more-mcp-settings .mmcp-token-secret-row {
+	display: flex;
+	gap: 8px;
+}
+
+.more-mcp-settings .mmcp-token-secret-row input {
+	flex: 1;
+}
+
+/* Diffs */
+.more-mcp-settings .mmcp-diff {
+	margin: 0 0 12px;
+	padding: 8px 10px;
+	overflow-x: auto;
+	background: #f6f7f7;
+	font-size: 12px;
+	line-height: 1.5;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.more-mcp-settings .mmcp-diff span {
+	display: block;
+}
+
+.more-mcp-settings .mmcp-diff-add {
+	background: #e6f6ec;
+	color: #14532d;
+}
+
+.more-mcp-settings .mmcp-diff-del {
+	background: #fbe9e9;
+	color: #7a1d1d;
+}
+
+.more-mcp-settings .mmcp-diff-hunk {
+	color: #646970;
+}
+
+/* Modal */
+.more-mcp-settings .mmcp-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.55);
+}
+
+.more-mcp-settings .mmcp-modal[hidden] {
+	display: none;
+}
+
+.more-mcp-settings .mmcp-modal-card {
+	box-sizing: border-box;
+	width: min(760px, 92vw);
+	max-height: 82vh;
+	padding: 20px 24px;
+	overflow-y: auto;
+	background: #fff;
+	border-radius: 6px;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.mmcp-profile-tokens .mmcp-token-manager {
+	max-width: 900px;
+}
