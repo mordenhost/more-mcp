@@ -1,0 +1,135 @@
+/* OAuth consent screen (served standalone by OAuth\Server::authorize_get). */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    background: #f0f0f1;
+    color: #1d2327;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+.auth-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    max-width: 440px;
+    width: 100%;
+    padding: 32px;
+}
+.auth-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+.auth-header .site-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: #2c3338;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+.auth-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+.auth-header .subtitle {
+    color: #646970;
+    font-size: 14px;
+}
+.auth-details {
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+.auth-details h3 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: #646970;
+    margin-bottom: 12px;
+}
+.auth-details ul {
+    list-style: none;
+    padding: 0;
+}
+.auth-details li {
+    padding: 6px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.auth-details li::before {
+    content: "\2713";
+    color: #00a32a;
+    font-weight: 700;
+}
+.auth-user {
+    text-align: center;
+    font-size: 13px;
+    color: #646970;
+    margin-bottom: 20px;
+}
+.auth-user strong { color: #1d2327; }
+.auth-buttons {
+    display: flex;
+    gap: 12px;
+}
+.auth-buttons button {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid;
+    transition: background .15s;
+}
+.btn-authorize {
+    background: #2271b1;
+    border-color: #2271b1;
+    color: #fff;
+}
+.btn-authorize:hover { background: #135e96; }
+.btn-deny {
+    background: #fff;
+    border-color: #dcdcde;
+    color: #1d2327;
+}
+.btn-deny:hover { background: #f6f7f7; }
+
+/* Device sign-in (OAuth\Server::device_verification). */
+.device-code {
+  display: block;
+  width: 100%;
+  margin: 8px 0 16px;
+  padding: 12px;
+  font: 600 24px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 4px;
+  text-align: center;
+  text-transform: uppercase;
+  border: 1px solid #8c8f94;
+  border-radius: 6px;
+}
+.device-code-shown {
+  margin: 8px 0 16px;
+  padding: 12px;
+  font: 600 24px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 4px;
+  text-align: center;
+  background: #f6f7f7;
+  border-radius: 6px;
+}
+.device-error { margin: 0 0 16px; padding: 10px 12px; color: #8a2424; background: #fcf0f1; border-left: 4px solid #d63638; }
+.device-note { margin: 0 0 16px; color: #50575e; text-align: center; }

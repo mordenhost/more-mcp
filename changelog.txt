@@ -1,0 +1,154 @@
+Changelog archive
+
+Versions older than 0.14.0. The current changelog is in readme.txt.
+
+= 0.13.0 =
+Full-site editing parity: the two axes an agent could not reach on either supported builder.
+
+**FSE global styles (theme.json).** Two new tools, blocks_get_global_styles and blocks_update_global_styles, cover the Site Editor's Styles sidebar: the colour palette, typography scale, spacing presets, layout widths, and per-block style overrides a block theme renders from. This is the Gutenberg counterpart of the Elementor kit tools, and until now it was the largest same-axis asymmetry between the two builders: Elementor had four tools for site-wide design tokens and Gutenberg had none. wp_update_theme_mod was not a substitute, because a block theme keeps almost no styling in theme mods, and blocks_update_template changes structure rather than the style system.
+
+Three behaviours are worth knowing before the first call:
+
+* Writes merge by default. The keys you send are merged into the existing user styles, so sending only settings.color.palette leaves typography and every per-block override untouched. replace_settings: true swaps the whole object and reports which top-level keys it discarded.
+* A list value is replaced wholesale, never merged element by element. theme.json presets (settings.color.palette, settings.typography.fontSizes, settings.spacing.spacingSizes) are lists, and merging two lists position by position would pair the first incoming colour with the first existing one and produce a palette matching neither input. Read the current list first and send it back complete. The keyed siblings around the list still merge normally.
+* Reads default to a key index, not the values. Merged theme.json on a real block theme carries a section per registered block and does not fit in one tool result, so blocks_get_global_styles returns one row per dot-path describing its shape. Pass keys: ["settings.color.palette"] for actual values, or include_all: true for everything. The same reason elementor_get_kit indexes by default.
+
+Reading never creates the storage row, so inspecting a pristine site leaves nothing behind, and the three origins are separately addressable: user (what the Site Editor saved, and the only writable layer), theme (the theme's own defaults, useful for discovering which preset slugs exist), and merged (what actually renders). A classic theme is refused rather than written to, because nothing renders from theme.json there.
+
+**Per-post render context.** wp_list_page_templates and wp_set_page_template reach _wp_page_template, the meta value deciding which template renders one post. This was the only full-site axis missing from both builders: an agent could set the site-wide default (Elementor's kit carries default_page_template) but not override it for a single page, so "make this one landing page a bare canvas with no header or footer" had no tool. The choice list is resolved live through WordPress rather than hardcoded, which is what makes one tool correct across every setup: Elementor's page-templates module injects Elementor Canvas, Elementor Full Width, and Theme through the theme_{$post_type}_templates filter, and a block theme's custom templates arrive through the same call.
+
+A value outside the resolved list is refused by name, with the valid values listed. That matters more than it looks: _wp_page_template is a plain meta key, so any string at all stores cleanly and reads back correctly, then falls through to the default at render time. A blind write would report success, round-trip perfectly, and change nothing visible.
+
+Both writes verify against storage rather than trusting the write call, both support dry_run, and the global-styles write emits an undo token restoring the complete prior object. Setting a template on an Elementor-built page invalidates Elementor's cached render state, since the template choice decides which chrome the cached HTML sits inside.
+
+**One card per plugin, one master toggle.** The Access screen now shows one card per plugin with a single master switch in the card header, and that one switch governs the whole card: the integration's own tools, its writable-settings allowlist, and the abilities it imports through the WordPress Abilities API. The per-row switches and the separate global imported-abilities gate are gone. A plugin's imported abilities are governed by its own card, all-or-nothing, so there is exactly one place to turn a plugin's entire AI surface off and no second gate elsewhere to be surprised by.
+
+An imported ability that duplicates an admin-enabled native integration no longer appears at all: it is absent from tools/list, absent from the card, and refused by name with an explanation. This resolves the WooCommerce confusion, where one card covered the native integration and a second card covered the same plugin's imported abilities, leaving two routes to the same operation under different rules. With the native integration off, importing remains the only route and the ability stays importable.
+
+Upgrading keeps at least the surface you had: stored per-ability selections promote their whole namespace, and the previous global master-on state promotes every registered namespace. Nothing narrows on update.
+
+**One word for what an agent can call: ability.** The user-facing vocabulary is now consistent. What the WordPress Abilities API exposes is an ability; what WordPress permissions gate is a capability. The "What this site can do" grouping panel on the Access screen is retired (it showed the same detection data as the plugin cards, only grouped per area), and the admin copy now speaks of imported abilities. The agent-facing resource keeps its per-area grouping under the same more_mcp://capabilities address, so clients and skills holding that URI keep working.
+
+**The capability map now reports every integration.** The more_mcp://capabilities resource and the admin summary listed 25 of the integration fronts that publish a manifest; the other 56 did the work of declaring themselves and the map discarded it. The map now lists every manifest-publishing front, and the eleven capability areas this exposed for the first time (affiliate, ai_media, automation, data_models, directories, job_board, mapping, real_estate, search, snippets, social_publishing) carry proper labels instead of falling through to an empty fallback row.
+
+**Snippet undo buttons now work.** Since the Activity Logs screen grew its Undo panel, every snippet write rendered an Undo button that threw an error when clicked: the tokens were minted with operations the undo dispatcher had no branch for. Both are redeemable now. Undoing a snippet update restores the previous code and name and deliberately never touches the snippet's active state: if a human activated the snippet after the write, the restore puts the old body back into the live snippet and leaves it live, and the response says so. Undoing a snippet create deletes the snippet it created and reports whether the code had been activated in the meantime, because in that case the undo removed running code. Locked snippets are refused with a pointer to the Code Snippets UI rather than silently reverted.
+
+**Also fixed.** elementor_update_kit was missing from the destructive-tool classifier that feeds more_mcp_tool_context for audit and approval consumers, despite its own description calling itself a site-wide change and emitting an undo token. It read as non-destructive to those consumers. Both site-wide design-token writes are now classified together, and tests/destructive-classifier-test.php pins them.
+
+= 0.12.0 =
+Forty-three new third-party integrations, an MCP prompts surface, Elementor write safety, and a round of security fixes.
+
+The integration catalogue grows from 36 to 79 (pinned by tests/integration-toggles-test.php). Five further providers join existing aggregate toggles rather than adding their own: Burst Statistics, Matomo, and Independent Analytics under Analytics, and Formidable Forms and Forminator under Forms.
+
+New integrations (each opt-in, off by default, and only registered when its host plugin is active):
+
+* Booking, a new capability with four read-only providers: Amelia, LatePoint, Bookly, and BookingPress.
+* Membership, a new capability with four read-only providers: Paid Memberships Pro, Simple Membership, ProfilePress, and Restrict Content.
+* Donations, a new capability with two read-only providers: GiveWP and Charitable.
+* Commerce extended beyond WooCommerce with two read-only providers: Easy Digital Downloads and FluentCart.
+* LMS extended to five read-only providers: Sensei LMS, Masteriyo, Tutor LMS, and LifterLMS join LearnPress.
+* Events extended to three read-only providers: Sugar Calendar and Events Manager join The Events Calendar.
+* Community, a new capability with two read-only providers: bbPress and BuddyPress.
+* Directories, a new capability with two read-only providers: GeoDirectory and Business Directory Plugin.
+* Search, a new capability with two read-only providers: Relevanssi and Ivory Search.
+* Automation, a new capability with two read-only providers: AutomatorWP and Uncanny Automator.
+* Helpdesk, a new capability with one read-only provider: Fluent Support.
+* Job board, a new capability with one read-only provider: WP Job Manager.
+* Affiliate, a new capability with one read-only provider: SliceWP.
+* Social publishing, a new capability with one read-only provider: Blog2Social.
+* Real estate, a new capability with one read-only provider: Estatik.
+* Mapping, a new capability with one read-only provider: WP Go Maps.
+* Page building extended to five providers: Beaver Builder and SiteOrigin Page Builder join Elementor, Divi, and the Gutenberg subsystem, both read-only (outline plus addressed node read).
+* CRM extended to three read-only providers: MailPoet and Groundhogg join FluentCRM.
+* Analytics extended to six read-only providers: Burst Statistics, Matomo, and Independent Analytics join Site Kit, Jetpack, and MonsterInsights. Matomo and Independent Analytics read the local database only.
+* Multilingual completed to four read-only providers: Weglot joins TranslatePress, Polylang, and WPML.
+* Backup completed to five read-only providers: All-in-One WP Migration joins UpdraftPlus, BackWPup, Duplicator, and WPvivid.
+* Security completed to six read-only providers: Patchstack joins Wordfence, WP Defender, Solid Security, Sucuri Security, and Really Simple Security.
+* Forms extended to seven providers: Formidable Forms and Forminator join Gravity, Fluent, WPForms, Ninja, Contact Form 7, and Elementor Pro Forms.
+* Data models, four providers: Pods, Custom Post Type UI, MB Custom Post Types, and Toolset Types. CPT UI, Toolset Types, and MB Custom Post Types also accept registration-definition writes (create, update, delete), each behind its own confirmation.
+
+New:
+
+* MCP prompts surface: prompts/list and prompts/get expose six workflow prompts, including build_elementor_site_structure, an Elementor site-decomposition playbook.
+* Elementor writes now snapshot the page as a WordPress revision before writing, so a builder edit is recoverable through the normal revision UI. Elementor's own revision hook does not fire on a meta write, so the revision is created deliberately before the write.
+* Elementor per-element edit trail: each element records who changed it and when, surfaced in the reads that precede a write.
+* Undo panel on the Logs screen: stored undo snapshots are visible and reversible from the admin, rather than only through a token returned to the client.
+* A .pot translation template now ships in languages/, generated by a dependency-free tokenizer-based extractor (tools/make-pot.php, developer tooling, not shipped in the plugin zip).
+
+Fixed:
+
+* snippet_update reported success on a locked Code Snippets snippet while the plugin silently discarded the new code and name, and emitted an undo token for a change that never happened. The write is now verified against what was stored, a locked snippet is refused by name before the confirmation round-trip, the undo token is stored only once the write has landed, and both snippet reads report the locked state (GitHub #246).
+* The same defect existed at write sites throughout the integrations: the undo token was minted before the write, so a write that failed or was silently discarded still handed the caller a token for a change that never happened. Since the Undo panel now lists stored snapshots on the Logs screen, such a token was visible to an administrator as a reversible change that is not one. Every write tool that emits a token now performs the write, reads the value back out of storage, classifies the outcome, and only then mints. A write the store discarded is refused by name rather than reported as success, and no token is issued for it; a write the store landed but normalized keeps its token and says so. A post-write read that itself fails reports the outcome as unknown rather than aborting, which would leave the site changed and the caller with nothing to reverse it (GitHub #248).
+* Rate limiter counted on storage that can silently fail open, so the limit could never fire on an install whose object cache backend was down (GitHub #182).
+* Webhook URL validation resolved hostnames before allowing delivery, closing an SSRF path; a follow-up closed literal IPv6 targets that bypassed the same check (GitHub #184).
+* The /token endpoint gained its own rate limiter, 429 responses carry an exact Retry-After, and MCP POST bodies are capped (GitHub #185).
+* The API key was rendered into the settings page source, and a follow-up removed it from the Documentation setup guide as well (GitHub #186).
+* Access panel scope cards surface a missing-dependency state instead of appearing available (GitHub #183).
+* The reverse-proxy single-bucket rate-limit limitation is now documented rather than silently surprising (GitHub #187).
+* Elementor connectors reported dead: element ID assignment, no-op condition writes, and oversized payloads (GitHub #240).
+* Prompt availability notes read the advertised tool list rather than the core registry, so a prompt no longer claims a tool the client cannot see (GitHub #241).
+
+Changed:
+
+* Plugin display name updated for directory clarity (trademark-safe wording, no functional change).
+* Documentation reconciled with the shipped catalogue: 79 integrations are catalogued and pinned by tests/integration-toggles-test.php, and integration activation is documented as two-gate (host plugin detected at runtime AND the admin toggle on).
+
+= 0.10.0 =
+Critical tools/list fix, two more multilingual providers, and Elementor widget-type discovery.
+
+Fixed:
+
+* Critical: a single third-party WordPress ability whose input schema was not object-typed made strict MCP clients reject the entire tools/list, hiding every tool from the agent ("Invalid input: expected object" at tools.N.inputSchema.type). Imported ability schemas are now coerced to an object-typed schema for advertisement; the ability's own execution-time validation is unchanged.
+
+New:
+
+* Multilingual coverage extended to Polylang and WPML (read-only), beside TranslatePress: list languages, resolve a post's or term's language, and list its translation siblings. No secret is read; WPML element types are validated before any filter fires.
+* Elementor widget-type discovery: elementor_list_widget_types and elementor_get_widget_type_schema read the live widget registry, so any installed Elementor addon pack's widgets become discoverable and usable through the existing Elementor widget tools without a per-vendor adapter.
+
+Changed:
+
+* Access panel (formerly Permissions) copy: remaining "Permissions" labels updated to "Access", and the dense High-impact scope band now keeps each scope's lead and consequence inline while moving the mechanics behind a "How this works" disclosure.
+
+= 0.9.0 =
+Broad integration expansion plus a Settings redesign.
+
+New integrations (each opt-in, off by default, and only when its host plugin is active):
+
+* Cache category completed to six providers: W3 Total Cache, Redis Object Cache, Autoptimize, and WP-Optimize join the existing LiteSpeed and WP Rocket adapters. Purges drive each plugin's own public API, never direct file or option deletion.
+* Two more outgoing-mail providers behind the existing email_get_status contract: FluentSMTP and Post SMTP, joining WP Mail SMTP and Easy WP SMTP. Credentials are never returned (FluentSMTP is read from its raw option so its own decrypting helper is never called).
+* Three read-only security-status providers: Solid Security, Sucuri Security, and Really Simple Security, alongside the existing Wordfence and WP Defender. No secret is ever read or returned.
+* Two read-only backup-status providers: Duplicator and WPvivid, alongside UpdraftPlus and BackWPup. Package hashes, local storage paths, and log paths are never returned.
+
+Changed:
+
+* Settings screen redesigned around information architecture: five section-grouped panels (Connection, Access, Sessions, External Services, Documentation). Authentication and the two credential-recovery actions consolidate into Connection; the retired Capabilities panel folds into Access as a "What this site can do" summary. Old ?panel= URLs are aliased so existing links keep working, and the session-length and credential-preservation wiring is unchanged.
+
+= 0.8.0 =
+Elementor Pro coverage plus a round of bug fixes.
+
+New Elementor Pro tools (present only when Elementor Pro and the relevant module are active):
+
+* Custom Fonts and Custom Icons: list, get, create/update/delete custom fonts (regenerating the derived @font-face so the font actually renders), and list/get/delete custom icon sets. All gated on edit_theme_options; deletes preview via dry_run and emit undo tokens.
+* Custom Code: list, get, create, update, delete site-wide Custom Code (head / body_start / body_end HTML/JS). Writes carry the full code-write envelope reused from code snippets: the "Allow code snippets" toggle, two-part confirmation, saved inactive (a human publishes it), Markdown fence stripping, PHP refused, and undo on every write.
+* Elementor Pro Forms as a sixth Forms submission provider: the existing forms tools (list entries, get entry, stats, update status, trash) now work for Elementor Pro form submissions with no new tools. Trash uses Elementor's move-to-trash (never a hard delete), spam is refused by name (Elementor has no spam state), and IP/user-agent are redacted on read.
+
+Fixed:
+
+* wp_delete_plugin no longer fatals when deleting a plugin whose uninstall touches .htaccess (missing extract_from_markers()); the plugin directory is no longer left half-removed.
+* Code Snippets writes no longer fatal at runtime when the plugin is active but its write API did not load in the request; the integration keys on the read primitive and verifies the write API at call time with a clear diagnostic instead of a fatal.
+* acf_update_field now refuses an unregistered field instead of reporting success while writing orphan meta that no field definition points at.
+
+= 0.7.2 =
+Bug-fix release for issues found in live 0.7.1 verification.
+
+* Fixed a data-loss bug on the Permissions screen: enabling an option-source toggle (or any save-on-change control) silently wiped the writable-options allowlist. The sanitize callback that runs on every settings write only understood the newline-textarea shape and rebuilt the AJAX array shape as empty, so an enabled source reverted to off on reload. It now accepts both shapes.
+* Fixed a fatal in the Code Snippets integration: snippet_create and snippet_update called the plugin's global functions unqualified from a namespaced file (resolving to non-existent functions) and passed an array where a Snippet object is required. Both are corrected; the write path works and its guarantees are unchanged (CSS/JS only, PHP refused, saved disabled, active state never flipped).
+* Plugins tab: plugins that are not installed no longer render as cards, cards sort enabled-first, and the "Show all abilities" disclosure now starts collapsed. Discovered abilities group into one all-or-nothing toggle per plugin namespace instead of one switch per ability, and WordPress core ability namespaces are no longer shown as a third-party plugin.
+* Documentation corrected: integrations are opt-in and off by default (the tools appear only after an administrator enables each one), and the tool counts in both readmes now match the shipped registry.
+
+= 0.7.1 =
+Permissions screen fix (follow-up to the 0.7.0 redesign).
+
+* Discovered abilities now group into one card with one all-or-nothing toggle per plugin namespace, instead of one switch per ability. A plugin that registers many abilities under a single namespace (for example Secure Custom Fields, with dozens under scf/) previously rendered a switch for each; the individual abilities now sit behind a "Show all" disclosure. The namespace toggle reads on only when every ability under it is enabled, so flipping the parent never silently narrows a hand-picked subset.
+* WordPress core ability namespaces (core/, wp/, wordpress/) are no longer shown as a third-party plugin card. They are WordPress's own abilities, the same source as the WordPress tab's core scopes, not a plugin.
+

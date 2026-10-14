@@ -1,0 +1,222 @@
+<?php
+
+namespace Mordenhost_MCP\Abilities;
+
+use Mordenhost_MCP\Abilities\Output_Schemas\Registry as Output_Schemas_Registry;
+use Mordenhost_MCP\MCP\Server;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class Registrar {
+
+	const NAMESPACE_PREFIX = 'mordenhost-mcp/';
+
+	private static function prefix_to_category(): array {
+		return array(
+			'mordenhost_mcp_' => 'core',
+			'blocks_'    => 'blocks',
+			'wpr_'       => 'wprocket',
+			'w3tc_'      => 'w3tc',
+			'redis_'     => 'redis-cache',
+			'ao_'        => 'autoptimize',
+			'wpo_'       => 'wp-optimize',
+			'wpsc_'      => 'wp-super-cache',
+			'wpfc_'      => 'wp-fastest-cache',
+			'wp_'        => 'core',
+			'wc_'        => 'woocommerce',
+			'elementor_' => 'elementor',
+			'divi_'      => 'divi',
+			'beaver_'    => 'beaver-builder',
+			'siteorigin_' => 'siteorigin-panels',
+			'ls_'        => 'litespeed',
+			'acf_'       => 'acf',
+			'mb_'        => 'metabox',
+			'redirection_' => 'redirection',
+			'rank_math_'   => 'rank-math',
+			'analytics_' => 'analytics',
+			'email_'     => 'email',
+			'forms_'     => 'forms',
+			'up_'        => 'updraftplus',
+			'bwu_'       => 'backwpup',
+			'dup_'       => 'duplicator',
+			'wpvivid_'   => 'wpvivid',
+			'wf_'        => 'wordfence',
+			'def_'       => 'defender',
+			'solid_'     => 'solid-security',
+			'sucuri_'    => 'sucuri',
+			'rsssl_'     => 'really-simple-security',
+			'aios_'      => 'aios',
+			'llar_'      => 'llar',
+			'akismet_'   => 'akismet',
+			'imagify_'   => 'imagify',
+			'ewww_'      => 'ewww',
+			'smush_'     => 'smush',
+			'shortpixel_' => 'shortpixel',
+			'stock_'     => 'instant-images',
+			'tec_'       => 'events-calendar',
+			'sugarcal_'  => 'sugar-calendar',
+			'em_'        => 'events-manager',
+			'mec_'       => 'modern-events-calendar',
+			'webhook_'   => 'webhooks',
+			'ai_generate_' => 'ai-media',
+			'snippet_'   => 'snippets',
+			'trp_'       => 'translatepress',
+			'pll_'       => 'polylang',
+			'wpml_'      => 'wpml',
+			'weglot_'    => 'weglot',
+			'geodir_'    => 'geodirectory',
+			'bdp_'       => 'business-directory',
+			'ivory_'     => 'ivory-search',
+			'uncanny_automator_' => 'uncanny-automator',
+			'blog2social_' => 'blog2social',
+			'estatik_'   => 'estatik',
+			'crm_'       => 'fluentcrm',
+			'mailpoet_'  => 'mailpoet',
+			'groundhogg_' => 'groundhogg',
+			'givewp_'    => 'givewp',
+			'pmpro_'     => 'pmpro',
+			'swpm_'      => 'swpm',
+			'ppress_'    => 'profilepress',
+			'rcp_'       => 'restrictcontent',
+			'um_'        => 'ultimate-member',
+			'charitable_' => 'charitable',
+			'bbp_'       => 'bbpress',
+			'bp_'        => 'buddypress',
+			'fluentsupport_' => 'fluentsupport',
+			'lms_'       => 'learnpress',
+			'sensei_'    => 'sensei',
+			'mto_'       => 'masteriyo',
+			'tutor_'     => 'tutor',
+			'llms_'      => 'lifterlms',
+			'amelia_'    => 'amelia',
+			'latepoint_' => 'latepoint',
+			'bookly_'    => 'bookly',
+			'bookingpress_' => 'bookingpress',
+			'pods_'      => 'pods',
+			'cptui_'     => 'cptui',
+			'mbcpt_'     => 'mbcpt',
+			'toolset_'   => 'toolset-types',
+			'edd_'       => 'edd',
+			'fluentcart_' => 'fluentcart',
+			'ai1wm_'     => 'ai1wm',
+			'patchstack_' => 'patchstack',
+			'relevanssi_' => 'relevanssi',
+			'slicewp_'    => 'slicewp',
+			'automatorwp_' => 'automatorwp',
+			'wpjm_'        => 'wpjm',
+			'wpgm_'        => 'wp-go-maps',
+			'jetpack_'     => 'jetpack',
+		);
+	}
+
+	public static function register(): void {
+		if ( ! function_exists( 'wp_register_ability' ) ) {
+			return;
+		}
+		$server = new Server();
+		$tools  = $server->get_all_tools();
+		foreach ( $tools as $tool ) {
+			if ( ! is_array( $tool ) || empty( $tool['name'] ) || empty( $tool['description'] ) ) {
+				continue;
+			}
+
+			
+
+			
+			
+			if ( strpos( (string) $tool['name'], Importer::TOOL_PREFIX ) === 0 ) {
+				continue;
+			}
+			self::register_one( $tool );
+		}
+	}
+
+	private static function register_one( array $tool ): void {
+		$tool_name       = (string) $tool['name'];
+		$ability_name    = self::transform_name( $tool_name );
+		$category        = Categories::category_slug( self::dispatch_category( $tool_name ) );
+		$label           = self::derive_label( $tool_name );
+		$description     = self::prefix_description( (string) $tool['description'] );
+		$input_schema    = isset( $tool['inputSchema'] ) && is_array( $tool['inputSchema'] ) ? $tool['inputSchema'] : array();
+
+		$args = array(
+			'label'               => $label,
+			'description'         => $description,
+			'category'            => $category,
+			'execute_callback'    => self::build_execute_callback( $tool_name ),
+			'permission_callback' => self::build_permission_callback( $tool_name ),
+			'meta'                => Meta_Config::ability_meta(),
+		);
+
+		
+		
+		if ( ! empty( $input_schema['properties'] ) ) {
+			$args['input_schema'] = $input_schema;
+		}
+
+		
+		$output_schema = Output_Schemas_Registry::get_for_tool( $tool_name );
+		if ( is_array( $output_schema ) ) {
+			$args['output_schema'] = $output_schema;
+		}
+
+		wp_register_ability( $ability_name, $args );
+	}
+
+	public static function transform_name( string $tool_name ): string {
+		if ( strpos( $tool_name, 'mordenhost_mcp_' ) === 0 ) {
+			$tool_name = substr( $tool_name, strlen( 'mordenhost_mcp_' ) );
+		}
+		return self::NAMESPACE_PREFIX . str_replace( '_', '-', $tool_name );
+	}
+
+	public static function derive_label( string $tool_name ): string {
+		return ucwords( str_replace( '_', ' ', $tool_name ) );
+	}
+
+	public static function dispatch_category( string $tool_name ): string {
+
+		
+
+		if ( in_array( $tool_name, \Mordenhost_MCP\Lifecycle\Manager::tool_names(), true ) ) {
+			return 'lifecycle';
+		}
+		foreach ( self::prefix_to_category() as $prefix => $short_slug ) {
+			if ( strpos( $tool_name, $prefix ) === 0 ) {
+				return $short_slug;
+			}
+		}
+		return 'core';
+	}
+
+	private static function prefix_description( string $description ): string {
+		if ( strpos( $description, 'Mordenhost MCP:' ) === 0 ) {
+			return $description;
+		}
+		return 'Mordenhost MCP: ' . $description;
+	}
+
+	private static function build_execute_callback( string $tool_name ): callable {
+		return static function ( $input = null ) use ( $tool_name ) {
+			$args = is_array( $input ) ? $input : array();
+			try {
+				$server = new Server();
+				return $server->invoke( $tool_name, $args );
+			} catch ( \Throwable $e ) {
+				return new \WP_Error(
+					'mordenhost_mcp_ability_exception',
+					esc_html( $e->getMessage() )
+				);
+			}
+		};
+	}
+
+	private static function build_permission_callback( string $tool_name ): callable {
+		$cap = Tool_Capabilities::for_tool( $tool_name );
+		return static function () use ( $cap ): bool {
+			return current_user_can( $cap );
+		};
+	}
+}
